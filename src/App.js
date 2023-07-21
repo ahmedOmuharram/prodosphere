@@ -9,6 +9,7 @@ import { Navigation } from "./Navigation.tsx";
 import Geolocation from "react-geolocation";
 import WeatherComponent from "./Weather"
 import Moment from 'react-moment';
+import LinkGroupComponent from './LinkGroup';
 
 const sidebar = {
   open: (height = 135) => ({
@@ -30,7 +31,7 @@ const sidebar = {
   }
 };
 
-function TestComponent() {
+function WeatherStatus() {
   const { weatherState, setWeatherState } = useContext(weatherContext);
 
   return (
@@ -132,21 +133,29 @@ function App() {
             transition={{ duration: 0.5 }}
           >
 
+            {/* Time */}
             <p style={{ fontSize: "calc(80px + 3vmin)", marginBottom: "0", padding: "0 40px 0 40px", borderBottom: "1px solid white"}}>
-              {weatherState !== null && <TestComponent />}
+              {weatherState !== null && <WeatherStatus />}
               { user !== "" && <TimeNow setUser={setUser}/> }
             </p>
 
+            {/* Greeting */}
             <p style={{fontSize: "calc(30px + 1vmin)", marginTop: "0", paddingTop: "0"}}>
               {user === "" ? "Please enter your name" : 
                 (weatherState !== null && `${weatherState.weather[0].icon.charAt(2)}` === "n" ? `Good evening, ${user}!` : 
                 (weatherState !== null && `${weatherState.weather[0].icon.charAt(2)}` === "d" ? `Good morning, ${user}!` : `Hello, ${user}!`))}
             </p>
 
+            {/* Top right date and weather info */}
             <p style={{position: "absolute", top: "0px", right: "10px", textAlign: "right", fontSize: "40px", marginBottom: "-30px"}}>
               { user !== "" && <TodayDate setUser={setUser}/> }
-              { user !== "" && GetLocation() }
+              { user !== "" && <GetLocation /> }
             </p>
+            <br />
+
+            { user !== "" && <LinkGroupComponent /> }
+
+            {/* First time form */}
             { user === "" && <UserForm setUser={setUser}/> } 
           </motion.div>
         </header>
