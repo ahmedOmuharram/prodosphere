@@ -1,3 +1,6 @@
+body {
+  overflow: hidden;
+}
 .App {
   background-image: url("background.jpeg");
   background-repeat: no-repeat;
@@ -5,6 +8,9 @@
   background-color: rgba(0, 0, 0, 0.1);
   background-blend-mode: darken;
   text-align: center;
+  -webkit-user-select: none; 
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .App-header {
