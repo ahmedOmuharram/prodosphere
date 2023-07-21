@@ -31,7 +31,7 @@ const sidebar = {
   }
 };
 
-function Component1({ setUser }) {
+function UserForm({ setUser }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -54,16 +54,24 @@ function Component1({ setUser }) {
   );
 }
 
-function Component2() {
-  
+function TodayDate() {
   return (
     <>
-    <Moment format="YYYY/MM/DD" interval={1000}>
+    <Moment format="DD MMM, YYYY" interval={1000}>
       {date}
     </Moment>
-    <Moment interval={1000} add={{ hours: 12 }}>{date}</Moment>
     </>
   );
+}
+
+function TimeNow() {
+  return (
+    <>
+      <Moment format="h:mm A" interval={1000}>
+        {date}
+      </Moment>
+    </>
+  )
 }
 
 function App() {
@@ -82,11 +90,12 @@ function App() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
+          { user !== "" && <TimeNow setUser={setUser}/> }
           <p>
             {user === "" ? "Please enter your name" : `Hello, ${user}!`}
           </p>
-          { user === "" && <Component1 setUser={setUser}/> } 
-          { user !== "" && <Component2 setUser={setUser}/> }       
+          { user !== "" && <TodayDate setUser={setUser}/> }
+          { user === "" && <UserForm setUser={setUser}/> } 
         </motion.div>
       </header>
       <motion.nav
