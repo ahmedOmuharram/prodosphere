@@ -62,7 +62,7 @@ function TodayDate() {
 function TimeNow() {
   return (
     <>
-      <Moment format="h:mm:ss A" interval={1000} />
+      <Moment format="h:mm A" interval={1000} />
     </>
   )
 }
