@@ -41,7 +41,7 @@ function Component1({ setUser }) {
         <Form.Control 
           size="lg" 
           type="text" 
-          placeholder="Large text" 
+          placeholder="Username" 
           name="userInput" 
         />
       </Form.Group>
@@ -67,7 +67,7 @@ function App() {
           transition={{ duration: 0.5 }}
         >
           <p>
-            {user === "" ? "Please enter a username" : `Hello, ${user}!`}
+            {user === "" ? "Please enter your name" : `Hello, ${user}!`}
           </p>
           { user === "" && <Component1 setUser={setUser}/> }        
         </motion.div>
