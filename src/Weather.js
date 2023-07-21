@@ -61,13 +61,4 @@ function WeatherComponent( lat ) {
   );
 }
 // {weatherData.main.temp * 9 / 5 + 32}°F for Fahrenheit
-/*
-    <motion.div
-      whileHover={{ opacity: 1 }}
-      initial={{ opacity: 0.4 }}
-      transition={{ duration: 0.3 }}
-    >
-        <div style={{ fontSize: "20px" }}>💧 {weatherData.main.humidity}% | 💨 {weatherData.wind.speed} m/s</div>
-    </motion.div>
-*/
 export default WeatherComponent;
