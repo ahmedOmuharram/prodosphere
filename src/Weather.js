@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import {weatherContext} from "./App"
 
 
-function WeatherComponent( lat ) {
+function WeatherComponent ( lat ) {
   const latitude = lat.lat;
   const longitude = lat.lon;
   const [weatherData, setWeatherData] = useState(null);
