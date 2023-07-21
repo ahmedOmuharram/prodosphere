@@ -45,7 +45,7 @@ function Component1({ setUser }) {
           name="userInput" 
         />
       </Form.Group>
-      <Button className="btn btn-primary" type="submit">Submit</Button>
+      <Button className="btn btn-success" type="submit">Submit</Button>
     </Form>
   );
 }
