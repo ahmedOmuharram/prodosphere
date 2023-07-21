@@ -1,5 +1,5 @@
-import logo from './logo.svg';
 import './App.css';
+import { motion } from "framer-motion";
 import { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -28,17 +28,23 @@ function Component1({ setUser }) {
   );
 }
 
+
 function App() {
   const [user, setUser] = useState("");
 
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          {user == "" ? "Please enter a username" : `Hello, ${user}!`}
-        </p>
-        <Component1 setUser={setUser}/>
+        <motion.div
+          initial={{ opacity: 0}}
+          animate={{ opacity: 1}}
+          transition={{ duration: 0.5 }}
+        >
+          <p>
+            {user == "" ? "Please enter a username" : `Hello, ${user}!`}
+          </p>
+          <Component1 setUser={setUser}/>
+        </motion.div>
       </header>
     </div>
   );
