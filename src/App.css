@@ -115,3 +115,45 @@ li {
   align-items: center;
   cursor: pointer;
 }
+
+.item-delete-button {
+  outline: none;
+  border: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  cursor: pointer;
+  background: transparent;
+  margin-left: auto;
+}
+.item-create-button {
+  outline: none;
+  border: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  cursor: pointer;
+  background: transparent;
+  margin-left: auto;
+  margin-right: auto;
+  
+}
+
+.todo-list {
+  height: calc(100% - 40px); 
+  width: calc(100% - 10px); 
+  margin-bottom: 0px; 
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  padding: 0px;
+  margin-top: 0px;
+  margin-right: 5px;
+  margin-left: 5px;
+  margin-bottom: 40px;
+  top: 0px;
+  left: 0px;
+}
+.todo-list::-webkit-scrollbar {
+  display: none;
+}

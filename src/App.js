@@ -1,5 +1,5 @@
 import './App.css';
-import { useState, useRef, createContext, useContext } from 'react';
+import { useState, useRef, createContext, useContext, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { motion, useCycle } from "framer-motion";
@@ -9,6 +9,8 @@ import { Navigation } from "./Navigation.tsx";
 import Geolocation from "react-geolocation";
 import WeatherComponent from "./Weather"
 import Moment from 'react-moment';
+
+
 
 const sidebar = {
   open: (height = 135) => ({
@@ -39,6 +41,59 @@ function TestComponent() {
       style={{ width: "125px", height: "125px", marginRight: "-10px", marginBottom: "5px", paddingRight: "0px" }}
       alt={weatherState.weather[0].main}
     />
+  )
+}
+
+const Path = props => (
+  <motion.path
+    fill="transparent"
+    strokeWidth="3"
+    stroke="rgb(255,0,0)"
+    strokeLinecap="round"
+    {...props}
+  />
+);
+
+function ToDoComponent() {
+  const [sarray, setSarray] = useState([]);
+  const [updater, setUpdater] = useState(true);
+  return (
+    <>
+    <ul className='todo-list'>
+      {sarray.map(item => (
+        <li style={{ width: "100%" }}><p onDoubleClick={(event) => {
+          let length = sarray.length;
+          event.currentTarget.innerHTML = "";
+          
+
+          
+        }}>{item}</p>
+          <button className='item-delete-button' onClick={(event) => event.currentTarget.parentNode.remove()}>
+            <svg width="23" height="23" viewBox="0 0 23 23">
+              <Path
+                d="M 3 16.5 L 17 2.5"
+              />
+              <Path
+                d="M 3 2.5 L 17 16.346"
+              />
+            </svg>
+          </button>
+        </li>
+      ))}
+      <li style={{ width: "100%" }}>
+        <button className='item-create-button' onClick={() => {sarray.push("New Item"); setUpdater(!updater)}}>
+            <svg width="23" height="23" viewBox="0 0 23 23">
+              <Path
+                d="M 11.5 0 L 11.5 23"
+              />
+              <Path
+                d="M 0 11.5 L 23 11.5"
+              />
+            </svg>
+          </button>
+      </li>
+    </ul>
+    </>
   )
 }
 
@@ -147,6 +202,10 @@ function App() {
               { user !== "" && <TodayDate setUser={setUser}/> }
               { user !== "" && GetLocation() }
             </p>
+
+            <div style={{position: "absolute", bottom: "0px", right: "0px", textAlign: "right", fontSize: "20px", marginBottom: "-30px", backgroundColor: "rgba(0, 0, 0, 0.3)", height: "500px", width: "20vw", borderTopLeftRadius: "8px", borderTop: "5px solid", borderLeft: "5px solid"}}>
+              <ToDoComponent />
+            </div>
             { user === "" && <UserForm setUser={setUser}/> } 
           </motion.div>
         </header>
