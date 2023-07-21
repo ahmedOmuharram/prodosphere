@@ -6,6 +6,10 @@ import { motion, useCycle } from "framer-motion";
 import { useDimensions } from "./use-dimensions.ts";
 import { MenuToggle } from "./MenuToggle.tsx";
 import { Navigation } from "./Navigation.tsx";
+import { func } from 'prop-types';
+import Moment from 'react-moment';
+
+const date = new Date();
 
 const sidebar = {
   open: (height = 135) => ({
@@ -50,6 +54,18 @@ function Component1({ setUser }) {
   );
 }
 
+function Component2() {
+  
+  return (
+    <>
+    <Moment format="YYYY/MM/DD" interval={1000}>
+      {date}
+    </Moment>
+    <Moment interval={1000} add={{ hours: 12 }}>{date}</Moment>
+    </>
+  );
+}
+
 function App() {
   const state = localStorage.getItem("name") ? localStorage.getItem("name") : "";
   const [user, setUser] = useState(state);
@@ -69,7 +85,8 @@ function App() {
           <p>
             {user === "" ? "Please enter your name" : `Hello, ${user}!`}
           </p>
-          { user === "" && <Component1 setUser={setUser}/> }        
+          { user === "" && <Component1 setUser={setUser}/> } 
+          { user !== "" && <Component2 setUser={setUser}/> }       
         </motion.div>
       </header>
       <motion.nav
