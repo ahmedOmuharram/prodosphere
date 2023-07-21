@@ -4,10 +4,10 @@ import { MenuItem } from "./MenuItem.tsx";
 
 const variants = {
   open: {
-    transition: { staggerChildren: 0.07, delayChildren: 0.2 }
+    transition: { staggerChildren: -0.07, delayChildren: 0.5 }
   },
   closed: {
-    transition: { staggerChildren: 0.05, staggerDirection: -1 }
+    transition: { staggerChildren: -0.07, delayChildren: 0.5, staggerDirection: -1 }
   }
 };
 
