@@ -1,5 +1,5 @@
 import './App.css';
-import { useState, useRef } from 'react';
+import { useState, useRef, createContext, useContext } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { motion, useCycle } from "framer-motion";
@@ -29,6 +29,18 @@ const sidebar = {
     }
   }
 };
+
+function TestComponent() {
+  const { weatherState, setWeatherState } = useContext(weatherContext);
+
+  return (
+    <img
+      src={`https://openweathermap.org/img/wn/${weatherState.weather[0].icon}@2x.png`}
+      style={{ width: "125px", height: "125px", marginRight: "-10px", marginBottom: "5px", paddingRight: "0px" }}
+      alt={weatherState.weather[0].main}
+    />
+  )
+}
 
 function GetLocation() {
   return (
@@ -107,29 +119,36 @@ function App() {
   const containerRef = useRef(null);
   const { height } = useDimensions(containerRef);
 
+  const [weatherState, setWeatherState] = useState(null);
+  const weatherValue = { weatherState, setWeatherState };
+
   return (
+    <weatherContext.Provider value={weatherValue}>
     <div className="App">
-      <header className="App-header">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <p style={{ fontSize: "calc(80px + 3vmin)", marginBottom: "0", padding: "0 40px 0 40px", borderBottom: "1px solid white"}}>
-            { user !== "" && <TimeNow setUser={setUser}/> }
-          </p>
+        <header className="App-header">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
 
-          <p style={{fontSize: "calc(30px + 1vmin)", marginTop: "0", paddingTop: "0"}}>
-            {user === "" ? "Please enter your name" : `Hello, ${user}!`}
-          </p>
+            <p style={{ fontSize: "calc(80px + 3vmin)", marginBottom: "0", padding: "0 40px 0 40px", borderBottom: "1px solid white"}}>
+              {weatherState !== null && <TestComponent />}
+              { user !== "" && <TimeNow setUser={setUser}/> }
+            </p>
 
-          <p style={{position: "absolute", top: "0px", right: "10px", textAlign: "right", fontSize: "40px", marginBottom: "-30px"}}>
-            { user !== "" && <TodayDate setUser={setUser}/> }
-            { user !== "" && GetLocation() }
-          </p>
-          { user === "" && <UserForm setUser={setUser}/> } 
-        </motion.div>
-      </header>
+            <p style={{fontSize: "calc(30px + 1vmin)", marginTop: "0", paddingTop: "0"}}>
+              {user === "" ? "Please enter your name" : `Hello, ${user}!`}
+            </p>
+
+            <p style={{position: "absolute", top: "0px", right: "10px", textAlign: "right", fontSize: "40px", marginBottom: "-30px"}}>
+              { user !== "" && <TodayDate setUser={setUser}/> }
+              { user !== "" && GetLocation() }
+            </p>
+            { user === "" && <UserForm setUser={setUser}/> } 
+          </motion.div>
+        </header>
+      
       <motion.nav
           initial={false}
           animate={isOpen ? "open" : "closed"}
@@ -141,7 +160,10 @@ function App() {
           <MenuToggle toggle={() => toggleOpen()} />
         </motion.nav>
     </div>
+    </weatherContext.Provider>
   );
 }
+
+export const weatherContext = createContext();
 
 export default App;

@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { motion } from "framer-motion";
+import {weatherContext} from "./App"
 
 
 function WeatherComponent( lat ) {
   const latitude = lat.lat;
   const longitude = lat.lon;
   const [weatherData, setWeatherData] = useState(null);
+  const { weatherState, setWeatherState } = useContext(weatherContext);
 
   const fetchWeatherData = async () => {
     try {
@@ -19,6 +21,7 @@ function WeatherComponent( lat ) {
       console.log(data)
 
       setWeatherData(data);
+      setWeatherState(data);
     } catch (error) {
       console.error("Error fetching weather data: ", error);
     }
@@ -37,13 +40,8 @@ function WeatherComponent( lat ) {
                     initial={{ opacity: 0.4 }}
                     transition={{ duration: 0.3 }}
                 >
-                <div style={{ fontSize: "28px", marginTop: "-15px", marginBottom: "-15px" }}>
-                    <img
-                    src={`https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`}
-                    style={{ width: "60px", height: "60px", marginRight: "-10px", marginBottom: "5px", paddingRight: "0px" }}
-                    alt={weatherData.weather[0].main}
-                    />
-                    {weatherData.weather[0].main} | 🌡️ {Math.round(weatherData.main.temp)}°C
+                <div style={{ fontSize: "28px"}}>
+                   🌡️ {Math.round(weatherData.main.temp)}°C
                 </div>
             </motion.div>
             <motion.div
