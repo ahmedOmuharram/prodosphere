@@ -8,12 +8,12 @@ import { MenuToggle } from "./MenuToggle.tsx";
 import { Navigation } from "./Navigation.tsx";
 
 const sidebar = {
-  open: (height = 1000) => ({
+  open: (height = 135) => ({
     clipPath: `circle(${height * 2 + 200}px at 40px calc(100% - 40px))`,
     transition: {
       type: "spring",
-      stiffness: 20,
-      restDelta: 2
+      stiffness: 30,
+      restDelta: 3
     }
   }),
   closed: {
