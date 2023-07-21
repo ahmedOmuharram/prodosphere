@@ -6,6 +6,8 @@ import { motion, useCycle } from "framer-motion";
 import { useDimensions } from "./use-dimensions.ts";
 import { MenuToggle } from "./MenuToggle.tsx";
 import { Navigation } from "./Navigation.tsx";
+import Geolocation from "react-geolocation";
+import WeatherComponent from "./Weather"
 import Moment from 'react-moment';
 
 const sidebar = {
@@ -27,6 +29,36 @@ const sidebar = {
     }
   }
 };
+
+function GetLocation() {
+  return (
+    <Geolocation
+      once={true} 
+      render={({ position: { coords: { latitude, longitude } = {} } = {} }) => (
+        latitude !== undefined && longitude !== undefined ? (
+          <WeatherComponent lat={latitude} lon={parseFloat(longitude)} />
+        ) : (
+          <div style={{ fontSize: "18px", opacity: 0.3}}>Allow location access to display weather information</div>
+        )
+      )}
+    />
+  );
+}
+
+function Greeting() {
+  return (
+    <Geolocation
+      once={true} 
+      render={({ position: { coords: { latitude, longitude } = {} } = {} }) => (
+        latitude !== undefined && longitude !== undefined ? (
+          <WeatherComponent lat={latitude} lon={parseFloat(longitude)} />
+        ) : (
+          <div>Hello, </div>
+        )
+      )}
+    />
+  );
+}
 
 function UserForm({ setUser }) {
   const handleSubmit = (e) => {
@@ -83,11 +115,18 @@ function App() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5 }}
         >
-          { user !== "" && <TimeNow setUser={setUser}/> }
-          <p>
+          <p style={{ fontSize: "calc(80px + 3vmin)", marginBottom: "0", padding: "0 40px 0 40px", borderBottom: "1px solid white"}}>
+            { user !== "" && <TimeNow setUser={setUser}/> }
+          </p>
+
+          <p style={{fontSize: "calc(30px + 1vmin)", marginTop: "0", paddingTop: "0"}}>
             {user === "" ? "Please enter your name" : `Hello, ${user}!`}
           </p>
-          { user !== "" && <TodayDate setUser={setUser}/> }
+
+          <p style={{position: "absolute", top: "0px", right: "10px", textAlign: "right", fontSize: "40px", marginBottom: "-30px"}}>
+            { user !== "" && <TodayDate setUser={setUser}/> }
+            { user !== "" && GetLocation() }
+          </p>
           { user === "" && <UserForm setUser={setUser}/> } 
         </motion.div>
       </header>
