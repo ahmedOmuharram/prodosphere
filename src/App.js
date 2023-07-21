@@ -6,10 +6,7 @@ import { motion, useCycle } from "framer-motion";
 import { useDimensions } from "./use-dimensions.ts";
 import { MenuToggle } from "./MenuToggle.tsx";
 import { Navigation } from "./Navigation.tsx";
-import { func } from 'prop-types';
 import Moment from 'react-moment';
-
-const date = new Date();
 
 const sidebar = {
   open: (height = 135) => ({
@@ -57,9 +54,7 @@ function UserForm({ setUser }) {
 function TodayDate() {
   return (
     <>
-    <Moment format="DD MMM, YYYY" interval={1000}>
-      {date}
-    </Moment>
+    <Moment format="DD MMM, YYYY" interval={1000} />
     </>
   );
 }
@@ -67,9 +62,7 @@ function TodayDate() {
 function TimeNow() {
   return (
     <>
-      <Moment format="h:mm A" interval={1000}>
-        {date}
-      </Moment>
+      <Moment format="h:mm:ss A" interval={1000} />
     </>
   )
 }
