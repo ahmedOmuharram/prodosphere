@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { motion } from "framer-motion";
-import {weatherContext} from "./App"
-
+import { weatherContext } from "./App"
 
 function WeatherComponent ( lat ) {
   const latitude = lat.lat;
@@ -56,4 +55,4 @@ function WeatherComponent ( lat ) {
   );
 }
 // {weatherData.main.temp * 9 / 5 + 32}°F for Fahrenheit
-export default WeatherComponent;
+export default WeatherComponent
