@@ -12,17 +12,6 @@ import ToDoComponent from "./ToDoComponent"
 import LinkGroupComponent from './LinkGroup';
 import Moment from 'react-moment';
 
-
-const DeletePath = props => (
-  <motion.path
-    fill="transparent"
-    strokeWidth="3"
-    stroke="rgb(255, 0, 0)"
-    strokeLinecap="round"
-    {...props}
-  />
-);
-
 const CollapsingToDoList = () => {
   const [isCollapsed, setCollapsed] = useState(false);
 
@@ -32,26 +21,42 @@ const CollapsingToDoList = () => {
 
   return (
     <div>
-      <button onClick={handleCollapseToggle} 
-      style={{
-        position: "absolute", 
-        right: 'calc(120px + 15vmax)', 
-        bottom: "0px",
-        background: "none",
-        border: "none"
-      }}>
-        { isCollapsed && 
-          <svg width="23" height="23" viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg">
-            <path d="M 3 12 L 9 18 L 20 7" stroke="green" stroke-width="2" fill="none" />
-          </svg>
-        }
-        { !isCollapsed && 
-              <svg width="23" height="23" viewBox="0 0 23 23">
-              <DeletePath d="M 3 16.5 L 17 2.5" />
-              <DeletePath d="M 3 2.5 L 17 16.346" />
-            </svg>
-        }
-      </button>
+      <motion.div
+        initial={{ position: "absolute", right: 0, bottom: 0, height: "fit-content", width: "fit-content", zIndex: "999"}}
+        animate={{
+          bottom: isCollapsed ? '5px' : `480px`,
+        }}
+        transition={{ duration: 0.5 }}
+      >
+       <button onClick={handleCollapseToggle} 
+        style={{
+          background: "none",
+          border: "none",
+          color: "white",
+          textAlign: "center",
+          fontSize: "20px",
+          textShadow: "0px 1px 5px rgba(0, 0, 0, 0.8)",
+        }}>
+            { isCollapsed ? "Open to-do list" : "Close to-do list" } &nbsp;
+            <svg
+            style={{ color: 'white' }}
+            width="24"
+            height="24"
+            stroke-width="1.5"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M13.0207 5.82839L15.8491 2.99996L20.7988 7.94971L17.9704 10.7781M13.0207 5.82839L3.41405 15.435C3.22652 15.6225 3.12116 15.8769 3.12116 16.1421V20.6776H7.65669C7.92191 20.6776 8.17626 20.5723 8.3638 20.3847L17.9704 10.7781M13.0207 5.82839L17.9704 10.7781"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              fill="white"
+            ></path>
+          </svg> 
+        </button>
+      </motion.div>
       <div
         style={{
           position: 'absolute',
@@ -60,17 +65,18 @@ const CollapsingToDoList = () => {
           textAlign: 'right',
           fontSize: '20px',
           marginBottom: '-30px',
-          backgroundColor: 'rgba(0, 0, 0, 0.3)',
           width: 'calc(100px + 15vmax)',
+          backgroundColor: "rgba(0, 0, 0, 0.3)",
           borderTopLeftRadius: '8px',
           overflow: 'hidden',
         }}
       >
         <motion.div
-          initial={{ height: '600px', width: 'calc(100px + 15vmax)' }}
+          initial={{ height: '500px', backgroundColor: "rgba(0, 0, 0, 0)" }}
           animate={{
-            height: isCollapsed ? '100px' : '500px',
+            height: isCollapsed ? '75px' : '500px',
             opacity: isCollapsed ? 0 : 1,
+            backgroundColor: isCollapsed ? "rgba(0, 0, 0, 0)" : "rgba(0, 0, 0, 0.3)",
           }}
           transition={{ duration: 0.5 }}
         >
