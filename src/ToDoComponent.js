@@ -66,7 +66,12 @@ function ToDoComponent() {
 
   return (
     <>
-      <ul className='todo-list'>
+      <ul className='todo-list'
+        style={{
+          position: "relative",
+          bottom: "100px",
+          height: "400px"
+        }}>
         <div className="mt-3"></div>
         {sarray.map((item, index) => (
           <li style={{ marginBottom: "0px", width: "100%" }} key={index}>
@@ -131,8 +136,10 @@ function ToDoComponent() {
             </button>
           </li>
         ))}
-        {sarray.length <= 10 && (
-          <li style={{ position: "absolute", margin:"0", bottom: "0", width: "100%"}}>
+      </ul>
+
+      {sarray.length < 30 && (
+          <p style={{ position: "absolute", margin:"0", bottom: "40px", width: "100%"}}>
             <button
               className='item-create-button'
               onClick={() => {
@@ -147,7 +154,8 @@ function ToDoComponent() {
                 width: "100%", 
                 paddingBottom: "6px", 
                 transition: 'color 0.3s',
-                color: "white" }}
+                color: "white",
+                zIndex: "99", }}
               onMouseEnter={() => {
                 document.querySelector('.item-create-button').style.color = "lightgreen";
                 document.querySelectorAll('.add-svg-path').forEach(element => element.style.stroke = "lightgreen");
@@ -162,15 +170,14 @@ function ToDoComponent() {
                 <AddPath className="add-svg-path" style={{ stroke: "white", transition: 'stroke 0.3s' }} d="M 0 11.5 L 23 11.5" />
               </svg> &nbsp;  &nbsp;Add a to-do entry
             </button>
-          </li>
+          </p>
         ) || <p style={{
                 color: "#ffffff", 
-                opacity: "0.4",
+                opacity: "0.7",
                 fontSize: "15px",                
                 position: "absolute", 
-                bottom: "-15px",
-                right: "10px"}}>Max entries reached!</p>}
-      </ul>
+                bottom: "30px",
+                textAlign: "center"}}>Max entries reached! Delete some entries to continue adding</p>}
     </>
   );
 }
