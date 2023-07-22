@@ -190,10 +190,10 @@ function App() {
           >
 
             {/* Time */}
-            <p style={{ textShadow: "0px 0px 3px black", fontSize: "calc(80px + 3vmin)", marginBottom: "0", padding: "0 40px 0 40px", borderBottom: "1px solid white", boxShadow: "0 4px 2px -2px grey",}}>
+            {user !== "" && <p style={{ textShadow: "0px 0px 3px black", fontSize: "calc(80px + 3vmin)", marginBottom: "0", padding: "0 40px 0 40px", borderBottom: "1px solid white", boxShadow: "0 4px 2px -2px grey",}}>
               {weatherState !== null && <WeatherStatus />}
               { user !== "" && <TimeNow setUser={setUser}/> }
-            </p>
+            </p>}
 
             {/* Greeting */}
             <p style={{fontSize: "calc(30px + 1vmin)", textShadow: "0px 0px 3px	black", marginTop: "0", paddingTop: "0"}}>
@@ -218,16 +218,16 @@ function App() {
           </motion.div>
         </header>
       
-      { user !== "" && <motion.nav
+         <motion.nav
           initial={false}
           animate={isOpen ? "open" : "closed"}
           custom={height}
           ref={containerRef}
         >
-          <motion.div className="background" variants={sidebar} />
-          <Navigation />
-          <MenuToggle toggle={() => toggleOpen()} />
-        </motion.nav> }
+          {user !== "" && <motion.div className="background" variants={sidebar} />}
+          {user !== "" && <Navigation />}
+          {user !== "" && <MenuToggle toggle={() => toggleOpen()} />}
+        </motion.nav> 
     </div>
     </weatherContext.Provider>
   );
