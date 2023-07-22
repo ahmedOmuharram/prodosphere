@@ -208,7 +208,7 @@ function App() {
               { user !== "" && <GetLocation /> }
             </p>
 
-            <CollapsingToDoList/>
+            { user !== "" && <CollapsingToDoList/> }
             <br />
 
             { user !== "" && <LinkGroupComponent /> }
@@ -218,7 +218,7 @@ function App() {
           </motion.div>
         </header>
       
-      <motion.nav
+      { user !== "" && <motion.nav
           initial={false}
           animate={isOpen ? "open" : "closed"}
           custom={height}
@@ -227,7 +227,7 @@ function App() {
           <motion.div className="background" variants={sidebar} />
           <Navigation />
           <MenuToggle toggle={() => toggleOpen()} />
-        </motion.nav>
+        </motion.nav> }
     </div>
     </weatherContext.Provider>
   );
