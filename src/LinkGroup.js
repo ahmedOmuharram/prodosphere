@@ -5,15 +5,18 @@ import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 
 function LinkGroupComponent() {
   const [toolbars, setToolbars] = useState([[]]);
+  const [links, setLinks] = useState([""]);
+  const [editorIndex, setEditorIndex] = useState(0);
   const maxButtonsPerToolbar = 10;
   const maxButtonNumber = 30;
   const [lastButtonNumber, setLastButtonNumber] = useState(0);
+
 
   const handleAddButton = () => {
     if (lastButtonNumber >= maxButtonNumber) {
       return; // Don't add more buttons if the limit is reached
     }
-
+    setLinks((links) => [...links, ""])
     if (toolbars.length === 0 || toolbars[toolbars.length - 1].length >= maxButtonsPerToolbar) {
       setToolbars((prevToolbars) => [...prevToolbars, []]);
     }
@@ -36,8 +39,10 @@ function LinkGroupComponent() {
         <ButtonToolbar>
           <ButtonGroup className="me-2">
             {toolbar.map((buttonNumber) => (
+              <div>
+              <a href={(links[buttonNumber].substring(0, 4) == "http" ? "" : "//") + links[buttonNumber]}>
               <Button
-                className="btn btn-secondary"
+                className="btn btn-light"
                 style={{
                   marginLeft: "5px",
                   marginRight: "5px",
@@ -48,8 +53,60 @@ function LinkGroupComponent() {
                 }}
                 key={buttonNumber}
               >
-                {buttonNumber}
+                <img height="32" width="32" src={links[buttonNumber] !== "" ? "https://icon.horse/icon/" + links[buttonNumber].substring(links[buttonNumber].indexOf(":") + 1) : "https://upload.wikimedia.org/wikipedia/commons/5/56/Chain_link_icon_slanted.png"} />
               </Button>
+              </a>
+              {editorIndex !== buttonNumber ? 
+              <Button
+              onClick={() => {
+                setEditorIndex(buttonNumber);
+              }}
+              className="btn btn-light"
+              style={{
+                border: "2px solid #555",
+                width: "5px",
+                height: "5px",
+                top: "18px",
+                position: "relative"
+              }}
+              key={buttonNumber}
+              
+            > </Button>:
+              <input
+                value={links[buttonNumber]}
+                onChange={(event) => {
+                  const newLinks = [...links];
+                  newLinks[buttonNumber] = event.currentTarget.value;
+                  setLinks(newLinks);
+                }}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                  const newLinks = [...links];
+                  newLinks[buttonNumber] = event.currentTarget.value;
+                  setEditorIndex(0);
+                  setLinks(newLinks);
+                  }
+                }}
+                style={{
+                  fontSize: "15px",
+                  width: "90%",
+                  backgroundColor: "rgba(0,0,0,0)",
+                  color: "white",
+                  outline: "none",
+                  border: "none",
+                  borderBottom: "2px solid rgba(255, 255, 255, 1)",
+                }}
+                onBlur={(event) => {
+                  const newLinks = [...links];
+                  newLinks[buttonNumber] = event.currentTarget.value;
+                  setEditorIndex(0);
+                  setLinks(newLinks);
+                }}
+                autoFocus
+              />
+            }
+
+            </div>
             ))}
           </ButtonGroup>
         </ButtonToolbar>
