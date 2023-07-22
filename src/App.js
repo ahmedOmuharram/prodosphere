@@ -190,20 +190,20 @@ function App() {
           >
 
             {/* Time */}
-            {user !== "" && <p style={{ textShadow: "0px 0px 3px black", fontSize: "calc(80px + 3vmin)", marginBottom: "0", padding: "0 40px 0 40px", borderBottom: "1px solid white", boxShadow: "0 4px 2px -2px grey",}}>
+            {user !== "" && <p style={{ textShadow: "0px 1px 5px rgba(0, 0, 0, 0.5)", fontSize: "calc(80px + 3vmin)", marginBottom: "0", padding: "0 40px 0 40px", borderBottom: "1px solid white", boxShadow: "0 4px 2px -2px grey",}}>
               {weatherState !== null && <WeatherStatus />}
               { user !== "" && <TimeNow setUser={setUser}/> }
             </p>}
 
             {/* Greeting */}
-            <p style={{fontSize: "calc(30px + 1vmin)", textShadow: "0px 0px 3px	black", marginTop: "0", paddingTop: "0"}}>
+            <p style={{fontSize: "calc(30px + 1vmin)", textShadow: "0px 1px 5px rgba(0, 0, 0, 0.9)", marginTop: "0", paddingTop: "0"}}>
               {user === "" ? "Please enter your name" : 
                 (weatherState !== null && `${weatherState.weather[0].icon.charAt(2)}` === "n" ? `Good evening, ${user}!` : 
                 (weatherState !== null && `${weatherState.weather[0].icon.charAt(2)}` === "d" ? `Good morning, ${user}!` : `Hello, ${user}!`))}
             </p>
 
             {/* Top right date and weather info */}
-            <p style={{position: "absolute", textShadow: "0px 0px 3px black", top: "0px", right: "10px", textAlign: "right", fontSize: "40px", marginBottom: "-30px"}}>
+            <p style={{position: "absolute", textShadow: "0px 1px 5px rgba(0, 0, 0, 0.5)", top: "0px", right: "10px", textAlign: "right", fontSize: "40px", marginBottom: "-30px"}}>
               { user !== "" && <TodayDate setUser={setUser}/> }
               { user !== "" && <GetLocation /> }
             </p>
