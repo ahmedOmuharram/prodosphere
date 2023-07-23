@@ -91,7 +91,7 @@ function LinkGroupComponent() {
                 }}
                 key={buttonNumber}
               >
-                <img height="32" width="32" src={links[buttonNumber] !== "" ? "https://www.google.com/s2/favicons?sz=64&domain_url=" + links[buttonNumber].substring(links[buttonNumber].indexOf(":") + 1) : "https://upload.wikimedia.org/wikipedia/commons/5/56/Chain_link_icon_slanted.png"} />
+                {buttonNumber}<img height="32" width="32" src={links[buttonNumber] !== "" ? "https://www.google.com/s2/favicons?sz=64&domain_url=" + links[buttonNumber].substring(links[buttonNumber].indexOf(":") + 1) : "https://upload.wikimedia.org/wikipedia/commons/5/56/Chain_link_icon_slanted.png"} />
               </Button>
               </a>
               {editorIndex !== buttonNumber ? 
@@ -177,6 +177,9 @@ function LinkGroupComponent() {
                 
 
                 newToolbars[Math.floor((buttonNumber-1)/7)].splice((buttonNumber-1) - 7 * Math.floor((buttonNumber-1)/7), 1);
+                if (newToolbars[Math.floor((buttonNumber-1)/7)].length == 0) {
+                  newToolbars.pop();
+                }
                 for (let i = 0; i < newToolbars.length; i++) {
                   for (let j = 0; j < newToolbars[i].length; j++) {
                     if (newToolbars[i][j] > buttonNumber) {
