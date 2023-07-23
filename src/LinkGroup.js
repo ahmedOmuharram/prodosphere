@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from "framer-motion";
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
@@ -14,6 +14,8 @@ const DeletePath = props => (
   />
 );
 
+
+
 function LinkGroupComponent() {
   const [toolbars, setToolbars] = useState([[]]);
   const [links, setLinks] = useState([""]);
@@ -21,6 +23,28 @@ function LinkGroupComponent() {
   const maxButtonsPerToolbar = 7;
   const maxButtonNumber = 21;
   const [lastButtonNumber, setLastButtonNumber] = useState(0);
+  const [updater, setUpdater] = useState(true);
+
+  useEffect(() => {
+    const savedLastButtonNumber = parseInt(localStorage.getItem("lastButtonNumber"))
+    const savedLinks = localStorage.getItem('linkItems');
+    if (savedLinks) {
+      setLinks(JSON.parse(savedLinks))
+    }
+    if (savedLastButtonNumber) {
+      setLastButtonNumber(parseInt(savedLastButtonNumber));
+    }
+
+    const newToolbars = [[]];
+    for (let i = 1; i < (savedLastButtonNumber) + 1; i++) {
+    if (newToolbars.length === 0 || newToolbars[newToolbars.length - 1].length >= maxButtonsPerToolbar) {
+      newToolbars.push([]);
+    }
+    newToolbars[newToolbars.length - 1].push(i);
+    }
+    setToolbars(newToolbars);
+    
+  }, []);
 
 
   const handleAddButton = () => {
@@ -28,11 +52,13 @@ function LinkGroupComponent() {
       return; // Don't add more buttons if the limit is reached
     }
     setLinks((links) => [...links, ""])
+    localStorage.setItem('linkItems', JSON.stringify([...links, ""]));
     if (toolbars.length === 0 || toolbars[toolbars.length - 1].length >= maxButtonsPerToolbar) {
       setToolbars((prevToolbars) => [...prevToolbars, []]);
     }
 
     setLastButtonNumber((prevNumber) => Math.min(prevNumber + 1, maxButtonNumber));
+    localStorage.setItem('lastButtonNumber', Math.min(lastButtonNumber + 1, maxButtonNumber))
 
     setToolbars((prevToolbars) => {
       const newToolbars = [...prevToolbars];
@@ -65,7 +91,7 @@ function LinkGroupComponent() {
                 }}
                 key={buttonNumber}
               >
-                <img height="32" width="32" src={links[buttonNumber] !== "" ? "https://www.google.com/s2/favicons?sz=64&domain_url=" + links[buttonNumber].substring(links[buttonNumber].indexOf(":") + 1) : "https://upload.wikimedia.org/wikipedia/commons/5/56/Chain_link_icon_slanted.png"} />
+                {buttonNumber}<img height="32" width="32" src={links[buttonNumber] !== "" ? "https://www.google.com/s2/favicons?sz=64&domain_url=" + links[buttonNumber].substring(links[buttonNumber].indexOf(":") + 1) : "https://upload.wikimedia.org/wikipedia/commons/5/56/Chain_link_icon_slanted.png"} />
               </Button>
               </a>
               {editorIndex !== buttonNumber ? 
@@ -114,6 +140,7 @@ function LinkGroupComponent() {
                   const newLinks = [...links];
                   newLinks[buttonNumber] = event.currentTarget.value;
                   setLinks(newLinks);
+                  localStorage.setItem('linkItems', JSON.stringify(newLinks));
                 }}
                 onKeyDown={(event) => {
                   if (event.key === "Enter") {
@@ -121,6 +148,7 @@ function LinkGroupComponent() {
                   newLinks[buttonNumber] = event.currentTarget.value;
                   setEditorIndex(0);
                   setLinks(newLinks);
+                  localStorage.setItem('linkItems', JSON.stringify(newLinks));
                   }
                 }}
                 style={{
@@ -137,6 +165,7 @@ function LinkGroupComponent() {
                   newLinks[buttonNumber] = event.currentTarget.value;
                   setEditorIndex(0);
                   setLinks(newLinks);
+                  localStorage.setItem('linkItems', JSON.stringify(newLinks));
                 }}
                 autoFocus
               />
@@ -168,7 +197,9 @@ function LinkGroupComponent() {
                 setToolbars(newToolbars);
                 newLinks.splice((buttonNumber), 1);
                 setLinks(newLinks);
+                localStorage.setItem('linkItems', JSON.stringify(newLinks));
                 setLastButtonNumber(lastButtonNumber-1)
+                localStorage.setItem('lastButtonNumber', lastButtonNumber - 1)
               }}
               className="btn btn-light"
               style={{
