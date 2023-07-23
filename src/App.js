@@ -1,5 +1,5 @@
 import './App.css';
-import { useState, useRef, createContext, useContext, useEffect } from 'react';
+import { useState, useRef, createContext, useContext } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { motion, useCycle } from "framer-motion";
@@ -12,10 +12,6 @@ import ToDoComponent from "./ToDoComponent"
 import LinkGroupComponent from './LinkGroup';
 import Moment from 'react-moment';
 import { useTimer } from 'react-timer-hook';
-import { min } from 'moment';
-
-//useEffect(() => {
-//}, [])
 
 const CollapsingToDoList = () => {
   const [isCollapsed, setCollapsed] = useState(false);
