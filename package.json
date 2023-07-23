@@ -1,6 +1,7 @@
 {
   "name": "prodosphere",
   "version": "0.1.0",
+  "homepage": "https://ahmedomuharram.github.io/prodosphere",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
@@ -19,6 +20,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -43,6 +46,7 @@
     ]
   },
   "devDependencies": {
+    "gh-pages": "^5.0.0",
     "typescript": "^5.1.6"
   },
   "overrides": {
