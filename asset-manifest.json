@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/prodosphere/static/css/main.763ddadb.css",
-    "main.js": "/prodosphere/static/js/main.9a242a97.js",
+    "main.js": "/prodosphere/static/js/main.1f7a7984.js",
     "static/js/787.244012d8.chunk.js": "/prodosphere/static/js/787.244012d8.chunk.js",
     "static/media/background.jpeg": "/prodosphere/static/media/background.e18dbb66d28a85a68e54.jpeg",
     "index.html": "/prodosphere/index.html",
     "main.763ddadb.css.map": "/prodosphere/static/css/main.763ddadb.css.map",
-    "main.9a242a97.js.map": "/prodosphere/static/js/main.9a242a97.js.map",
+    "main.1f7a7984.js.map": "/prodosphere/static/js/main.1f7a7984.js.map",
     "787.244012d8.chunk.js.map": "/prodosphere/static/js/787.244012d8.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.763ddadb.css",
-    "static/js/main.9a242a97.js"
+    "static/js/main.1f7a7984.js"
   ]
 }
