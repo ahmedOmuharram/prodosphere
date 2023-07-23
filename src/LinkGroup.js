@@ -91,7 +91,7 @@ function LinkGroupComponent() {
                 }}
                 key={buttonNumber}
               >
-                {buttonNumber}<img height="32" width="32" src={links[buttonNumber] !== "" ? "https://www.google.com/s2/favicons?sz=64&domain_url=" + links[buttonNumber].substring(links[buttonNumber].indexOf(":") + 1) : "https://upload.wikimedia.org/wikipedia/commons/5/56/Chain_link_icon_slanted.png"} />
+                <img height="32" width="32" src={links[buttonNumber] !== "" ? "https://www.google.com/s2/favicons?sz=64&domain_url=" + links[buttonNumber].substring(links[buttonNumber].indexOf(":") + 1) : "https://upload.wikimedia.org/wikipedia/commons/5/56/Chain_link_icon_slanted.png"} />
               </Button>
               </a>
               {editorIndex !== buttonNumber ? 
