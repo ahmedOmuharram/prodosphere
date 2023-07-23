@@ -84,6 +84,7 @@ const CollapsingToDoList = () => {
           }}
           transition={{ duration: 0.5 }}
         >
+          <div style={{position:"relative", top: 0, width: "calc(100px + 15vmax)", backgroundColor: "black", height: "0px", boxShadow: "0 3px 20px 10px rgba(0,0,0,0.6)", zIndex: 99}}></div>
           <ToDoComponent/>
         </motion.div>
       </div>
