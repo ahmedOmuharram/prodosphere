@@ -7,8 +7,8 @@ function LinkGroupComponent() {
   const [toolbars, setToolbars] = useState([[]]);
   const [links, setLinks] = useState([""]);
   const [editorIndex, setEditorIndex] = useState(0);
-  const maxButtonsPerToolbar = 10;
-  const maxButtonNumber = 30;
+  const maxButtonsPerToolbar = 7;
+  const maxButtonNumber = 21;
   const [lastButtonNumber, setLastButtonNumber] = useState(0);
 
 
@@ -114,13 +114,13 @@ function LinkGroupComponent() {
                 const newToolbars = [...toolbars];
                 
 
-                newToolbars[Math.floor((buttonNumber-1)/10)].splice((buttonNumber-1) - 10 * Math.floor((buttonNumber-1)/10), 1);
+                newToolbars[Math.floor((buttonNumber-1)/7)].splice((buttonNumber-1) - 7 * Math.floor((buttonNumber-1)/7), 1);
                 for (let i = 0; i < newToolbars.length; i++) {
                   for (let j = 0; j < newToolbars[i].length; j++) {
                     if (newToolbars[i][j] > buttonNumber) {
                       newToolbars[i][j]--;
-                      if (newToolbars[i][j] === (i)*10) {
-                        newToolbars[i-1].push((i)*10);
+                      if (newToolbars[i][j] === (i)*7) {
+                        newToolbars[i-1].push((i)*7);
                         newToolbars[i].shift();
                         j--;
                         if (newToolbars[i].length == 0) {
