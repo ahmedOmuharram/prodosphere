@@ -1,5 +1,5 @@
 import './App.css';
-import { useState, useRef, createContext, useContext } from 'react';
+import { useState, useRef, createContext, useContext, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { motion, useCycle } from "framer-motion";
@@ -11,6 +11,10 @@ import WeatherComponent from "./Weather";
 import ToDoComponent from "./ToDoComponent"
 import LinkGroupComponent from './LinkGroup';
 import Moment from 'react-moment';
+import { useTimer } from 'react-timer-hook';
+
+//useEffect(() => {
+//}, [])
 
 const CollapsingToDoList = () => {
   const [isCollapsed, setCollapsed] = useState(false);
@@ -62,7 +66,7 @@ const CollapsingToDoList = () => {
           position: 'absolute',
           bottom: '0px',
           right: '0px',
-          textAlign: 'right',
+          textAlign: 'left',
           fontSize: '20px',
           marginBottom: '-30px',
           width: 'calc(100px + 15vmax)',
@@ -158,6 +162,42 @@ function UserForm({ setUser }) {
   );
 }
 
+function TimerComponent({ expiryTimestamp }) {
+  const {
+    totalSeconds,
+    seconds,
+    minutes,
+    hours,
+    days,
+    isRunning,
+    start,
+    pause,
+    resume,
+    restart,
+  } = useTimer({ expiryTimestamp, onExpire: () => console.warn('onExpire called') });
+
+
+  return (
+    <div style={{textAlign: 'center'}}>
+      <h1>react-timer-hook </h1>
+      <p>Timer Demo</p>
+      <div style={{fontSize: '100px'}}>
+        <span>{days}</span>:<span>{hours}</span>:<span>{minutes}</span>:<span>{seconds}</span>
+      </div>
+      <p>{isRunning ? 'Running' : 'Not running'}</p>
+      <button onClick={pause}>Pause</button>
+      <button onClick={resume}>Resume</button>
+      <button onClick={() => {
+        // Restarts to 5 minutes timer
+        const time = new Date();
+        time.setSeconds(time.getSeconds() + 301968);
+        restart(time)
+      }}>Restart</button>
+    </div>
+  );
+}
+
+
 function TodayDate() {
   return (
     <>
@@ -213,7 +253,9 @@ function App() {
               { user !== "" && <TodayDate setUser={setUser}/> }
               { user !== "" && <GetLocation /> }
             </p>
-
+            <div>
+              <TimerComponent expiryTimestamp={new Date()} />
+            </div>
             { user !== "" && <CollapsingToDoList/> }
             <br />
 
