@@ -64,10 +64,13 @@ function LinkGroupComponent() {
               className="btn btn-success"
               style={{
                 border: "2px solid #555",
-                width: "5px",
-                height: "5px",
-                top: "18px",
-                position: "relative"
+                width: "50px",
+                height: "0px",
+                top: "45px",
+                position: "relative",
+                padding: "0px",
+                paddingBottom: "5px",
+                left: "-60px",
               }}
               key={buttonNumber}
               
@@ -137,13 +140,17 @@ function LinkGroupComponent() {
               className="btn btn-danger"
               style={{
                 border: "2px solid #555",
-                width: "5px",
-                height: "5px",
-                top: "-18px",
-                position: "relative"
+                width: "20px",
+                padding: "0px",
+                paddingBottom: "25px",
+                textAlign: "center",
+                height: "10px",
+                top: "-20px",
+                position: "relative",
+                left: "-50px",
+                
               }}
-              
-            > </Button>
+            > X </Button>
             </div>
             ))}
           </ButtonGroup>
