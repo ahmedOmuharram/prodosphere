@@ -1,7 +1,18 @@
 import React, { useState } from 'react';
+import { motion } from "framer-motion";
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
+
+const DeletePath = props => (
+  <motion.path
+    fill="transparent"
+    strokeWidth="3"
+    stroke="rgb(255, 0, 0)"
+    strokeLinecap="round"
+    {...props}
+  />
+);
 
 function LinkGroupComponent() {
   const [toolbars, setToolbars] = useState([[]]);
@@ -36,7 +47,7 @@ function LinkGroupComponent() {
   const renderButtonGroups = () => {
     return toolbars.map((toolbar, index) => (
       <div className="d-flex justify-content-center mt-4" key={index}>
-        <ButtonToolbar>
+        <ButtonToolbar className="mt-4">
           <ButtonGroup className="me-2">
             {toolbar.map((buttonNumber) => (
               <div>
@@ -44,12 +55,13 @@ function LinkGroupComponent() {
               <Button
                 className="btn btn-light"
                 style={{
-                  marginLeft: "5px",
-                  marginRight: "5px",
+                  marginRight: "25px",
                   border: "2px solid #555",
                   borderRadius: "50%",
                   width: "60px",
-                  height: "60px"
+                  height: "60px",
+                  position: "relative",
+                  left: "35px"
                 }}
                 key={buttonNumber}
               >
@@ -61,20 +73,41 @@ function LinkGroupComponent() {
               onClick={() => {
                 setEditorIndex(buttonNumber);
               }}
-              className="btn btn-success"
+              className="btn btn-light"
               style={{
-                border: "2px solid #555",
-                width: "50px",
-                height: "0px",
-                top: "45px",
-                position: "relative",
-                padding: "0px",
+                fontSize: "10px",
                 paddingBottom: "5px",
-                left: "-60px",
+                backgroundColor: "#c6c4ff",
+                borderRadius: "50%",
+                width: "20px",
+                padding: "0px",
+                textAlign: "center",
+                height: "20px",
+                top: "20px",
+                position: "relative",
+                left: "-9px",
               }}
               key={buttonNumber}
               
-            > </Button>:
+            >
+              <svg
+                style={{ color: 'white' }}
+                width="15"
+                height="15"
+                stroke-width="1.5"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M13.0207 5.82839L15.8491 2.99996L20.7988 7.94971L17.9704 10.7781M13.0207 5.82839L3.41405 15.435C3.22652 15.6225 3.12116 15.8769 3.12116 16.1421V20.6776H7.65669C7.92191 20.6776 8.17626 20.5723 8.3638 20.3847L17.9704 10.7781M13.0207 5.82839L17.9704 10.7781"
+                  stroke="lightblue"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  fill="blue"
+                ></path>
+              </svg> 
+            </Button>:
               <input
                 value={links[buttonNumber]}
                 onChange={(event) => {
@@ -137,20 +170,24 @@ function LinkGroupComponent() {
                 setLinks(newLinks);
                 setLastButtonNumber(lastButtonNumber-1)
               }}
-              className="btn btn-danger"
+              className="btn btn-light"
               style={{
-                border: "2px solid #555",
+                backgroundColor: "#ffc6c4",
+                borderRadius: "50%",
                 width: "20px",
                 padding: "0px",
-                paddingBottom: "25px",
                 textAlign: "center",
-                height: "10px",
+                height: "20px",
                 top: "-20px",
                 position: "relative",
-                left: "-50px",
-                
+                left: "-70px",
               }}
-            > X </Button>
+            > 
+              <svg width="16" height="16" viewBox="1 1 20 24" style={{paddingBottom: "5px"}}>
+                <DeletePath d="M 3 16.5 L 17 2.5" />
+                <DeletePath d="M 3 2.5 L 17 16.346" />
+              </svg>
+             </Button>
             </div>
             ))}
           </ButtonGroup>
@@ -168,13 +205,12 @@ function LinkGroupComponent() {
             <Button
               onClick={handleAddButton}
               style={{
-                marginRight: "10px",
                 border: "2px solid #060",
                 borderRadius: "50%",
                 width: "50px",
                 height: "50px"
               }}
-              className="me-2 btn btn-success"
+              className="btn btn-success"
               aria-label="Add Button"
             >
               +
