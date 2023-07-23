@@ -12,6 +12,7 @@ import ToDoComponent from "./ToDoComponent"
 import LinkGroupComponent from './LinkGroup';
 import Moment from 'react-moment';
 import { useTimer } from 'react-timer-hook';
+import { min } from 'moment';
 
 //useEffect(() => {
 //}, [])
@@ -177,13 +178,17 @@ function TimerComponent({ expiryTimestamp }) {
     restart,
   } = useTimer({ expiryTimestamp, onExpire: () => console.warn('onExpire called') });
 
+  const [timerState, setTimerState] = useState(new Date());
+
+
+
 
   return (
     <div style={{textAlign: 'center'}}>
       <h1>react-timer-hook </h1>
       <p>Timer Demo</p>
       <div style={{fontSize: '100px'}}>
-        <span>{days}</span>:<span>{hours}</span>:<span>{minutes}</span>:<span>{seconds}</span>
+        <Moment format='mm:ss'>{new Date().setMinutes(minutes, seconds)}</Moment>
       </div>
       <p>{isRunning ? 'Running' : 'Not running'}</p>
       <button onClick={pause}>Pause</button>
@@ -191,9 +196,19 @@ function TimerComponent({ expiryTimestamp }) {
       <button onClick={() => {
         // Restarts to 5 minutes timer
         const time = new Date();
-        time.setSeconds(time.getSeconds() + 301968);
+        time.setSeconds(time.getSeconds() + 600);
+        setTimerState(time);
         restart(time)
+        pause();
       }}>Restart</button>
+      <button onClick={() => {
+        console.log(timerState)
+        const time = timerState;
+        time.setSeconds(timerState.getSeconds() + 60);
+        setTimerState(time);
+        restart(time)
+        pause();
+      }}>Add 1 Minute</button>
     </div>
   );
 }
