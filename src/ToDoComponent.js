@@ -123,7 +123,7 @@ function ToDoComponent() {
                 }}
               />
             ) : (
-              <p style={{ position: "relative", fontSize: "15px", left: "2px", top: "5px"}} onDoubleClick={() => handleEdit(index)}>{index + 1}. {item}</p>
+              <p style={{ position: "relative", fontSize: "15px", left: "2px", top: "5px", wordWrap: "anywhere"}} onDoubleClick={() => handleEdit(index)}>{index + 1}.&nbsp;{item}</p>
             )}
             <button
               className='item-delete-button'
