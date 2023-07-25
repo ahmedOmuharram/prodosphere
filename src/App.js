@@ -264,7 +264,17 @@ function App() {
   const [weatherState, setWeatherState] = useState(null);
   const weatherValue = { weatherState, setWeatherState };
 
+  const [menuState, setMenuState] = useState(0);
+  const menuValue = { menuState, setMenuState };
+
+  const [clickState, setClickState] = useState(false);
+  const clickValue = { clickState, setClickState };
+
+
+
   return (
+    <clickContext.Provider value={clickValue}>
+    <menuContext.Provider value={menuValue}>
     <weatherContext.Provider value={weatherValue}>
     <div className="App">
         <header className="App-header">
@@ -342,11 +352,16 @@ function App() {
           {user !== "" && <Navigation />}
           {user !== "" && <MenuToggle toggle={() => toggleOpen()} />}
         </motion.nav> 
+        
     </div>
     </weatherContext.Provider>
+    </menuContext.Provider>
+    </clickContext.Provider>
   );
 }
 
 export const weatherContext = createContext();
+export const menuContext = createContext();
+export const clickContext = createContext();
 
 export default App;
