@@ -33,7 +33,7 @@ export const MenuItem = ({ i }) => {
     >
       <div className="icon-placeholder" style={style} onClick={() => {
         if (menuState!==i) {
-          setMenuState(i);
+          setTimeout(() => setMenuState(i), 200)
           setClickState(true);
         }
         }}></div>
