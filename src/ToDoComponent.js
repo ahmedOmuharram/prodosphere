@@ -25,6 +25,7 @@ function ToDoComponent() {
   const [sarray, setSarray] = useState([]);
   const [editingIndex, setEditingIndex] = useState(-1);
   const [updater, setUpdater] = useState(true);
+  const [checkedItems, setCheckedItems] = useState([]);
 
   const inputRef = useRef(null);
 
@@ -54,6 +55,14 @@ function ToDoComponent() {
     setEditingIndex(-1);
     updateIndices(updatedArray);
     localStorage.setItem('todoItems', JSON.stringify(updatedArray));
+  };
+
+  const handleCheck = (index) => {
+    setCheckedItems((prevCheckedItems) => {
+      const updatedCheckedItems = [...prevCheckedItems];
+      updatedCheckedItems[index] = !updatedCheckedItems[index];
+      return updatedCheckedItems;
+    });
   };
 
   const updateIndices = (updatedArray) => {
@@ -123,7 +132,27 @@ function ToDoComponent() {
                 }}
               />
             ) : (
-              <p style={{ position: "relative", fontSize: "15px", left: "2px", top: "5px", wordWrap: "anywhere"}} onClick={() => handleEdit(index)}>{index + 1}.&nbsp;{item}</p>
+              <label style={{ display: "flex", alignItems: "center" }}>
+              <input
+                type="checkbox"
+                checked={checkedItems[index] || false}
+                onChange={() => handleCheck(index)}
+              />
+              <p
+                style={{
+                  position: "relative",
+                  fontSize: "15px",
+                  left: "2px",
+                  top: "7px",
+                  wordWrap: "anywhere",
+                  textDecoration: checkedItems[index] ? "line-through" : "none",
+                  color: checkedItems[index] ? "grey" : "white",
+                }}
+                onClick={() => handleEdit(index)}
+              >
+                {item}
+              </p>
+            </label>
             )}
             <button
               className='item-delete-button'
@@ -183,3 +212,4 @@ function ToDoComponent() {
 }
 
 export default ToDoComponent;
+
