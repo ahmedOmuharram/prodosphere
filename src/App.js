@@ -264,13 +264,11 @@ function App() {
   const [weatherState, setWeatherState] = useState(null);
   const weatherValue = { weatherState, setWeatherState };
 
-  const [menuState, setMenuState] = useState(0);
+  const [menuState, setMenuState] = useState(-1);
   const menuValue = { menuState, setMenuState };
 
   const [clickState, setClickState] = useState(false);
   const clickValue = { clickState, setClickState };
-
-
 
   return (
     <clickContext.Provider value={clickValue}>

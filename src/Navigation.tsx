@@ -45,7 +45,6 @@ const menuClickedVariants = {
   }
 };
 
-
 export const Navigation = () => {
   const { menuState, setMenuState } = useContext(menuContext);
   const { clickState, setClickState } = useContext(clickContext);
@@ -56,12 +55,24 @@ export const Navigation = () => {
       <MenuItem i={i} key={i} />
     ))}
   </motion.ul>
-  <motion.div key={clickState} 
-  onAnimationComplete={() => {
-    if (clickState) {
-      setClickState(false);
-    }
-    }} variants={!clickState ? menuVariants : menuClickedVariants} initial={!clickState ? {width: "0px", opacity: "0"} : {width: "500px", opacity: "1"}} style={{position: "absolute", backgroundColor: "rgba(0, 0, 0, 0.4)", top: "calc(100% - 500px)", left: "80px", width: "500px", height: "500px"}}>
+  <motion.div
+    key={clickState} 
+    onAnimationComplete={() => {
+      if (clickState) {
+        setClickState(false);
+      }
+    }} 
+    variants={!clickState && menuState !== -1 ? menuVariants : menuClickedVariants} 
+    initial={!clickState || menuState === -1 ? {width: "0px", opacity: "0"} : {width: "500px", opacity: "1"}} 
+    animate={menuState !== -1 ? "open" : "closed"} 
+    style={{
+      position: "absolute", 
+      backgroundColor: "rgba(0, 0, 0, 0.4)", 
+      top: "calc(100% - 500px)", left: "80px", 
+      width: "500px", 
+      height: "500px"
+    }}
+  >
     {menuState === 0 && <p style={{color :"white"}}>0 GONNA</p>}
     {menuState === 1 && <p style={{color :"white"}}>1 GIVE</p>}
     {menuState === 2 && <p style={{color :"white"}}>2 YOU</p>}
@@ -69,6 +80,7 @@ export const Navigation = () => {
     {menuState === 4 && <p style={{color :"white"}}>4 GONNA</p>}
     {menuState === 5 && <p style={{color :"white"}}>5 SAY</p>}
     {menuState === 6 && <p style={{color :"white"}}>6 GOODBYE</p>}
+    {menuState === 1}
   </motion.div>
   </>
   )

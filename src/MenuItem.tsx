@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { menuContext, clickContext } from "./App"
 import { motion } from "framer-motion";
 
@@ -35,6 +35,8 @@ export const MenuItem = ({ i }) => {
         if (menuState!==i) {
           setTimeout(() => setMenuState(i), 200)
           setClickState(true);
+        } else {
+          setTimeout(() => setMenuState(-1))
         }
         }}></div>
     </motion.li>
