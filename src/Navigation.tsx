@@ -56,7 +56,7 @@ export const Navigation = () => {
       <MenuItem i={i} key={i} />
     ))}
   </motion.ul>
-  <motion.div id="killme" key={clickState} 
+  <motion.div key={clickState} 
   onAnimationComplete={() => {
     if (clickState) {
       setClickState(false);
