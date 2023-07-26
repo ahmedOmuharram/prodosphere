@@ -147,7 +147,7 @@ export const Navigation = () => {
           placeholder='Input text'
           style={{
             fontSize: "15px",
-            marginLeft: "5%",
+            marginLeft: "0%",
             width: "70%",
             backgroundColor: "rgba(0,0,0,0)",
             color: "white",
