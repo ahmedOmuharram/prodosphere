@@ -124,9 +124,9 @@ li {
   -ms-user-select: none;
   cursor: pointer;
   background: transparent;
-  margin-left: auto;
-  padding-left: 10px;
-  padding-right: 10px;
+  margin-left: auto !important;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
 }
 .item-create-button {
   outline: none;
