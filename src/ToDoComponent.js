@@ -73,7 +73,12 @@ function ToDoComponent() {
         updatedCheckedItems.splice(index, 1);
         updatedArray.push(sarray[index]);
         updatedCheckedItems[sarray.length-1] = true;
-        setExplodingIndex(index);
+        if (explodingIndex === index) {
+          setExplodingIndex(-1);
+          setTimeout(() => setExplodingIndex(index), 1)
+        } else {
+          setExplodingIndex(index);
+        }
       }
       else if (!updatedCheckedItems[index]) {
         updatedArray.splice(index, 1);
