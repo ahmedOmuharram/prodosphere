@@ -1,5 +1,6 @@
 import './App.css';
 import { useState, useRef, createContext, useContext } from 'react';
+import { createApi } from 'unsplash-js';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { motion, useCycle } from "framer-motion";
@@ -13,6 +14,9 @@ import LinkGroupComponent from './LinkGroup';
 import Moment from 'react-moment';
 import { useTimer } from 'react-timer-hook';
 
+const unsplash = createApi({
+  fetch: nodeFetch.default
+})
 const CollapsingToDoList = () => {
   const [isCollapsed, setCollapsed] = useState(false);
 
@@ -162,13 +166,9 @@ function UserForm({ setUser }) {
 
 function TimerComponent({ expiryTimestamp }) {
   const {
-    totalSeconds,
     seconds,
     minutes,
-    hours,
-    days,
     isRunning,
-    start,
     pause,
     resume,
     restart,
