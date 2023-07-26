@@ -47,7 +47,7 @@ const shouldFetchBackground = () => {
 };
 
 if (shouldFetchBackground()) {
-  unsplash.photos.getRandom({ query: "night nature", orientation: "landscape" })
+  unsplash.photos.getRandom({ query: "nature", orientation: "landscape" })
     .then(result => {
       if (result.errors) {
         const background = getLastBackgroundURL();
