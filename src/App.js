@@ -1,4 +1,5 @@
 import './App.css';
+import fallbackBackground from './background.jpeg'
 import { useState, useRef, createContext, useContext } from 'react';
 import { createApi } from 'unsplash-js';
 import Form from 'react-bootstrap/Form';
@@ -15,8 +16,66 @@ import Moment from 'react-moment';
 import { useTimer } from 'react-timer-hook';
 
 const unsplash = createApi({
-  
+  accessKey: process.env.REACT_APP_UNSPLASH_ACCESS_KEY
 })
+
+const getLastBackgroundTimestamp = () => {
+  const lastBackgroundTimestamp = localStorage.getItem("lastBackgroundTimestamp");
+  return lastBackgroundTimestamp ? parseInt(lastBackgroundTimestamp) : 0;
+};
+
+const setLastBackgroundTimestamp = () => {
+  const currentTimestamp = Date.now();
+  localStorage.setItem("lastBackgroundTimestamp", currentTimestamp.toString());
+};
+
+const getLastBackgroundURL = () => {
+  return localStorage.getItem("lastBackgroundURL") || fallbackBackground;
+};
+
+const setLastBackgroundURL = (url) => {
+  localStorage.setItem("lastBackgroundURL", url);
+};
+
+const oneHourInMilliseconds = 60 * 60 * 1000;
+
+const shouldFetchBackground = () => {
+  const lastBackgroundTimestamp = getLastBackgroundTimestamp();
+  getLastBackgroundURL();
+  const currentTimestamp = Date.now();
+  return currentTimestamp - lastBackgroundTimestamp > oneHourInMilliseconds;
+};
+
+if (shouldFetchBackground()) {
+  unsplash.photos.getRandom({ query: "night nature", orientation: "landscape" })
+    .then(result => {
+      if (result.errors) {
+        const background = getLastBackgroundURL();
+        document.body.style.backgroundImage = `url(${background})`;
+        document.body.style.backgroundRepeat = `no-repeat`;
+        document.body.style.backgroundSize = `cover`;
+      } else {
+        const photo = result.response;
+        document.body.style.backgroundImage = `url('${photo.urls.raw}')`;
+        document.body.style.backgroundRepeat = `no-repeat`;
+        document.body.style.backgroundSize = `cover`;
+        setLastBackgroundURL(photo.urls.raw);
+        setLastBackgroundTimestamp();
+      }
+    })
+    .catch(error => {
+      const background = getLastBackgroundURL();
+      document.body.style.backgroundImage = `url(${background})`;
+      document.body.style.backgroundRepeat = `no-repeat`;
+      document.body.style.backgroundSize = `cover`;
+    });
+} else {
+  const background = getLastBackgroundURL();
+  document.body.style.backgroundImage = `url(${background})`;
+  document.body.style.backgroundRepeat = `no-repeat`;
+  document.body.style.backgroundSize = `cover`;
+}
+
 const CollapsingToDoList = () => {
   const [isCollapsed, setCollapsed] = useState(false);
 
