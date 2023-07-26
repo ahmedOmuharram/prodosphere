@@ -1,5 +1,5 @@
-import { useState, useContext, createContext } from "react";
-import { animateValue, motion } from "framer-motion";
+import { useContext } from "react";
+import { motion } from "framer-motion";
 import { menuContext, clickContext } from "./App"
 import { MenuItem } from "./MenuItem.tsx";
 
@@ -8,7 +8,7 @@ const variants = {
     transition: { staggerChildren: -0.07, delayChildren: 0.5 }
   },
   closed: {
-    transition: { staggerChildren: -0.07, delayChildren: 0.5, staggerDirection: -1 }
+    transition: { staggerChildren: -0.07, delayChildren: 0.5, staggerDirection: -1 },
   }
 };
 
