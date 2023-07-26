@@ -46,8 +46,11 @@ const shouldFetchBackground = () => {
   return currentTimestamp - lastBackgroundTimestamp > oneHourInMilliseconds;
 };
 
+const hours = new Date().getHours()
+const queryInput = hours <= 6 || hours >= 19 ? "night forest" : "flowers morning"
+
 if (shouldFetchBackground()) {
-  unsplash.photos.getRandom({ query: "nature", orientation: "landscape" })
+  unsplash.photos.getRandom({ query: queryInput, orientation: "landscape" })
     .then(result => {
       if (result.errors) {
         const background = getLastBackgroundURL();
@@ -56,6 +59,7 @@ if (shouldFetchBackground()) {
         document.body.style.backgroundSize = `cover`;
       } else {
         const photo = result.response;
+        console.log(photo)
         document.body.style.backgroundImage = `url('${photo.urls.raw}')`;
         document.body.style.backgroundRepeat = `no-repeat`;
         document.body.style.backgroundSize = `cover`;
