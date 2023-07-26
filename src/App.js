@@ -15,7 +15,7 @@ import Moment from 'react-moment';
 import { useTimer } from 'react-timer-hook';
 
 const unsplash = createApi({
-  fetch: nodeFetch.default
+  
 })
 const CollapsingToDoList = () => {
   const [isCollapsed, setCollapsed] = useState(false);
