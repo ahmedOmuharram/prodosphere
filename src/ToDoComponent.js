@@ -1,15 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion } from "framer-motion";
-
-const DeletePath = props => (
-  <motion.path
-    fill="transparent"
-    strokeWidth="3"
-    stroke="rgb(255, 0, 0)"
-    strokeLinecap="round"
-    {...props}
-  />
-);
+import Checkbox from '@mui/material/Checkbox';
+import IconButton from '@mui/material/IconButton';
+import { Delete } from '@mui/icons-material';
+import { lightGreen } from '@mui/material/colors';
+import ConfettiExplosion from 'react-confetti-explosion';
 
 const AddPath = props => (
   <motion.path
@@ -26,6 +21,7 @@ function ToDoComponent() {
   const [editingIndex, setEditingIndex] = useState(-1);
   const [updater, setUpdater] = useState(true);
   const [checkedItems, setCheckedItems] = useState([]);
+  const [explodingIndex, setExplodingIndex] = useState(-1);
 
   const inputRef = useRef(null);
 
@@ -77,6 +73,7 @@ function ToDoComponent() {
         updatedCheckedItems.splice(index, 1);
         updatedArray.push(sarray[index]);
         updatedCheckedItems[sarray.length-1] = true;
+        setExplodingIndex(index);
       }
       else if (!updatedCheckedItems[index]) {
         updatedArray.splice(index, 1);
@@ -89,6 +86,7 @@ function ToDoComponent() {
         }
         updatedArray.splice(i, 0, sarray[index]);
         updatedCheckedItems.splice(i, 0, false)
+        setExplodingIndex(-1);
       }
       setSarray(updatedArray);
       localStorage.setItem('todoItems', JSON.stringify(updatedArray));
@@ -173,11 +171,18 @@ function ToDoComponent() {
               />
             ) : (
               <label style={{ display: "flex", alignItems: "center" }}>
-              <input
-                type="checkbox"
+              <Checkbox 
+                sx={{
+                  color: lightGreen[800],
+                  '&.Mui-checked': {
+                    color: lightGreen[600],
+                  },
+                }}
                 checked={checkedItems[index] != null && checkedItems[index] != false}
-                onChange={() => handleCheck(index)}
-              />
+                onChange={() => {
+                  handleCheck(index);
+                }}/>
+                { explodingIndex === index ? <ConfettiExplosion force={0.4} particleCount={30} width={400}/> : <div/>}
               <p
                 style={{
                   position: "relative",
@@ -194,15 +199,14 @@ function ToDoComponent() {
               </p>
             </label>
             )}
-            <button
+            <IconButton               
               className='item-delete-button'
-              onClick={() => handleDelete(index)}
-            >
-              <svg width="23" height="23" viewBox="0 0 23 23">
-                <DeletePath d="M 3 16.5 L 17 2.5" />
-                <DeletePath d="M 3 2.5 L 17 16.346" />
-              </svg>
-            </button>
+              onClick={() => {
+                handleDelete(index);
+              }}              
+              color="error">
+                <Delete />
+            </IconButton>
           </li>
         ))}
       </ul>
