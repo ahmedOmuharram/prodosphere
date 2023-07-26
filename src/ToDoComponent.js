@@ -233,6 +233,7 @@ function ToDoComponent() {
                 updatedCheckedItems.splice(i, 0, false);
                 setCheckedItems(updatedCheckedItems);
                 setSarray(updatedSarray);
+                setExplodingIndex(-1);
                 setEditingIndex(Math.min(updatedSarray.length-1, i));
                 setUpdater(!updater);
                 localStorage.setItem('checkedItems', JSON.stringify(updatedCheckedItems));
