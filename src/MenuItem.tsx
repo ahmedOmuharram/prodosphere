@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { menuContext, clickContext } from "./App"
 import { motion } from "framer-motion";
+import TranslateIcon from '@mui/icons-material/Translate';
 
 const variants = {
   open: {
@@ -42,7 +43,8 @@ export const MenuItem = ({ i }) => {
         } else {
           setTimeout(() => setMenuState(-1))
         }
-        }}></div>
+        }}> {i === 4 && <TranslateIcon style={{position: "relative", height: "20px", width: "20px", top: "5px"}}/>}
+      </div>
     </motion.li>
   );
 };

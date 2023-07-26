@@ -1,9 +1,10 @@
 import { useState, useContext, createContext, useEffect } from "react";
 import { animateValue, motion } from "framer-motion";
+import TranslateIcon from '@mui/icons-material/Translate';
+import { IconButton } from "@mui/material";
 import { menuContext, clickContext } from "./App"
 import { MenuItem } from "./MenuItem.tsx";
 import axios from 'axios';
-
 
 
 const variants = {
@@ -87,85 +88,122 @@ export const Navigation = () => {
       setResultText(response.data.translatedText)
     })
   } 
-  return (
-  <>
-  <motion.ul variants={variants}>
-    {itemIds.map(i => (
-      <MenuItem i={i} key={i} />
-    ))}
-  </motion.ul>
-  <motion.div
-    key={clickState} 
-    onAnimationComplete={() => {
-      if (clickState) {
-        setClickState(false);
-      }
-    }} 
-    variants={!clickState && menuState !== -1 ? menuVariants : menuClickedVariants} 
-    initial={!clickState || menuState === -1 ? {width: "0px", opacity: "0"} : {width: "500px", opacity: "1"}} 
-    animate={menuState !== -1 ? "open" : "closed"} 
-    style={{
-      position: "absolute", 
-      backgroundColor: "rgba(0, 0, 0, 0.4)", 
-      top: "calc(100% - 500px)", left: "80px", 
-      width: "500px", 
-      height: "500px"
-    }}
-  >
-    {menuState === 0 && <p style={{color :"white"}}>0</p>}
-    {menuState === 1 && <p style={{color :"white"}}>1</p>}
-    {menuState === 2 && <p style={{color :"white"}}>2</p>}
-    {menuState === 3 && <p style={{color :"white"}}>3</p>}
-    {menuState === 4 &&
+    return (
     <>
-    <select className="language-select" onChange={languageFromKey}>
-      <option value={""}>Please select from language...</option>
-      {languagesList.map((language) => {
-        return (
-          <option value={language.code}>
-            {language.name}
-          </option>
-        )
-      })}
-    </select>
-    <select className="language-select" onChange={languageKey}>
-      <option value={""}>Please Select to Language...</option>
-      {languagesList.map((language) => {
-        return (
-          <option value={language.code}>
-            {language.name}
-          </option>
-        )
-      })}
-    </select>
-    <input
-      type="text"
-      placeholder='Type Text to Translate..'
-      onChange={(e) => {
-        setTranslateState(e.target.value.replace("?", ""));
-      }}
-      onKeyDown={(event) => {
-        if (event.key === "Enter") {
-          if (selectedLanguageFromKey !== "" && selectedLanguageKey !== "" && translateState !== "") {
-            translateText();
+      <motion.ul variants={variants}>
+        {itemIds.map(i => (
+          <MenuItem i={i} key={i} />
+        ))}
+      </motion.ul>
+      <motion.div
+        key={clickState} 
+        onAnimationComplete={() => {
+          if (clickState) {
+            setClickState(false);
           }
+        }} 
+        variants={!clickState && menuState !== -1 ? menuVariants : menuClickedVariants} 
+        initial={!clickState || menuState === -1 ? {width: "0px", opacity: "0"} : {width: "500px", opacity: "1"}} 
+        animate={menuState !== -1 ? "open" : "closed"} 
+        style={{
+          position: "absolute", 
+          backgroundColor: "rgba(0, 0, 0, 0.4)", 
+          top: "calc(100% - 500px)", left: "80px", 
+          width: "500px", 
+          height: "500px"
+        }}
+      >
+        {menuState === 0 && <p style={{color :"white"}}>0</p>}
+        {menuState === 1 && <p style={{color :"white"}}>1</p>}
+        {menuState === 2 && <p style={{color :"white"}}>2</p>}
+        {menuState === 3 && <p style={{color :"white"}}>3</p>}
+        {menuState === 4 &&
+        <>
+        <p className="mt-5" style={{fontSize: "40px", color: "white"}}>Translate</p>
+        <div style={{display: "flex", marginBottom: "60px"}}>
+        <select className="form-select" style={{marginLeft: "5%", width: "40%", marginRight: "10%"}} onChange={languageFromKey}>
+          <option value={""}>From</option>
+          {languagesList.map((language) => {
+            return (
+              <option value={language.code}>
+                {language.name}
+              </option>
+            )
+          })}
+        </select>
+        <select className="form-select" style={{width: "45%", marginRight: "5%"}} onChange={languageKey}>
+          <option value={""}>To</option>
+          {languagesList.map((language) => {
+            return (
+              <option value={language.code}>
+                {language.name}
+              </option>
+            )
+          })}
+        </select>
+        </div>
+        <input
+          type="text"
+          placeholder='Input text'
+          style={{
+            fontSize: "15px",
+            marginLeft: "5%",
+            width: "70%",
+            backgroundColor: "rgba(0,0,0,0)",
+            color: "white",
+            outline: "none",
+            border: "none",
+            borderBottom: "2px solid rgba(255, 255, 255, 1)",
+          }}
+          onChange={(e) => {
+            setTranslateState(e.target.value.replace("?", ""));
+          }}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") {
+              if (selectedLanguageFromKey !== "" && selectedLanguageKey !== "" && translateState !== "") {
+                translateText();
+              }
+            }
+          }}
+        />
+        {(selectedLanguageFromKey !== "" && selectedLanguageKey !== "" && translateState !== "") && 
+        <IconButton
+          size="large"
+          style={{
+            backgroundColor: "white",
+            border: "none",
+            width: "10%",
+            marginLeft: "5%",
+            height: "10%"
+          }}
+          color="info"
+          onClick={translateText}
+        >
+          <TranslateIcon/></IconButton>}
+        {(selectedLanguageFromKey === "" || selectedLanguageKey === "" || translateState === "") && 
+        <IconButton
+          disabled
+          size="large"
+          style={{
+            backgroundColor: "white",
+            border: "none",
+            width: "10%",
+            marginLeft: "5%",
+            height: "10%"
+          }}
+          color="info"
+          onClick={translateText}
+        >
+          <TranslateIcon/></IconButton>}
+        <br/><br/><br/>
+        <span style={{color: "white"}}>{resultText}</span>
+        </>
         }
-      }}
-    />
-    {(selectedLanguageFromKey !== "" && selectedLanguageKey !== "" && translateState !== "") && <button
-      color="orange"
-      size="large"
-      onClick={translateText}
-    >
-      Translate</button>}
-    <span style={{color: "white"}}>{resultText}</span>
+        {menuState === 5 && <p style={{color :"white"}}>5</p>}
+        {menuState === 6 && <p style={{color :"white"}}>6</p>}
+        {menuState === 1}
+      </motion.div>
     </>
-    }
-    {menuState === 5 && <p style={{color :"white"}}>5</p>}
-    {menuState === 6 && <p style={{color :"white"}}>6</p>}
-    {menuState === 1}
-  </motion.div>
-  </>
   )
 };
 
