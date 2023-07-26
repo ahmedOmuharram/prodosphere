@@ -2,9 +2,6 @@ body {
   overflow: hidden;
 }
 .App {
-  background-image: url("background.jpeg");
-  background-repeat: no-repeat;
-  background-size: cover;
   background-color: rgba(0, 0, 0, 0.1);
   background-blend-mode: darken;
   text-align: center;
