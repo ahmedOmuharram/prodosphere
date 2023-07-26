@@ -4,6 +4,12 @@
 	http://jedwatson.github.io/classnames
 */
 
+/*!
+ * content-type
+ * Copyright(c) 2015 Douglas Christopher Wilson
+ * MIT Licensed
+ */
+
 /*! Moment Duration Format v2.2.2
      *  https://github.com/jsmreese/moment-duration-format
      *  Date: 2018-02-16
