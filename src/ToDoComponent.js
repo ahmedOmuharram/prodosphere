@@ -37,10 +37,14 @@ function ToDoComponent() {
 
   useEffect(() => {
     const savedSarray = localStorage.getItem('todoItems');
+    const savedCheckedItems = localStorage.getItem('checkedItems');
     if (savedSarray) {
       setSarray(JSON.parse(savedSarray))
       setUpdater((prevUpdater) => !prevUpdater);
-      console.log(savedSarray)
+    }
+    if (savedCheckedItems) {
+      setCheckedItems(JSON.parse(savedCheckedItems));
+      setUpdater((prevUpdater) => !prevUpdater);
     }
   }, []);
 
@@ -53,6 +57,12 @@ function ToDoComponent() {
     updatedArray.splice(index, 1);
     setSarray(updatedArray);
     setEditingIndex(-1);
+    setCheckedItems((prevCheckedItems) => {
+      const updatedCheckedItems = [...prevCheckedItems];
+      updatedCheckedItems.splice(index, 1);
+      localStorage.setItem('checkedItems', JSON.stringify(updatedCheckedItems));
+      return updatedCheckedItems;
+    });
     updateIndices(updatedArray);
     localStorage.setItem('todoItems', JSON.stringify(updatedArray));
   };
@@ -61,6 +71,28 @@ function ToDoComponent() {
     setCheckedItems((prevCheckedItems) => {
       const updatedCheckedItems = [...prevCheckedItems];
       updatedCheckedItems[index] = !updatedCheckedItems[index];
+      const updatedArray = [...sarray];
+      if (updatedCheckedItems[index]) {
+        updatedArray.splice(index, 1);
+        updatedCheckedItems.splice(index, 1);
+        updatedArray.push(sarray[index]);
+        updatedCheckedItems[sarray.length-1] = true;
+      }
+      else if (!updatedCheckedItems[index]) {
+        updatedArray.splice(index, 1);
+        updatedCheckedItems.splice(index, 1);
+        let i = 0;
+        for (i = 0; i < updatedCheckedItems.length; i++) {
+          if (updatedCheckedItems[i]) {
+            break;
+          }
+        }
+        updatedArray.splice(i, 0, sarray[index]);
+        updatedCheckedItems.splice(i, 0, false)
+      }
+      setSarray(updatedArray);
+      localStorage.setItem('todoItems', JSON.stringify(updatedArray));
+      localStorage.setItem('checkedItems', JSON.stringify(updatedCheckedItems));
       return updatedCheckedItems;
     });
   };
@@ -99,10 +131,14 @@ function ToDoComponent() {
                   if (event.key === "Enter") {
                     if (item.trim() === "") {
                       const updatedArray = [...sarray];
+                      const updatedCheckedItems = [...checkedItems];
                       updatedArray.splice(index, 1);
+                      updatedCheckedItems.splice(index, 1);
                       setSarray(updatedArray);
+                      setCheckedItems(updatedCheckedItems);
                       setEditingIndex(-1);
                       updateIndices(updatedArray);
+                      localStorage.setItem('checkedItems', JSON.stringify(updatedCheckedItems));
                       localStorage.setItem('todoItems', JSON.stringify(updatedArray));
                     } else {
                       setEditingIndex(-1);
@@ -121,10 +157,14 @@ function ToDoComponent() {
                 onBlur={() => {
                   if (item.trim() === "") {
                     const updatedArray = [...sarray];
+                    const updatedCheckedItems = [...checkedItems];
                     updatedArray.splice(index, 1);
+                    updatedCheckedItems.splice(index, 1);
                     setSarray(updatedArray);
+                    setCheckedItems(updatedCheckedItems);
                     setEditingIndex(-1);
                     updateIndices(updatedArray);
+                    localStorage.setItem('checkedItems', JSON.stringify(updatedCheckedItems));
                     localStorage.setItem('todoItems', JSON.stringify(updatedArray));
                   } else {
                     setEditingIndex(-1);
@@ -135,7 +175,7 @@ function ToDoComponent() {
               <label style={{ display: "flex", alignItems: "center" }}>
               <input
                 type="checkbox"
-                checked={checkedItems[index] || false}
+                checked={checkedItems[index] != null && checkedItems[index] != false}
                 onChange={() => handleCheck(index)}
               />
               <p
@@ -172,9 +212,21 @@ function ToDoComponent() {
             <button
               className='item-create-button'
               onClick={() => {
-                setSarray([...sarray, ""]);
-                setEditingIndex(sarray.length);
+                const updatedSarray = [...sarray];
+                const updatedCheckedItems = [...checkedItems];
+                let i = 0;
+                for (i = 0; i < updatedSarray.length; i++) {
+                  if (checkedItems[i]) {
+                    break;
+                  }
+                }
+                updatedSarray.splice(i, 0, "");
+                updatedCheckedItems.splice(i, 0, false);
+                setCheckedItems(updatedCheckedItems);
+                setSarray(updatedSarray);
+                setEditingIndex(Math.min(updatedSarray.length-1, i));
                 setUpdater(!updater);
+                localStorage.setItem('checkedItems', JSON.stringify(updatedCheckedItems));
                 localStorage.setItem('todoItems', JSON.stringify(sarray));
               }}
               style={{
