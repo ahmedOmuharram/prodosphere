@@ -6,7 +6,7 @@ function WeatherComponent ( lat ) {
   const latitude = lat.lat;
   const longitude = lat.lon;
   const [weatherData, setWeatherData] = useState(null);
-  const { setWeatherState } = useContext(weatherContext);
+  const { weatherState, setWeatherState } = useContext(weatherContext);
 
   const fetchWeatherData = async () => {
     try {
@@ -62,7 +62,7 @@ function WeatherComponent ( lat ) {
 
   return (
     <div>
-      {weatherData ? (
+      {weatherData && weatherState !== null && weatherState.weather && weatherState.weather.length > 0 ? (
         <div>
             <motion.div
                     whileHover={{ opacity: 1 }}
@@ -82,7 +82,7 @@ function WeatherComponent ( lat ) {
             </motion.div>
         </div>
       ) : (
-        <div style={{ fontSize: "18px", opacity: "0.3" }}>Loading...</div>
+        <></>
       )}
     </div>
   );
