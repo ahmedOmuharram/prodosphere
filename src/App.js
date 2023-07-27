@@ -179,11 +179,15 @@ function WeatherStatus() {
   const { weatherState } = useContext(weatherContext);
 
   return (
-    <img
-      src={`https://openweathermap.org/img/wn/${weatherState.weather[0].icon}@2x.png`}
-      style={{ width: "125px", height: "125px", marginRight: "-10px", marginBottom: "5px", paddingRight: "0px", marginLeft: "-40px" }}
-      alt={weatherState.weather[0].main}
-    />
+    <>
+     {weatherState !== null && weatherState.weather && weatherState.weather.length > 0 ?     
+      <img
+        src={`https://openweathermap.org/img/wn/${weatherState.weather[0].icon}@2x.png`}
+        style={{ width: "125px", height: "125px", marginRight: "-10px", marginBottom: "5px", paddingRight: "0px", marginLeft: "-40px" }}
+        alt={weatherState.weather[0].main}
+      /> : <></>
+     }
+    </>
   )
 }
 
@@ -356,9 +360,10 @@ function App() {
             {/* Greeting */}
             <p style={{fontSize: "calc(20px + 1vmin)", textShadow: "0px 1px 5px rgba(0, 0, 0, 0.9)", marginTop: "0", paddingTop: "0"}}>
               {user === "" ? "Please enter your name" : 
-                (weatherState !== null && new Date().getHours() >= 12 && `${weatherState.weather[0].icon.charAt(2)}` !== "n" ? `Good afternoon, ${user}!` :
-                (weatherState !== null && `${weatherState.weather[0].icon.charAt(2)}` === "n" ? `Good evening, ${user}!` : 
-                (weatherState !== null && `${weatherState.weather[0].icon.charAt(2)}` === "d" ? `Good morning, ${user}!` : `Hello, ${user}!`)))}
+                (weatherState !== null && weatherState.weather && weatherState.weather.length > 0 ? 
+                (new Date().getHours() >= 12 && `${weatherState.weather[0].icon.charAt(2)}` !== "n" ? `Good afternoon, ${user}!` :
+                (`${weatherState.weather[0].icon.charAt(2)}` === "n" ? `Good evening, ${user}!` : 
+                (`${weatherState.weather[0].icon.charAt(2)}` === "d" ? `Good morning, ${user}!` : `Hello, ${user}!`))) : `Hello, ${user}!`)}
             </p>
 
             {/* Top right date and weather info */}
