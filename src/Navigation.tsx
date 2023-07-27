@@ -6,6 +6,7 @@ import { IconButton } from "@mui/material";
 import { menuContext, clickContext } from "./App"
 import { MenuItem } from "./MenuItem.tsx";
 import axios from 'axios';
+import YouTube from 'react-youtube';
 
 type MenuContextType = {
   menuState: number; 
@@ -67,6 +68,7 @@ export const Navigation = () => {
   const [ selectedLanguageFromKey, setLanguageFromKey ] = useState("")
   const [ selectedLanguageKey, setLanguageKey ] = useState("")
   const [resultText, setResultText] = useState("");
+  const [videoState, setVideoState] = useState("");
   useEffect(() => {
     axios.get(`https://libretranslate.de/languages`)
     .then((response) => {
@@ -123,7 +125,17 @@ export const Navigation = () => {
           height: "500px"
         }}
       >
-        {menuState === 0 && <p style={{color :"white"}}>0</p>}
+        <div style={{display: (menuState !== 0 ? "none" : "block")}}>
+          <YouTube videoId={videoState !== "" ? videoState : "jfKfPfyJRdk"} 
+          opts={{
+            height: '169',
+            width: '300',
+            playerVars: {
+              autoplay: 1,
+            },
+          }}/>
+          <input type="text" onChange={event => setVideoState(event.target.value)}/>
+        </div>
         {menuState === 1 && <p style={{color :"white"}}>1</p>}
         {menuState === 2 && <p style={{color :"white"}}>2</p>}
         {menuState === 3 && <p style={{color :"white"}}>3</p>}
