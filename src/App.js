@@ -356,8 +356,9 @@ function App() {
             {/* Greeting */}
             <p style={{fontSize: "calc(20px + 1vmin)", textShadow: "0px 1px 5px rgba(0, 0, 0, 0.9)", marginTop: "0", paddingTop: "0"}}>
               {user === "" ? "Please enter your name" : 
+                (weatherState !== null && new Date().getHours() >= 12 && `${weatherState.weather[0].icon.charAt(2)}` !== "n" ? `Good afternoon, ${user}!` :
                 (weatherState !== null && `${weatherState.weather[0].icon.charAt(2)}` === "n" ? `Good evening, ${user}!` : 
-                (weatherState !== null && `${weatherState.weather[0].icon.charAt(2)}` === "d" ? `Good morning, ${user}!` : `Hello, ${user}!`))}
+                (weatherState !== null && `${weatherState.weather[0].icon.charAt(2)}` === "d" ? `Good morning, ${user}!` : `Hello, ${user}!`)))}
             </p>
 
             {/* Top right date and weather info */}
