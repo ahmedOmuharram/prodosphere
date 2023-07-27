@@ -70,6 +70,8 @@ export const Navigation = () => {
   const [ selectedLanguageKey, setLanguageKey ] = useState("")
   const [resultText, setResultText] = useState("");
   const [videoState, setVideoState] = useState("");
+  const [loadVideo, setLoadVideo] = useState(false);
+
   useEffect(() => {
     axios.get(`https://libretranslate.de/languages`)
     .then((response) => {
@@ -142,7 +144,8 @@ export const Navigation = () => {
         {menuState === 0 && <p style={{color :"white"}}>0</p>}
         {menuState === 1 && <p style={{color :"white"}}>1</p>}
         {menuState === 2 && <p style={{color :"white"}}>2</p>}
-        {
+        {menuState === 3 && loadVideo === false ? <>{setLoadVideo(true)}</> : <></>}
+        {loadVideo &&
         <>
           {menuState === 3 && <p className="mt-5" style={{fontSize: "30px", color: "white"}}>YouTube Player</p>}
           <div style={{display: "flex", justifyContent: "center"}}>
