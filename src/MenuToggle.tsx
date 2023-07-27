@@ -3,6 +3,11 @@ import { useContext } from "react";
 import { menuContext } from "./App"
 import { motion } from "framer-motion";
 
+type MenuContextType = {
+  menuState: number; 
+  setMenuState: (newState: number) => void; 
+};
+
 const Path = props => (
   <motion.path
     fill="transparent"
@@ -14,7 +19,7 @@ const Path = props => (
 );
 
 export const MenuToggle = ({ toggle }) => {
-  const { menuState, setMenuState } = useContext(menuContext);
+  const { setMenuState } = useContext<MenuContextType>(menuContext);
 
   return (
     <button className="dropdown" onClick={() => {

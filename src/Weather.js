@@ -6,7 +6,7 @@ function WeatherComponent ( lat ) {
   const latitude = lat.lat;
   const longitude = lat.lon;
   const [weatherData, setWeatherData] = useState(null);
-  const { weatherState, setWeatherState } = useContext(weatherContext);
+  const { setWeatherState } = useContext(weatherContext);
 
   const fetchWeatherData = async () => {
     try {
@@ -25,7 +25,7 @@ function WeatherComponent ( lat ) {
 
   useEffect(() => {
     fetchWeatherData();
-  }, []);
+  });
 
   return (
     <div>
