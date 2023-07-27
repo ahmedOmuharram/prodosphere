@@ -183,7 +183,7 @@ function ToDoComponent() {
                     color: lightGreen[600],
                   },
                 }}
-                checked={checkedItems[index] != null && checkedItems[index] != false}
+                checked={checkedItems[index] !== null && checkedItems[index] !== false}
                 onChange={() => {
                   handleCheck(index);
                 }}/>
@@ -216,7 +216,7 @@ function ToDoComponent() {
         ))}
       </ul>
 
-      {sarray.length < 30 && (
+      {(sarray.length < 30 && (
           <p style={{ position: "absolute", margin:"0", bottom: "40px", width: "100%"}}>
             <button
               className='item-create-button'
@@ -262,7 +262,7 @@ function ToDoComponent() {
               </svg> &nbsp;  &nbsp;Add a to-do entry
             </button>
           </p>
-        ) || <p style={{
+        )) || <p style={{
                 color: "#ffffff", 
                 opacity: "0.7",
                 fontSize: "15px",                

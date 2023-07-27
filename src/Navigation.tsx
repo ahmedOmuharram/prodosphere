@@ -1,11 +1,21 @@
-import { useState, useContext, createContext, useEffect } from "react";
-import { animateValue, motion } from "framer-motion";
+import { useState, useContext, useEffect } from "react";
+import React from "react";
+import { motion } from "framer-motion";
 import TranslateIcon from '@mui/icons-material/Translate';
 import { IconButton } from "@mui/material";
 import { menuContext, clickContext } from "./App"
 import { MenuItem } from "./MenuItem.tsx";
 import axios from 'axios';
 
+type MenuContextType = {
+  menuState: number; 
+  setMenuState: (newState: number) => void; 
+};
+
+type ClickStateType = {
+  clickState: boolean; 
+  setClickState: (newState: boolean) => void; 
+};
 
 const variants = {
   open: {
@@ -50,8 +60,8 @@ const menuClickedVariants = {
 };
 
 export const Navigation = () => {
-  const { menuState, setMenuState } = useContext(menuContext);
-  const { clickState, setClickState } = useContext(clickContext);
+  const { menuState } = useContext<MenuContextType>(menuContext);
+  const { clickState, setClickState } = useContext<ClickStateType>(clickContext);
   const [ languagesList, setLanguagesList ] = useState([])
   const [ translateState, setTranslateState ] = useState("");
   const [ selectedLanguageFromKey, setLanguageFromKey ] = useState("")
@@ -63,14 +73,14 @@ export const Navigation = () => {
       setLanguagesList(response.data)
     })
   }, [])
-  const getLanguageSource = () => {
+  /*const getLanguageSource = () => {
     axios.post(`https://libretranslate.de/detect`, {
       q: translateState
     })
     .then((response) => {
       setLanguageFromKey(response.data[0].language)
     })
-  }
+  }*/
   const languageFromKey =  (selectedLanguage) => {
     setLanguageFromKey(selectedLanguage.target.value);
   }
@@ -96,7 +106,6 @@ export const Navigation = () => {
         ))}
       </motion.ul>
       <motion.div
-        key={clickState} 
         onAnimationComplete={() => {
           if (clickState) {
             setClickState(false);

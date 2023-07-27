@@ -23,7 +23,7 @@ function LinkGroupComponent() {
   const maxButtonsPerToolbar = 7;
   const maxButtonNumber = 21;
   const [lastButtonNumber, setLastButtonNumber] = useState(0);
-  const [updater, setUpdater] = useState(true);
+  // const [updater, setUpdater] = useState(true);
 
   useEffect(() => {
     const savedLastButtonNumber = parseInt(localStorage.getItem("lastButtonNumber"))
@@ -77,7 +77,7 @@ function LinkGroupComponent() {
           <ButtonGroup className="me-2">
             {toolbar.map((buttonNumber) => (
               <div>
-              <a href={(links[buttonNumber].substring(0, 4) == "http" ? "" : "//") + links[buttonNumber]}>
+              <a href={(links[buttonNumber].substring(0, 4) === "http" ? "" : "//") + links[buttonNumber]}>
               <Button
                 className="btn btn-light"
                 style={{
@@ -91,7 +91,7 @@ function LinkGroupComponent() {
                 }}
                 key={buttonNumber}
               >
-                <img height="32" width="32" src={links[buttonNumber] !== "" ? "https://www.google.com/s2/favicons?sz=64&domain_url=" + links[buttonNumber].substring(links[buttonNumber].indexOf(":") + 1) : "https://upload.wikimedia.org/wikipedia/commons/5/56/Chain_link_icon_slanted.png"} />
+                <img height="32" width="32" alt="website favicon" src={links[buttonNumber] !== "" ? "https://www.google.com/s2/favicons?sz=64&domain_url=" + links[buttonNumber].substring(links[buttonNumber].indexOf(":") + 1) : "https://upload.wikimedia.org/wikipedia/commons/5/56/Chain_link_icon_slanted.png"} />
               </Button>
               </a>
               {editorIndex !== buttonNumber ? 
@@ -177,7 +177,7 @@ function LinkGroupComponent() {
                 
 
                 newToolbars[Math.floor((buttonNumber-1)/7)].splice((buttonNumber-1) - 7 * Math.floor((buttonNumber-1)/7), 1);
-                if (newToolbars[Math.floor((buttonNumber-1)/7)].length == 0) {
+                if (newToolbars[Math.floor((buttonNumber-1)/7)].length === 0) {
                   newToolbars.pop();
                 }
                 for (let i = 0; i < newToolbars.length; i++) {
@@ -188,7 +188,7 @@ function LinkGroupComponent() {
                         newToolbars[i-1].push((i)*7);
                         newToolbars[i].shift();
                         j--;
-                        if (newToolbars[i].length == 0) {
+                        if (newToolbars[i].length === 0) {
                           newToolbars.pop();
                           break;
                         }

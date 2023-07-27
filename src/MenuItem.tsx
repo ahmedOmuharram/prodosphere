@@ -1,7 +1,18 @@
 import { useContext } from "react";
+import React from "react";
 import { menuContext, clickContext } from "./App"
 import { motion } from "framer-motion";
 import TranslateIcon from '@mui/icons-material/Translate';
+
+type MenuContextType = {
+  menuState: number; 
+  setMenuState: (newState: number) => void; 
+};
+
+type ClickStateType = {
+  clickState: boolean; 
+  setClickState: (newState: boolean) => void; 
+};
 
 const variants = {
   open: {
@@ -28,8 +39,8 @@ const colors = ["#FFF", "#FFF", "#FFF", "#FFF", "#FFF", "#FFF", "#FFF"];
 
 export const MenuItem = ({ i }) => {
   const style = { border: `2px solid ${colors[i]}` };
-  const { menuState, setMenuState } = useContext(menuContext);
-  const { clickState, setClickState } = useContext(clickContext);
+  const { menuState, setMenuState } = useContext<MenuContextType>(menuContext);
+  const { setClickState } = useContext<ClickStateType>(clickContext);
   return (
     <motion.li
       variants={variants}
