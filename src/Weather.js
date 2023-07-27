@@ -12,20 +12,53 @@ function WeatherComponent ( lat ) {
     try {
       const apiKey = process.env.REACT_APP_API_KEY;
       const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apiKey}`;
-
       const response = await fetch(apiUrl);
       const data = await response.json();
-
       setWeatherData(data);
       setWeatherState(data);
+      setLastWeatherFetchData(data); 
     } catch (error) {
       console.error("Error fetching weather data: ", error);
     }
   };
 
   useEffect(() => {
-    fetchWeatherData();
-  });
+    if (shouldFetchWeatherData()) {
+      fetchWeatherData();
+    } else {
+      const lastWeatherData = getLastWeatherFetchData();
+      setWeatherData(lastWeatherData);
+      setWeatherState(lastWeatherData);
+    }
+  }, []);
+
+  const oneHourInMilliseconds = 60 * 60 * 1000;
+
+  const shouldFetchWeatherData = () => {
+    const lastWeatherTimestamp = getLastWeatherFetchTimestamp();
+    const currentTimestamp = Date.now();
+    return currentTimestamp - lastWeatherTimestamp > oneHourInMilliseconds;
+  };
+
+  const getLastWeatherFetchTimestamp = () => {
+    const lastWeatherTimestamp = localStorage.getItem("lastWeatherTimestamp");
+    return lastWeatherTimestamp ? parseInt(lastWeatherTimestamp) : 0;
+  };
+
+  const setLastWeatherFetchTimestamp = () => {
+    const currentTimestamp = Date.now();
+    localStorage.setItem("lastWeatherTimestamp", currentTimestamp.toString());
+  };
+
+  const getLastWeatherFetchData = () => {
+    const lastWeatherData = localStorage.getItem("lastWeatherData");
+    return lastWeatherData ? JSON.parse(lastWeatherData) : null;
+  };
+
+  const setLastWeatherFetchData = (data) => {
+    localStorage.setItem("lastWeatherData", JSON.stringify(data));
+    setLastWeatherFetchTimestamp();
+  };
 
   return (
     <div>
