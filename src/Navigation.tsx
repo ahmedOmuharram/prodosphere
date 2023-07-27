@@ -1,3 +1,4 @@
+import './Navigation.css';
 import { useState, useContext, useEffect } from "react";
 import React from "react";
 import { motion } from "framer-motion";
@@ -89,6 +90,19 @@ export const Navigation = () => {
   const languageKey =  (selectedLanguage) => {
     setLanguageKey(selectedLanguage.target.value)
   } 
+
+  const extractVideoId = (url) => {
+    const regExp = /^(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/;
+    const match = url.match(regExp);
+    return match ? match[1] : '';
+  };
+
+  const handleYoutubeInputChange = (event) => {
+    const inputLink = event.target.value;
+    const videoId = extractVideoId(inputLink);
+    setVideoState(videoId);
+  };
+
   const translateText = () => {
     let data = {
       q : translateState,
@@ -125,20 +139,42 @@ export const Navigation = () => {
           height: "500px"
         }}
       >
-        <div style={{display: (menuState !== 0 ? "none" : "block")}}>
-          <YouTube videoId={videoState !== "" ? videoState : "jfKfPfyJRdk"} 
-          opts={{
-            height: '169',
-            width: '300',
-            playerVars: {
-              autoplay: 1,
-            },
-          }}/>
-          <input type="text" onChange={event => setVideoState(event.target.value)}/>
-        </div>
+        {menuState === 0 && <p style={{color :"white"}}>0</p>}
         {menuState === 1 && <p style={{color :"white"}}>1</p>}
         {menuState === 2 && <p style={{color :"white"}}>2</p>}
-        {menuState === 3 && <p style={{color :"white"}}>3</p>}
+        {menuState === 3 && 
+        <>
+          <p className="mt-5" style={{fontSize: "30px", color: "white"}}>YouTube Player</p>
+          <div style={{display: "flex", justifyContent: "center"}}>
+            <div style={{display: (menuState !== 3 ? "none" : "block")}}>
+              <div style={{marginLeft: "5%", width: "90%", borderRadius: "20px", overflow: "hidden", padding: 0, height: "169px"}}>
+                <YouTube videoId={videoState !== "" ? videoState : "jfKfPfyJRdk"} 
+                opts={{
+                  height: '169',
+                  width: '100%',
+                  playerVars: {
+                    autoplay: 1,
+                  }
+                }}/>
+              </div>
+              <input 
+                type="text" 
+                className="mt-5"
+                placeholder="Enter a youtube link"
+                onChange={handleYoutubeInputChange}
+                style={{
+                  fontSize: "15px",
+                  marginLeft: "0%",
+                  width: "70%",
+                  backgroundColor: "rgba(0,0,0,0)",
+                  color: "white",
+                  outline: "none",
+                  border: "none",
+                  borderBottom: "2px solid rgba(255, 255, 255, 1)",
+                }}/>
+            </div>
+          </div>
+        </>}
         {menuState === 4 &&
         <>
         <p className="mt-5" style={{fontSize: "30px", color: "white"}}>Translate</p>
