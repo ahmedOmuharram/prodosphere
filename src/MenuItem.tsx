@@ -3,6 +3,7 @@ import React from "react";
 import { menuContext, clickContext } from "./App"
 import { motion } from "framer-motion";
 import TranslateIcon from '@mui/icons-material/Translate';
+import YouTubeIcon from '@mui/icons-material/YouTube';
 
 type MenuContextType = {
   menuState: number; 
@@ -54,7 +55,9 @@ export const MenuItem = ({ i }) => {
         } else {
           setTimeout(() => setMenuState(-1))
         }
-        }}> {i === 4 && <TranslateIcon style={{position: "relative", height: "20px", width: "20px", top: "5px"}}/>}
+        }}> 
+        {i === 3 && <YouTubeIcon style={{position: "relative", height: "20px", width: "20px", top: "5px"}}/>}
+        {i === 4 && <TranslateIcon style={{position: "relative", height: "20px", width: "20px", top: "5px"}}/>}
       </div>
     </motion.li>
   );
