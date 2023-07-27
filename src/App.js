@@ -59,7 +59,6 @@ if (shouldFetchBackground()) {
         document.body.style.backgroundSize = `cover`;
       } else {
         const photo = result.response;
-        console.log(photo)
         document.body.style.backgroundImage = `url('${photo.urls.raw}')`;
         document.body.style.backgroundRepeat = `no-repeat`;
         document.body.style.backgroundSize = `cover`;
@@ -182,7 +181,7 @@ function WeatherStatus() {
   return (
     <img
       src={`https://openweathermap.org/img/wn/${weatherState.weather[0].icon}@2x.png`}
-      style={{ width: "125px", height: "125px", marginRight: "-10px", marginBottom: "5px", paddingRight: "0px" }}
+      style={{ width: "125px", height: "125px", marginRight: "-10px", marginBottom: "5px", paddingRight: "0px", marginLeft: "-40px" }}
       alt={weatherState.weather[0].main}
     />
   )
@@ -346,41 +345,46 @@ function App() {
           >
 
             {/* Time */}
-            {user !== "" && <p style={{ textShadow: "0px 1px 5px rgba(0, 0, 0, 0.5)", fontSize: "calc(80px + 3vmin)", marginBottom: "0", padding: "0 40px 0 40px", borderBottom: "1px solid white", boxShadow: "0 4px 2px -2px grey",}}>
-              {weatherState !== null && <WeatherStatus />}
-              { user !== "" && <TimeNow setUser={setUser}/> }
-            </p>}
+            {user !== "" && 
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <p style={{ textShadow: "0px 1px 5px rgba(0, 0, 0, 0.5)", fontSize: "calc(40px + 3vmin)", marginBottom: "0", marginTop: "0", padding: "0 40px 0 40px", borderBottom: "1px solid white", boxShadow: "0 4px 2px -2px grey", width: "500px"}}>
+                { weatherState !== null && <WeatherStatus/> }
+                { user !== "" && <TimeNow setUser={setUser}/> }
+              </p>
+            </div>}
 
             {/* Greeting */}
-            <p style={{fontSize: "calc(30px + 1vmin)", textShadow: "0px 1px 5px rgba(0, 0, 0, 0.9)", marginTop: "0", paddingTop: "0"}}>
+            <p style={{fontSize: "calc(20px + 1vmin)", textShadow: "0px 1px 5px rgba(0, 0, 0, 0.9)", marginTop: "0", paddingTop: "0"}}>
               {user === "" ? "Please enter your name" : 
                 (weatherState !== null && `${weatherState.weather[0].icon.charAt(2)}` === "n" ? `Good evening, ${user}!` : 
                 (weatherState !== null && `${weatherState.weather[0].icon.charAt(2)}` === "d" ? `Good morning, ${user}!` : `Hello, ${user}!`))}
             </p>
 
             {/* Top right date and weather info */}
-            <p style={{position: "absolute", textShadow: "0px 1px 5px rgba(0, 0, 0, 0.5)", top: "0px", right: "10px", textAlign: "right", fontSize: "40px", marginBottom: "-30px"}}>
+            <div style={{position: "absolute", textShadow: "0px 1px 5px rgba(0, 0, 0, 0.5)", top: "0px", right: "10px", textAlign: "right", fontSize: "30px", marginBottom: "-30px"}}>
               { user !== "" && <TodayDate setUser={setUser}/> }
               { user !== "" && <GetLocation /> }
-            </p>
+            </div>
             { user !== "" && <CollapsingToDoList/> }
             <br />
 
             {user !== "" && <form action="https://www.google.com/search" method="get" name="searchform" target="_blank">
-            <div class="input-group mb-3" style={{position: "relative", right: "-20px"}}>
-              <input name="sitesearch" type="hidden"/>
-              <input style={{borderRadius: "25px"}} autocomplete="on" className="form-control" name="q" placeholder="Google search..." required="required"  type="text" />
-              <div class="input-group-append" style={{position: "relative", left: "-45px", marginBottom: "8px"}}>
-                <button class="btn btn-light" type="submit" style={{border: "none", background: "none", zIndex: "99"}}>
-                <svg fill="#000000" height="20px" width="20px" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 451 451" xmlSpace="preserve">
-                  <g>
-                    <path d="M447.05,428l-109.6-109.6c29.4-33.8,47.2-77.9,47.2-126.1C384.65,86.2,298.35,0,192.35,0C86.25,0,0.05,86.3,0.05,192.3
-                      s86.3,192.3,192.3,192.3c48.2,0,92.3-17.8,126.1-47.2L428.05,447c2.6,2.6,6.1,4,9.5,4s6.9-1.3,9.5-4
-                      C452.25,441.8,452.25,433.2,447.05,428z M26.95,192.3c0-91.2,74.2-165.3,165.3-165.3c91.2,0,165.3,74.2,165.3,165.3
-                      s-74.1,165.4-165.3,165.4C101.15,357.7,26.95,283.5,26.95,192.3z"/>
-                  </g>
-                </svg>
-                </button>
+            <div style={{display: "flex", justifyContent: "center"}}>
+              <div className="input-group mb-3" style={{position: "relative", right: "-20px", width:"500px"}}>
+                <input name="sitesearch" type="hidden"/>
+                <input style={{borderRadius: "25px"}} autoComplete="on" className="form-control" name="q" placeholder="Google search..." required="required"  type="text" />
+                <div className="input-group-append" style={{position: "relative", left: "-45px", marginBottom: "8px"}}>
+                  <button className="btn btn-light" type="submit" style={{border: "none", background: "none", zIndex: "99"}}>
+                  <svg fill="#000000" height="20px" width="20px" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 451 451" xmlSpace="preserve">
+                    <g>
+                      <path d="M447.05,428l-109.6-109.6c29.4-33.8,47.2-77.9,47.2-126.1C384.65,86.2,298.35,0,192.35,0C86.25,0,0.05,86.3,0.05,192.3
+                        s86.3,192.3,192.3,192.3c48.2,0,92.3-17.8,126.1-47.2L428.05,447c2.6,2.6,6.1,4,9.5,4s6.9-1.3,9.5-4
+                        C452.25,441.8,452.25,433.2,447.05,428z M26.95,192.3c0-91.2,74.2-165.3,165.3-165.3c91.2,0,165.3,74.2,165.3,165.3
+                        s-74.1,165.4-165.3,165.4C101.15,357.7,26.95,283.5,26.95,192.3z"/>
+                    </g>
+                  </svg>
+                  </button>
+                </div>
               </div>
             </div>
             </form> }

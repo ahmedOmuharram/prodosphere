@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 const DeletePath = props => (
   <motion.path
@@ -120,7 +121,7 @@ function LinkGroupComponent() {
                 style={{ color: 'white' }}
                 width="15"
                 height="15"
-                stroke-width="1.5"
+                strokeWidth="1.5"
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -239,15 +240,17 @@ function LinkGroupComponent() {
             <Button
               onClick={handleAddButton}
               style={{
-                border: "2px solid #060",
+                border: "none",
+                background: "none",
                 borderRadius: "50%",
-                width: "50px",
-                height: "50px"
+                padding: 0
               }}
-              className="btn btn-success"
               aria-label="Add Button"
             >
-              +
+              <AddCircleIcon color={'success'} style={{
+                width: "50px",
+                height: "50px"
+              }}/>
             </Button>
           </ButtonToolbar>
         </div>

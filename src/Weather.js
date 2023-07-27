@@ -36,7 +36,7 @@ function WeatherComponent ( lat ) {
                     initial={{ opacity: 0.4 }}
                     transition={{ duration: 0.3 }}
                 >
-                <div style={{ fontSize: "28px"}}>
+                <div style={{ fontSize: "24px"}}>
                    🌡️ {Math.round(weatherData.main.temp)}°C
                 </div>
             </motion.div>
@@ -45,7 +45,7 @@ function WeatherComponent ( lat ) {
                 initial={{ opacity: 0.4 }}
                 transition={{ duration: 0.3 }}
             >
-              <div style={{ fontSize: "20px" }}>💧 {weatherData.main.humidity}% | 💨 {(weatherData.wind.speed * 3.6).toFixed(1)} km/h</div>
+              <div style={{ fontSize: "16px" }}>💧 {weatherData.main.humidity}% | 💨 {(weatherData.wind.speed * 3.6).toFixed(1)} km/h</div>
             </motion.div>
         </div>
       ) : (

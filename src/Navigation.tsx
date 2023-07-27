@@ -28,7 +28,7 @@ const variants = {
 
 const menuVariants = {
   open: {
-    width: "500px",
+    width: "300px",
     opacity: 1,
     transition: {
       width: { stiffness: 1000, velocity: -100 }
@@ -112,13 +112,14 @@ export const Navigation = () => {
           }
         }} 
         variants={!clickState && menuState !== -1 ? menuVariants : menuClickedVariants} 
-        initial={!clickState || menuState === -1 ? {width: "0px", opacity: "0"} : {width: "500px", opacity: "1"}} 
+        initial={!clickState || menuState === -1 ? {width: "0px", opacity: "0"} : {width: "300px", opacity: "1"}} 
         animate={menuState !== -1 ? "open" : "closed"} 
         style={{
           position: "absolute", 
-          backgroundColor: "rgba(0, 0, 0, 0.4)", 
+          backgroundColor: "rgba(0, 0, 0, 0.2)", 
           top: "calc(100% - 500px)", left: "80px", 
-          width: "500px", 
+          width: "300px", 
+          borderTopRightRadius: "20px",
           height: "500px"
         }}
       >
@@ -128,8 +129,8 @@ export const Navigation = () => {
         {menuState === 3 && <p style={{color :"white"}}>3</p>}
         {menuState === 4 &&
         <>
-        <p className="mt-5" style={{fontSize: "40px", color: "white"}}>Translate</p>
-        <div style={{display: "flex", marginBottom: "60px"}}>
+        <p className="mt-5" style={{fontSize: "30px", color: "white"}}>Translate</p>
+        <div style={{display: "flex", marginBottom: "30px"}}>
         <select className="form-select" style={{marginLeft: "5%", width: "40%", marginRight: "10%"}} onChange={languageFromKey}>
           <option value={""}>From</option>
           {languagesList.map((language) => {
@@ -179,11 +180,11 @@ export const Navigation = () => {
         <IconButton
           size="large"
           style={{
-            backgroundColor: "white",
+            background: "none",
             border: "none",
-            width: "10%",
+            width: "30px",
             marginLeft: "5%",
-            height: "10%"
+            height: "30px"
           }}
           color="info"
           onClick={translateText}
@@ -194,18 +195,21 @@ export const Navigation = () => {
           disabled
           size="large"
           style={{
-            backgroundColor: "white",
+            background: "none",
             border: "none",
-            width: "10%",
+            width: "30px",
             marginLeft: "5%",
-            height: "10%"
+            height: "30px"
           }}
           color="info"
           onClick={translateText}
         >
           <TranslateIcon/></IconButton>}
         <br/><br/><br/>
-        <span style={{color: "white"}}>{resultText}</span>
+        <p style={{fontSize: "20px", color: "white", borderTop: "1px solid rgba(255, 255, 255, 0.3)", paddingTop: "20px"}}>Output</p>
+        <div className="translated-text" style={{overflowY: "auto", maxHeight: "170px"}}>
+          <span style={{color: "white", wordWrap: "break-word"}}>{resultText}</span>
+        </div>
         </>
         }
         {menuState === 5 && <p style={{color :"white"}}>5</p>}

@@ -161,3 +161,15 @@ li {
 .todo-list::-webkit-scrollbar-thumb:hover {
   background-color: #ffffff;
 }
+
+.translated-text::-webkit-scrollbar {
+  width: 10px;
+}
+
+.translated-text::-webkit-scrollbar-thumb {
+  background-color: #ffffff;
+}
+
+.translated-text::-webkit-scrollbar-thumb:hover {
+  background-color: #ffffff;
+}
