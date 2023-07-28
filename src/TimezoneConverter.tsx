@@ -87,11 +87,10 @@ function TimezoneConverter () {
         {hourOption1 === -1 ? 
           <Moment style={{ color: "white", fontSize: "20px" }} interval={1000} tz={timeZoneState1} format='ddd hh:mm:ss A'/> :
           (hourOptionSelector === 2 
-          ? <Moment style={{ color: "white", fontSize: "20px" }} interval={1000} tz={timeZoneState1} format='ddd hh:mm A'>{new Date().setHours(hourOption2, 0, 0)}</Moment>
+          ? <Moment style={{ color: "white", fontSize: "20px" }} interval={1000} tz={""} format='ddd hh:mm A'>{moment().seconds(0).minutes(0).hours(hourOption2 + (((moment().tz(timeZoneState1))._offset) - ((moment().tz(timeZoneState2))._offset))/60)}</Moment>
           : <Moment style={{ color: "white", fontSize: "20px" }} interval={1000} tz={""} format='ddd hh:mm A'>{new Date().setHours(hourOption1, 0, 0)}</Moment> 
           )
         }
-        { console.log(hourOptionSelector)}
         <div style={{ marginLeft: "5%", width: "90%", marginRight: "5%" }}>
           <Select
             options={fromTimeZoneOptions}
@@ -118,7 +117,7 @@ function TimezoneConverter () {
         {hourOption2 === -1 ? 
           <Moment style={{ color: "white", fontSize: "20px" }} interval={1000} tz={timeZoneState2} format='ddd hh:mm:ss A'/> :
           (hourOptionSelector === 1  
-          ? <Moment style={{ color: "white", fontSize: "20px" }} interval={1000} tz={timeZoneState2} format='ddd hh:mm A'>{new Date().setHours(hourOption1, 0, 0)}</Moment> 
+          ? <Moment style={{ color: "white", fontSize: "20px" }} interval={1000} tz={""} format='ddd hh:mm A'>{moment().seconds(0).minutes(0).hours(hourOption1 + (((moment().tz(timeZoneState2))._offset) - ((moment().tz(timeZoneState1))._offset))/60)}</Moment> 
           : <Moment style={{ color: "white", fontSize: "20px" }} interval={1000} tz={""} format='ddd hh:mm A'>{new Date().setHours(hourOption2, 0, 0)}</Moment>
           )
         }
@@ -141,7 +140,6 @@ function TimezoneConverter () {
               } else {
                 setHourOptionSelector(2);
                 setHourOption2(selectedOption ? selectedOption.value : -1);
-              }
             }}                
             value={hourOption2 !== null ? selectHourOptions.find((option) => option.value === hourOption2) : null}
           />
