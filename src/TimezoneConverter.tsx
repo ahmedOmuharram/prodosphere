@@ -23,7 +23,11 @@ countryCodes.forEach(countryCode => {
 });
 
 const getOffsetFromCountryZone = (countryZoneName) => {
-  return moment.tz(countryZoneName).format("Z");
+  const offsetStr = moment.tz(countryZoneName).format("Z");
+  const sign = offsetStr[0];
+  const hours = parseInt(offsetStr.slice(1, 3));
+  const minutes = parseInt(offsetStr.slice(4, 6));
+  return (sign === '+') ? (hours * 60 + minutes) : -(hours * 60 + minutes);
 };
 
 countryZones.sort(function (a, b) { return b.offset - a.offset });
