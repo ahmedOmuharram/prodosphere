@@ -1,6 +1,7 @@
 import './Navigation.css';
 import { useState, useContext, useEffect } from "react";
 import React from "react";
+import Select from 'react-select'
 import { motion } from "framer-motion";
 import TranslateIcon from '@mui/icons-material/Translate';
 import { IconButton } from "@mui/material";
@@ -143,6 +144,48 @@ export const Navigation = () => {
         setResultText(response.data.translatedText)
       })
   }
+
+  const getTimezoneLabel = (timezone) => {
+    const abbr = moment.tz(timezone).zoneAbbr().charAt(0) === "+" || moment.tz(timezone).zoneAbbr().charAt(0) === "-"
+      ? "GMT"
+      : moment.tz(timezone).zoneAbbr();
+    return `(${abbr}${moment.tz(timezone).format("Z")}) ${timezone.replace(/\//g, ', ').replace(/_/g, ' ')}`;
+  };
+
+  const timeZoneOptions = [
+    { value: moment.tz.guess(true), label: "Choose a timezone" },
+    ...countryZones.map((timezone) => ({
+      value: timezone.name,
+      label: getTimezoneLabel(timezone.name),
+    })),
+  ];
+
+  const formatTime = (hour) => {
+    if (hour === 12) {
+      return `${hour}:00 PM`;
+    } else if (hour === 0) {
+      return `12:00 AM`;
+    } else if (hour > 12) {
+      return `${hour - 12}:00 PM`;
+    } else {
+      return `${hour}:00 AM`;
+    }
+  };
+
+  const selectHourOptions = [
+    { value: -1, label: 'Current time' },
+    { value: 0, label: '12:00 AM' },
+    ...hours.map((hour) => ({
+      value: hour,
+      label: formatTime(hour),
+    })),
+    { value: 12, label: '12:00 PM' },
+    ...hours.map((hour) => ({
+      value: hour + 12,
+      label: formatTime(hour + 12),
+    })),
+  ];
+
   return (
     <>
       <motion.ul variants={variants}>
@@ -173,34 +216,20 @@ export const Navigation = () => {
             {hourOption !== -1   
             ? <Moment style={{ color: "white" }} interval={1000} tz={timeZoneState} format='ddd hh:mm:ss A'>{new Date().setHours(hourOption, 0, 0)}</Moment>
             : <Moment style={{ color: "white" }} interval={1000} tz={timeZoneState} format='ddd hh:mm:ss A'/>}
-            <select className="form-select" style={{ marginLeft: "5%", width: "40%", marginRight: "10%" }} onChange={e => setTimeZoneState(e.target.value)}>
-              <option value={moment.tz.guess(true)}>Choose a timezone</option>
-              {countryZones.map(timezone => (
-                <option value={timezone.name}>
-                  {" (" + (moment.tz(timezone.name).zoneAbbr().charAt(0) === "+" || moment.tz(timezone.name).zoneAbbr().charAt(0) === "-" ? "GMT" : moment.tz(timezone.name).zoneAbbr()) + moment.tz(timezone.name).format("Z") + ") " + timezone.name.replace(/\//g, ', ').replace(/_/g, ' ')}
-                </option>
-              )
-              )}
-            </select>
-            <select className="form-select" style={{ marginLeft: "5%", width: "40%", marginRight: "10%" }} onChange={e => setHourOption(parseInt(e.target.value))}>
-              <option value={-1}>Current time</option>
-              <option value={0}>
-                12:00 AM
-              </option>
-              {hours.map((hour) => (
-                <option value={hour}>
-                  {hour}:00 AM
-                </option>
-              ))}
-              <option value={12}>
-                12:00 PM
-              </option>
-              {hours.map((hour) => (
-                <option value={hour + 12}>
-                  {hour}:00 PM
-                </option>
-              ))}
-            </select>
+            <div style={{ marginLeft: "5%", width: "90%", marginRight: "5%" }}>
+              <Select
+                options={timeZoneOptions}
+                value={timeZoneOptions.find((option) => option.value === timeZoneState)}
+                onChange={(selectedOption) => setTimeZoneState(selectedOption.value)}
+              />
+            </div>
+            <div style={{ marginLeft: "5%", width: "90%", marginRight: "5%" }}>
+              <Select
+                options={selectHourOptions}
+                onChange={(selectedOption) => setHourOption(selectedOption ? selectedOption.value : -1)}
+                value={hourOption !== null ? selectHourOptions.find((option) => option.value === hourOption) : null}
+              />
+            </div>
           </>}
         {menuState === 1 && <p style={{ color: "white" }}>1</p>}
         {menuState === 2 && <p style={{ color: "white" }}>2</p>}
