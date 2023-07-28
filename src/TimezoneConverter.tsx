@@ -96,7 +96,7 @@ function TimezoneConverter () {
         {hourOption1 === -1 ? 
           <Moment style={{ color: "white", fontSize: "20px" }} interval={1000} tz={timeZoneState1} format='ddd hh:mm:ss A'/> :
           (hourOptionSelector === 2 
-          ? <Moment style={{ color: "white", fontSize: "20px" }} interval={1000} tz={""} format='ddd hh:mm A'>{moment().seconds(0).minutes(0).hours(hourOption2 + (((moment().tz(timeZoneState1))._offset) - ((moment().tz(timeZoneState2))._offset))/60)}</Moment>
+          ? <Moment style={{ color: "white", fontSize: "20px" }} interval={1000} tz={""} format='ddd hh:mm A'>{moment().seconds(0).minutes(0).hours(hourOption2 + (getOffsetFromCountryZone(timeZoneState1) - getOffsetFromCountryZone(timeZoneState2))/60)}</Moment>
           : <Moment style={{ color: "white", fontSize: "20px" }} interval={1000} tz={""} format='ddd hh:mm A'>{new Date().setHours(hourOption1, 0, 0)}</Moment> 
           )
         }
@@ -117,6 +117,7 @@ function TimezoneConverter () {
               } else {
                 setHourOptionSelector(1);
                 setHourOption1(selectedOption ? selectedOption.value : -1);
+                setHourOption2((selectedOption.value + (getOffsetFromCountryZone(timeZoneState2) - getOffsetFromCountryZone(timeZoneState1))/60) >= 0  ? (selectedOption.value + (getOffsetFromCountryZone(timeZoneState2) - getOffsetFromCountryZone(timeZoneState1))/60)%24 : 23-(Math.abs((selectedOption.value + (getOffsetFromCountryZone(timeZoneState2) - getOffsetFromCountryZone(timeZoneState1))/60 + 1))%24))
               }
             }}                
             value={hourOption1 !== null ? selectHourOptions.find((option) => option.value === hourOption1) : null}
@@ -126,7 +127,7 @@ function TimezoneConverter () {
         {hourOption2 === -1 ? 
           <Moment style={{ color: "white", fontSize: "20px" }} interval={1000} tz={timeZoneState2} format='ddd hh:mm:ss A'/> :
           (hourOptionSelector === 1  
-          ? <Moment style={{ color: "white", fontSize: "20px" }} interval={1000} tz={""} format='ddd hh:mm A'>{moment().seconds(0).minutes(0).hours(hourOption1 + (((moment().tz(timeZoneState2))._offset) - ((moment().tz(timeZoneState1))._offset))/60)}</Moment> 
+          ? <Moment style={{ color: "white", fontSize: "20px" }} interval={1000} tz={""} format='ddd hh:mm A'>{moment().seconds(0).minutes(0).hours(hourOption1 + (getOffsetFromCountryZone(timeZoneState2) - getOffsetFromCountryZone(timeZoneState1))/60)}</Moment> 
           : <Moment style={{ color: "white", fontSize: "20px" }} interval={1000} tz={""} format='ddd hh:mm A'>{new Date().setHours(hourOption2, 0, 0)}</Moment>
           )
         }
@@ -149,6 +150,7 @@ function TimezoneConverter () {
               } else {
                 setHourOptionSelector(2);
                 setHourOption2(selectedOption ? selectedOption.value : -1);
+                setHourOption1((selectedOption.value + (getOffsetFromCountryZone(timeZoneState1) - getOffsetFromCountryZone(timeZoneState2))/60) >= 0  ? (selectedOption.value + (getOffsetFromCountryZone(timeZoneState1) - getOffsetFromCountryZone(timeZoneState2))/60)%24 : 23-(Math.abs((selectedOption.value + (getOffsetFromCountryZone(timeZoneState1) - getOffsetFromCountryZone(timeZoneState2))/60 + 1))%24))
             }}}                
             value={hourOption2 !== null ? selectHourOptions.find((option) => option.value === hourOption2) : null}
           />
