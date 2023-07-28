@@ -21,6 +21,11 @@ countryCodes.forEach(countryCode => {
     }
   });
 });
+
+const getOffsetFromCountryZone = (countryZoneName) => {
+  return moment.tz(countryZoneName).format("Z");
+};
+
 countryZones.sort(function (a, b) { return b.offset - a.offset });
 
 function TimezoneConverter () {
@@ -140,7 +145,7 @@ function TimezoneConverter () {
               } else {
                 setHourOptionSelector(2);
                 setHourOption2(selectedOption ? selectedOption.value : -1);
-            }}                
+            }}}                
             value={hourOption2 !== null ? selectHourOptions.find((option) => option.value === hourOption2) : null}
           />
         </div>
