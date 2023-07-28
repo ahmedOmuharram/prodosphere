@@ -1,14 +1,16 @@
 import './Navigation.css';
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import React from "react";
 import TimezoneConverter from './TimezoneConverter.tsx';
 import { motion } from "framer-motion";
-import TranslateIcon from '@mui/icons-material/Translate';
-import { IconButton } from "@mui/material";
 import { menuContext, clickContext } from "./App"
 import { MenuItem } from "./MenuItem.tsx";
-import axios from 'axios';
-import YouTube from 'react-youtube';
+import CurrencyConverter from './CurrencyConverter.tsx';
+import SoundMixer from './SoundMixer.tsx';
+import Notes from './Notes.tsx';
+import Translate from './Translate.tsx';
+import Settings from './Settings.tsx';
+import YoutubePlayerComponent from './YoutubePlayer.tsx';
 
 type MenuContextType = {
   menuState: number;
@@ -70,58 +72,7 @@ const menuClickedVariants = {
 export const Navigation = () => {
   const { menuState } = useContext<MenuContextType>(menuContext);
   const { clickState, setClickState } = useContext<ClickStateType>(clickContext);
-  const [languagesList, setLanguagesList] = useState([])
-  const [translateState, setTranslateState] = useState("");
-  const [selectedLanguageFromKey, setLanguageFromKey] = useState("")
-  const [selectedLanguageKey, setLanguageKey] = useState("")
-  const [resultText, setResultText] = useState("");
-  const [videoState, setVideoState] = useState("");
   const [loadVideo, setLoadVideo] = useState(false);
-
-  useEffect(() => {
-    axios.get(`https://libretranslate.de/languages`)
-      .then((response) => {
-        setLanguagesList(response.data)
-      })
-  }, [])
-  /*const getLanguageSource = () => {
-    axios.post(`https://libretranslate.de/detect`, {
-      q: translateState
-    })
-    .then((response) => {
-      setLanguageFromKey(response.data[0].language)
-    })
-  }*/
-  const languageFromKey = (selectedLanguage) => {
-    setLanguageFromKey(selectedLanguage.target.value);
-  }
-  const languageKey = (selectedLanguage) => {
-    setLanguageKey(selectedLanguage.target.value)
-  }
-
-  const extractVideoId = (url) => {
-    const regExp = /^(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/;
-    const match = url.match(regExp);
-    return match ? match[1] : '';
-  };
-
-  const handleYoutubeInputChange = (event) => {
-    const inputLink = event.target.value;
-    const videoId = extractVideoId(inputLink);
-    setVideoState(videoId);
-  };
-
-  const translateText = () => {
-    let data = {
-      q: translateState,
-      source: selectedLanguageFromKey,
-      target: selectedLanguageKey
-    }
-    axios.post(`https://libretranslate.de/translate`, data)
-      .then((response) => {
-        setResultText(response.data.translatedText)
-      })
-  }
 
   return (
     <>
@@ -151,146 +102,13 @@ export const Navigation = () => {
         }}
       >
         {menuState === 0 && <TimezoneConverter/>}
-        {menuState === 1 &&
-          <>
-            <p className="mt-5" style={{ fontSize: "30px", color: "white" }}>Currency Exchange</p>
-          </>
-        }
-        {menuState === 2 && 
-          <>
-            <p className="mt-2" style={{ fontSize: "18px", color: "white" }}>Sound Mixer</p>
-          </>
-        }
+        {menuState === 1 && <CurrencyConverter/> }
+        {menuState === 2 && <SoundMixer/> }
         {menuState === 3 && loadVideo === false ? <>{setLoadVideo(true)}</> : <></>}
-        {loadVideo &&
-          <>
-            {menuState === 3 && <p className="mt-5" style={{ fontSize: "30px", color: "white" }}>YouTube Player</p>}
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <div style={{ display: (menuState !== 3 ? "none" : "block") }}>
-                <div style={{ marginLeft: "5%", width: "90%", borderRadius: "20px", overflow: "hidden", padding: 0, height: "169px" }}>
-                  <YouTube videoId={videoState !== "" ? videoState : "jfKfPfyJRdk"}
-                    opts={{
-                      height: '169',
-                      width: '100%',
-                      playerVars: {
-                        autoplay: 1,
-                      }
-                    }} />
-                </div>
-                <input
-                  type="text"
-                  className="mt-5"
-                  placeholder="Enter a youtube link"
-                  onChange={handleYoutubeInputChange}
-                  style={{
-                    fontSize: "15px",
-                    marginLeft: "0%",
-                    width: "70%",
-                    backgroundColor: "rgba(0,0,0,0)",
-                    color: "white",
-                    outline: "none",
-                    border: "none",
-                    borderBottom: "2px solid rgba(255, 255, 255, 1)",
-                  }} />
-              </div>
-            </div>
-          </>}
-        {menuState === 4 &&
-          <>
-            <p className="mt-5" style={{ fontSize: "30px", color: "white" }}>Translate</p>
-            <div style={{ display: "flex", marginBottom: "30px" }}>
-              <select className="form-select" style={{ marginLeft: "5%", width: "40%", marginRight: "10%" }} onChange={languageFromKey}>
-                <option value={""}>From</option>
-                {languagesList.map((language) => {
-                  return (
-                    <option value={language.code}>
-                      {language.name}
-                    </option>
-                  )
-                })}
-              </select>
-              <select className="form-select" style={{ width: "45%", marginRight: "5%" }} onChange={languageKey}>
-                <option value={""}>To</option>
-                {languagesList.map((language) => {
-                  return (
-                    <option value={language.code}>
-                      {language.name}
-                    </option>
-                  )
-                })}
-              </select>
-            </div>
-            <input
-              type="text"
-              placeholder='Input text'
-              style={{
-                fontSize: "15px",
-                marginLeft: "0%",
-                width: "70%",
-                backgroundColor: "rgba(0,0,0,0)",
-                color: "white",
-                outline: "none",
-                border: "none",
-                borderBottom: "2px solid rgba(255, 255, 255, 1)",
-              }}
-              onChange={(e) => {
-                setTranslateState(e.target.value.replace("?", ""));
-              }}
-              onKeyDown={(event) => {
-                if (event.key === "Enter") {
-                  if (selectedLanguageFromKey !== "" && selectedLanguageKey !== "" && translateState !== "") {
-                    translateText();
-                  }
-                }
-              }}
-            />
-            {(selectedLanguageFromKey !== "" && selectedLanguageKey !== "" && translateState !== "") &&
-              <IconButton
-                size="large"
-                style={{
-                  background: "none",
-                  border: "none",
-                  width: "30px",
-                  marginLeft: "5%",
-                  height: "30px"
-                }}
-                color="info"
-                onClick={translateText}
-              >
-                <TranslateIcon /></IconButton>}
-            {(selectedLanguageFromKey === "" || selectedLanguageKey === "" || translateState === "") &&
-              <IconButton
-                disabled
-                size="large"
-                style={{
-                  background: "none",
-                  border: "none",
-                  width: "30px",
-                  marginLeft: "5%",
-                  height: "30px"
-                }}
-                color="info"
-                onClick={translateText}
-              >
-                <TranslateIcon /></IconButton>}
-            <br /><br /><br />
-            <p style={{ fontSize: "20px", color: "white", borderTop: "1px solid rgba(255, 255, 255, 0.3)", paddingTop: "20px" }}>Output</p>
-            <div className="translated-text" style={{ overflowY: "auto", maxHeight: "170px" }}>
-              <span style={{ color: "white", wordWrap: "break-word" }}>{resultText}</span>
-            </div>
-          </>
-        }
-        {menuState === 5 && 
-          <>
-            <p className="mt-2" style={{ fontSize: "18px", color: "white" }}>Notes</p>
-          </>
-        }
-        {menuState === 6 && 
-          <>
-            <p className="mt-2" style={{ fontSize: "18px", color: "white" }}>Settings</p>
-          </>
-        }
-        {menuState === 1}
+        {loadVideo && <YoutubePlayerComponent/>}
+        {menuState === 4 && <Translate/> }
+        {menuState === 5 && <Notes/> }
+        {menuState === 6 && <Settings/>}
       </motion.div>
     </>
   )
