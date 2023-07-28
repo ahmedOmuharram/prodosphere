@@ -131,7 +131,6 @@ const CollapsingToDoList = () => {
           right: '0px',
           textAlign: 'left',
           fontSize: '20px',
-          marginBottom: '-30px',
           width: 'calc(100px + 15vmax)',
           backgroundColor: "rgba(0, 0, 0, 0.3)",
           borderTopLeftRadius: '8px',
@@ -139,9 +138,9 @@ const CollapsingToDoList = () => {
         }}
       >
         <motion.div
-          initial={{ height: '500px', backgroundColor: "rgba(0, 0, 0, 0)" }}
+          initial={{ height: '480px', backgroundColor: "rgba(0, 0, 0, 0)" }}
           animate={{
-            height: isCollapsed ? '75px' : '500px',
+            height: isCollapsed ? '45px' : '480px',
             opacity: isCollapsed ? 0 : 1,
             backgroundColor: isCollapsed ? "rgba(0, 0, 0, 0)" : "rgba(0, 0, 0, 0.3)",
           }}
@@ -272,7 +271,7 @@ function TimerComponent({ expiryTimestamp }) {
           color: "red",
           border: "none",
           position: "relative",
-          bottom: "-15px",
+          bottom: "15px",
           height: "fit-content",
           left: "-28px",
           padding: 0

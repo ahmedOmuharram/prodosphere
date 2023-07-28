@@ -217,7 +217,7 @@ function ToDoComponent() {
       </ul>
 
       {(sarray.length < 30 && (
-          <p style={{ position: "absolute", margin:"0", bottom: "40px", width: "100%"}}>
+          <p style={{ position: "absolute", margin:"0", bottom: "0px", width: "100%"}}>
             <button
               className='item-create-button'
               onClick={() => {
