@@ -55,32 +55,37 @@ const variants = {
 const menuVariants = {
   open: {
     width: "300px",
+    transformOrigin: "left center",
+    transform: "rotate3D(0, 0, 0, 90deg)",
     opacity: 1,
     transition: {
-      width: { stiffness: 1000, velocity: -100 }
+      transform: { stiffness: 1000, velocity: -100 }
     }
   },
   closed: {
-    width: "0px",
+    transformOrigin: "left center",
+    transform: "rotate3D(0, 1, 0, 90deg)",
     opacity: 0,
     transition: {
-      width: { stiffness: 1000 }
+      transform: { stiffness: 1000 }
     }
   }
 };
 const menuClickedVariants = {
   open: {
-    width: "0px",
+    transformOrigin: "left center",
+    transform: "rotate3D(0, 1, 0, 90deg)",
     opacity: 0,
     transition: {
-      width: { stiffness: 1000, velocity: -100 }
+      transform: { stiffness: 1000, velocity: -100 }
     }
   },
   closed: {
-    width: "0px",
+    transformOrigin: "left center",
+    transform: "rotate3D(0, 1, 0, 90deg)",
     opacity: 0,
     transition: {
-      width: { stiffness: 1000, velocity: -100 }
+      transform: { stiffness: 1000, velocity: -100 }
     }
   }
 };
@@ -213,12 +218,14 @@ export const Navigation = () => {
           }
         }}
         variants={!clickState && menuState !== -1 ? menuVariants : menuClickedVariants}
-        initial={!clickState || menuState === -1 ? { width: "0px", opacity: "0" } : { width: "300px", opacity: "1" }}
+        initial={!clickState || menuState === -1 ? { transform: "rotate3D(0, 1, 0, 90deg)", opacity: "0" } : { transform: "rotate3D(0, 0, 0, 90deg)", opacity: "1" }}
         animate={menuState !== -1 ? "open" : "closed"}
         style={{
           position: "absolute",
           backgroundColor: "rgba(0, 0, 0, 0.2)",
-          top: "calc(100% - 500px)", left: "80px",
+          top: "calc(100% - 500px)", 
+          transform: "rotate3D(0, 0, 0, 90deg)",
+          left: "80px",
           width: "300px",
           borderTopRightRadius: "20px",
           height: "500px"
@@ -290,8 +297,16 @@ export const Navigation = () => {
               />
             </div>
           </>}
-        {menuState === 1 && <p style={{ color: "white" }}>1</p>}
-        {menuState === 2 && <p style={{ color: "white" }}>2</p>}
+        {menuState === 1 &&
+          <>
+            <p className="mt-5" style={{ fontSize: "30px", color: "white" }}>Currency Exchange</p>
+          </>
+        }
+        {menuState === 2 && 
+          <>
+            <p className="mt-2" style={{ fontSize: "18px", color: "white" }}>Sound Mixer</p>
+          </>
+        }
         {menuState === 3 && loadVideo === false ? <>{setLoadVideo(true)}</> : <></>}
         {loadVideo &&
           <>
@@ -411,8 +426,16 @@ export const Navigation = () => {
             </div>
           </>
         }
-        {menuState === 5 && <p style={{ color: "white" }}>5</p>}
-        {menuState === 6 && <p style={{ color: "white" }}>6</p>}
+        {menuState === 5 && 
+          <>
+            <p className="mt-2" style={{ fontSize: "18px", color: "white" }}>Notes</p>
+          </>
+        }
+        {menuState === 6 && 
+          <>
+            <p className="mt-2" style={{ fontSize: "18px", color: "white" }}>Settings</p>
+          </>
+        }
         {menuState === 1}
       </motion.div>
     </>
