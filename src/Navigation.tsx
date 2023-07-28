@@ -1,7 +1,7 @@
 import './Navigation.css';
 import { useState, useContext, useEffect } from "react";
 import React from "react";
-import Select from 'react-select'
+import TimezoneConverter from './TimezoneConverter.tsx';
 import { motion } from "framer-motion";
 import TranslateIcon from '@mui/icons-material/Translate';
 import { IconButton } from "@mui/material";
@@ -9,29 +9,6 @@ import { menuContext, clickContext } from "./App"
 import { MenuItem } from "./MenuItem.tsx";
 import axios from 'axios';
 import YouTube from 'react-youtube';
-import Moment from 'react-moment';
-import moment from 'moment';
-import 'moment-timezone';
-
-const countryCodes = moment.tz.countries();
-const countryZones = [];
-countryCodes.forEach(countryCode => {
-  const names = moment.tz.zonesForCountry(countryCode, true);
-  names.forEach(name => {
-    let i = 0;
-    for (i = 0; i < countryZones.length; i++) {
-      if (name.name === countryZones[i].name) {
-        break;
-      }
-    }
-    if (i === countryZones.length) {
-      countryZones.push(name);
-    }
-  });
-});
-countryZones.sort(function (a, b) { return b.offset - a.offset });
-
-
 
 type MenuContextType = {
   menuState: number;
@@ -100,14 +77,6 @@ export const Navigation = () => {
   const [resultText, setResultText] = useState("");
   const [videoState, setVideoState] = useState("");
   const [loadVideo, setLoadVideo] = useState(false);
-  const [timeZoneState1, setTimeZoneState1] = useState("");
-  const [timeZoneState2, setTimeZoneState2] = useState("");
-
-  const [hourOption1, setHourOption1] = useState(-1);
-  const [hourOption2, setHourOption2] = useState(-1);
-  const [hourOptionSelector, setHourOptionSelector] = useState(-1);
-
-
 
   useEffect(() => {
     axios.get(`https://libretranslate.de/languages`)
@@ -154,56 +123,6 @@ export const Navigation = () => {
       })
   }
 
-  const getTimezoneLabel = (timezone) => {
-    const abbr = moment.tz(timezone).zoneAbbr().charAt(0) === "+" || moment.tz(timezone).zoneAbbr().charAt(0) === "-"
-      ? "GMT"
-      : moment.tz(timezone).zoneAbbr();
-    return `(${abbr}${moment.tz(timezone).format("Z")}) ${timezone.replace(/\//g, ', ').replace(/_/g, ' ')}`;
-  };
-
-  const fromTimeZoneOptions = [
-    { value: "", label: "Current timezone" },
-    ...countryZones.map((timezone) => ({
-      value: timezone.name,
-      label: getTimezoneLabel(timezone.name),
-    })),
-  ];
-
-  const toTimeZoneOptions = [
-    { value: "", label: "Timezone 2" },
-    ...countryZones.map((timezone) => ({
-      value: timezone.name,
-      label: getTimezoneLabel(timezone.name),
-    })),
-  ];
-
-
-  const formatTime = (hour) => {
-    if (hour === 12) {
-      return `${hour}:00 PM`;
-    } else if (hour === 0) {
-      return `12:00 AM`;
-    } else if (hour > 12) {
-      return `${hour - 12}:00 PM`;
-    } else {
-      return `${hour}:00 AM`;
-    }
-  };
-
-  const selectHourOptions = [
-    { value: -1, label: 'Local time' },
-    { value: 0, label: '12:00 AM' },
-    ...hours.map((hour) => ({
-      value: hour,
-      label: formatTime(hour),
-    })),
-    { value: 12, label: '12:00 PM' },
-    ...hours.map((hour) => ({
-      value: hour + 12,
-      label: formatTime(hour + 12),
-    })),
-  ];
-
   return (
     <>
       <motion.ul variants={variants}>
@@ -231,72 +150,7 @@ export const Navigation = () => {
           height: "500px"
         }}
       >
-        {menuState === 0 &&
-          <>
-            <p className="mt-5" style={{ fontSize: "30px", color: "white" }}>Timezone Converter</p>
-            {hourOption1 === -1 ? 
-              <Moment style={{ color: "white", fontSize: "20px" }} interval={1000} tz={timeZoneState1} format='ddd hh:mm:ss A'/> :
-              (hourOptionSelector === 2 
-              ? <Moment style={{ color: "white", fontSize: "20px" }} interval={1000} tz={timeZoneState1} format='ddd hh:mm A'>{new Date().setHours(hourOption2, 0, 0)}</Moment>
-              : <Moment style={{ color: "white", fontSize: "20px" }} interval={1000} tz={""} format='ddd hh:mm A'>{new Date().setHours(hourOption1, 0, 0)}</Moment> 
-              )
-            }
-            { console.log(hourOptionSelector)}
-            <div style={{ marginLeft: "5%", width: "90%", marginRight: "5%" }}>
-              <Select
-                options={fromTimeZoneOptions}
-                value={fromTimeZoneOptions.find((option) => option.value === timeZoneState1)}
-                onChange={(selectedOption) => setTimeZoneState1(selectedOption.value)}
-              />
-            </div>
-            <div style={{ marginLeft: "5%", width: "90%", marginRight: "5%" }}>
-              <Select
-                options={selectHourOptions}
-                onChange={(selectedOption) => {
-                  if (selectedOption.value === -1) {
-                    setHourOption1(-1);
-                    setHourOption2(-1);
-                  } else {
-                    setHourOptionSelector(1);
-                    setHourOption1(selectedOption ? selectedOption.value : -1);
-                  }
-                }}                
-                value={hourOption1 !== null ? selectHourOptions.find((option) => option.value === hourOption1) : null}
-              />
-            </div>
-            <div className="mt-5" style={{ borderTop: "1px solid rgba(255, 255, 255, 0.3)", paddingTop: "20px" }}/>
-            {hourOption2 === -1 ? 
-              <Moment style={{ color: "white", fontSize: "20px" }} interval={1000} tz={timeZoneState2} format='ddd hh:mm:ss A'/> :
-              (hourOptionSelector === 1  
-              ? <Moment style={{ color: "white", fontSize: "20px" }} interval={1000} tz={timeZoneState2} format='ddd hh:mm A'>{new Date().setHours(hourOption1, 0, 0)}</Moment> 
-              : <Moment style={{ color: "white", fontSize: "20px" }} interval={1000} tz={""} format='ddd hh:mm A'>{new Date().setHours(hourOption2, 0, 0)}</Moment>
-              )
-            }
-            <div className="mt-3" style={{ marginLeft: "5%", width: "90%", marginRight: "5%" }}>
-              <Select
-                menuPlacement="auto"
-                options={toTimeZoneOptions}
-                value={toTimeZoneOptions.find((option) => option.value === timeZoneState2)}
-                onChange={(selectedOption) => setTimeZoneState2(selectedOption.value)}
-              />
-            </div>
-            <div style={{ marginLeft: "5%", width: "90%", marginRight: "5%" }}>
-              <Select
-                menuPlacement="auto"
-                options={selectHourOptions}
-                onChange={(selectedOption) => {
-                  if (selectedOption.value === -1) {
-                    setHourOption1(-1);
-                    setHourOption2(-1);
-                  } else {
-                    setHourOptionSelector(2);
-                    setHourOption2(selectedOption ? selectedOption.value : -1);
-                  }
-                }}                
-                value={hourOption2 !== null ? selectHourOptions.find((option) => option.value === hourOption2) : null}
-              />
-            </div>
-          </>}
+        {menuState === 0 && <TimezoneConverter/>}
         {menuState === 1 &&
           <>
             <p className="mt-5" style={{ fontSize: "30px", color: "white" }}>Currency Exchange</p>
@@ -443,4 +297,3 @@ export const Navigation = () => {
 };
 
 const itemIds = [0, 1, 2, 3, 4, 5, 6];
-const hours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
