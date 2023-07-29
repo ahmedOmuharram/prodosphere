@@ -178,9 +178,9 @@ function ToDoComponent() {
               <label style={{ display: "flex", alignItems: "center" }}>
               <Checkbox 
                 sx={{
-                  color: lightGreen[800],
+                  color: lightGreen[400],
                   '&.Mui-checked': {
-                    color: lightGreen[600],
+                    color: lightGreen[800],
                   },
                 }}
                 checked={checkedItems[index] !== null && checkedItems[index] !== false}
