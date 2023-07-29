@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { lightGreen } from '@mui/material/colors';
 
 const DeletePath = props => (
   <motion.path
@@ -247,7 +248,7 @@ function LinkGroupComponent() {
               }}
               aria-label="Add Button"
             >
-              <AddCircleIcon color={'success'} style={{
+              <AddCircleIcon sx={{ color: lightGreen[400] }} style={{
                 width: "50px",
                 height: "50px"
               }}/>
