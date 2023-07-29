@@ -20,6 +20,7 @@
     "node-fetch": "^3.3.2",
     "react": "^18.2.0",
     "react-bootstrap": "^2.8.0",
+    "react-calendar": "^4.6.0",
     "react-confetti-explosion": "^2.1.2",
     "react-dom": "^18.2.0",
     "react-geolocation": "^1.0.4",

@@ -1,3 +1,29 @@
 ::placeholder {
     color: white;
 }
+
+.calendar-item-event-color {
+    background-color: green !important;
+}
+.container-hover-check {
+    position: absolute;
+    display: block ruby;
+    opacity: 0;
+    transform: translate(-7px,-30px);
+    height: 43px;
+    width: 44px;
+    overflow: visible;
+}
+.container-hover-check:hover {
+    opacity: 1;
+    transition: opacity 0.5s;
+}
+.event-name {
+    position: relative;
+    top: -25px;
+    width: fit-content;
+    background-color: green;
+    border: 1px solid black;
+    border-radius: 5px;
+    pointer-events: none;
+}
