@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import Select from 'react-select';
-import 'react-dropdown/style.css';
 import './App.css';
 import { Box, Stack } from '@mui/material';
 import { grey } from '@mui/material/colors';
