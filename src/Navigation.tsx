@@ -11,6 +11,7 @@ import Notes from './Notes.tsx';
 import Translate from './Translate.tsx';
 import Settings from './Settings.tsx';
 import YoutubePlayerComponent from './YoutubePlayer.tsx';
+import CalendarComponent from './Calendar.tsx';
 
 type MenuContextType = {
   menuState: number;
@@ -109,9 +110,10 @@ export const Navigation = () => {
         {menuState === 4 && <Translate/> }
         {menuState === 5 && <Notes/> }
         {menuState === 6 && <Settings/>}
+        {menuState === 7 && <CalendarComponent/>}
       </motion.div>
     </>
   )
 };
 
-const itemIds = [0, 1, 2, 3, 4, 5, 6];
+const itemIds = [0, 1, 2, 3, 4, 5, 6, 7];
