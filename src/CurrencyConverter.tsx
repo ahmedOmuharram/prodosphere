@@ -28,14 +28,14 @@ function CurrencyConverter() {
             setDisplayInfo(response.data[from]);
             setInfo(response.data[from]);
           } else {
-            setDisplayInfo(null);
-            setInfo(null);
+            setDisplayInfo([]);
+            setInfo([]);
           }
         }
       } catch (error) {
         if (isMounted) {
-          setDisplayInfo(null);
-          setInfo(null);
+          setDisplayInfo([]);
+          setInfo([]);
         }
       }
     };
@@ -76,8 +76,8 @@ function CurrencyConverter() {
         }
       } catch (error) {
         if (isMounted) {
-          setDisplayInfo(null);
-          setInfo(null);
+          setDisplayInfo([]);
+          setInfo([]);
         }      
       }
     };
