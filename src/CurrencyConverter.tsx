@@ -120,7 +120,7 @@ function CurrencyConverter() {
                   border: "none",
                   borderBottom: "2px solid rgba(255, 255, 255, 1)",
                 }}
-                onChange={(e) => setInput(parseFloat(e.target.value))} /> 
+                onChange={(e) => setInput(parseFloat(e.target.value) || 0)} /> 
           </div>
           <div className='mt-5' style={{ justifyContent: "center", display: "flex", marginLeft: "2%", width: "96%", marginRight: "2%" }}>
             <Box style={{ fontSize: "10px", display: "flex", width: "100%" }}>
