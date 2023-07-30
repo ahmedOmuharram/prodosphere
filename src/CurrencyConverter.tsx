@@ -58,6 +58,8 @@ function CurrencyConverter() {
   }, [info]);
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchData = async () => {
       try {
         const response = await fetch(
@@ -68,10 +70,15 @@ function CurrencyConverter() {
           throw new Error('Failed to fetch data');
         }
 
-        const data = await response.json();
-        setDisplayInfo(data)
+        if (isMounted) {
+          const data = await response.json();
+          setDisplayInfo(data)
+        }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        if (isMounted) {
+          setDisplayInfo(null);
+          setInfo(null);
+        }      
       }
     };
 
