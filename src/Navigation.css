@@ -2,9 +2,26 @@
     color: white;
 }
 
-.calendar-item-event-color {
-    background-color: green !important;
+.event-color-2f96d0 {
+    background-color: #2f95d067 !important;
+    border-radius: 0 !important;
 }
+
+.event-color-B92FD0 {
+    background-color: #B92FD067 !important;
+    border-radius: 0 !important;
+}
+
+.event-color-D0692F {
+    background-color: #D0692F67 !important;
+    border-radius: 0 !important;
+}
+
+.event-color-46D02F {
+    background-color: #46D02F67 !important;
+    border-radius: 0 !important;
+}
+
 .container-hover-check {
     position: absolute;
     display: block ruby;

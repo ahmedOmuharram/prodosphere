@@ -3,6 +3,7 @@
     "esModuleInterop": true,
       "allowImportingTsExtensions": true,
       "noEmit": true,
-      "jsx": "react"
+      "jsx": "react",
+      "noImplicitAny": false,
     }
   }
