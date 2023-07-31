@@ -157,7 +157,7 @@ const CollapsingToDoList = () => {
 
 const sidebar = {
   open: (height = 135) => ({
-    clipPath: `circle(${height * 2 + 200}px at 40px calc(100% - 40px))`,
+    clipPath: `circle(${height * 2 + 250}px at 40px calc(100% - 40px))`,
     transition: {
       type: "spring",
       stiffness: 30,
@@ -365,7 +365,7 @@ function App() {
               </p>
             </div>}
 
-            <div style={{position: "absolute", top: "0px", left: "0px", zIndex: "901358"}}>
+            <div style={{position: "absolute", top: "5px", left: "5px", zIndex: "901358"}}>
               { user !== "" && <CalendarComponent displayCalendarOnly={true}/> }
             </div>
             

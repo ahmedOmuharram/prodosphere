@@ -5,6 +5,9 @@ import Moment from 'react-moment';
 import './Navigation.css'
 import { Button } from '@mui/material';
 import { calendarContext } from "./App"
+import EditCalendarIcon from '@mui/icons-material/EditCalendar';
+import { grey, lightGreen } from '@mui/material/colors';
+import EventBusyIcon from '@mui/icons-material/EventBusy';
 
 type ValuePiece = Date | null;
 
@@ -74,71 +77,90 @@ function colorCheck(date) {
     <>
     {displayCalendarOnly &&
               <>
-                  <div><Calendar allowPartialRange={true} selectRange={selectRangeState} onChange={onChange} value={value}
-                      tileClassName={({ activeStartDate, date, view }) => {
-                          if (view === 'month' && rangeCheck(date)) {
-                              return colorCheck(date);
-                          }
-                          return null;
-                      }}
-                      tileContent={({ activeStartDate, date, view }) =>
-                          view === 'month' && rangeCheck(date) ? <><div className='container-hover-check'><div className='event-name'>{nameCheck(date)}</div></div></> : null} /></div>
-                  <p style={{ color: "white" }}>
-                      {value.constructor === Array && value[0] && value[1] ? <>From <Moment format='L'>{value[0].toString()}</Moment> to <Moment format='L'>{value[1].toString()}</Moment></> : <Moment format='L'>{value.toString()}</Moment>}
-                  </p>
+                    <div><Calendar allowPartialRange={true} selectRange={selectRangeState} onChange={onChange} value={value}
+                        tileClassName={({ activeStartDate, date, view }) => {
+                            if (view === 'month' && rangeCheck(date)) {
+                                return colorCheck(date);
+                            }
+                            return null;
+                        }}
+                        tileContent={({ activeStartDate, date, view }) =>
+                            view === 'month' && rangeCheck(date) ? <><div className='container-hover-check'><div className='event-name'>{nameCheck(date)}</div></div></> : null} /></div>
+                    <p style={{ color: "white", fontSize: "14px" }}>
+                        {value.constructor === Array && value[0] && value[1] ? <>Selected from <Moment format='L'>{value[0].toString()}</Moment> to <Moment format='L'>{value[1].toString()}</Moment></> : <>Selected <Moment format='L'>{value.toString()}</Moment></>}
+                    </p>
               </>}
     {!displayCalendarOnly && <>
+        <p className="mt-5" style={{ fontSize: "30px", color: "white", marginBottom: "-15px" }}>Calendar Events</p>
+    {calendarEvents.map((event, index) => 
+        <>
+            <div style={{display: "flex", flexDirection: "column", textAlign: "left", height: "70px"}}>
+                <span style={{color: "white", marginTop: "24px" }}>
+                    {event.event}<br/>
+                </span>
+                <span style={{color: "rgba(255, 255, 255, 0.6)"}}>
+                <Moment format='L'>{event.range[0].toString()}</Moment> - <Moment format='L'>{event.range[1].toString()}</Moment>
+                </span>
+                <Button color='error' variant="outlined" style={{border: "none", width: "fit-content", marginLeft: "auto", position: "relative", top: "-40px"}} onClick={() => {
+                    const newCalendarEvents = [...calendarEvents]
+                    newCalendarEvents.splice((index) ,1);
+                    setCalendarEvents(newCalendarEvents);
+                    localStorage.setItem('calendarEvents', JSON.stringify(newCalendarEvents));
+                }}>            
+                    <EventBusyIcon />
+                </Button>
+            </div>
+        </>
+    )}
     {!selectRangeState 
     ?
     <>
-        <Button color='success' variant="contained" onClick={() => setSelectRangeState(true)}>Add Event</Button>
+        <Button color='success' style={{ marginTop: "24px"}} variant="contained" onClick={() => setSelectRangeState(true)}>Add Event</Button>
     </>
     :
     <>
-        <input type='text' onChange={e => setText(e.target.value)}
-            style={{
-                fontSize: "15px",
-                width: "90%",
-                backgroundColor: "rgba(0,0,0,0)",
-                color: "white",
-                outline: "none",
-                border: "none",
-                borderBottom: "2px solid rgba(255, 255, 255, 1)",
-                }}
-        />
-        <Button color='success' variant="contained" onClick={() => {
-            if (value[1] && text !== "") {
-                const newCalendarEvents = [...calendarEvents, {event: text, range: [value[0], value[1]], color: colors[colorPicker % 4]}]
-                setCalendarEvents(newCalendarEvents);
-                localStorage.setItem('calendarEvents', JSON.stringify(newCalendarEvents));
-                setSelectRangeState(false);
-                setColorPicker(colorPicker + 1);
-                setText("")
-            }
-            else if (text !== "") {
-                const newCalendarEvents = [...calendarEvents, {event: text, range: [value, value], color: colors[colorPicker % 4]}]
-                setCalendarEvents(newCalendarEvents);
-                localStorage.setItem('calendarEvents', JSON.stringify(newCalendarEvents));
-                setSelectRangeState(false);
-                setColorPicker(colorPicker + 1);
-                setText("")
-            }
-            }}>Submit Event</Button>
-    </>}
-    {calendarEvents.map((event, index) => 
-        <>
-            <br/>
-            <span style={{backgroundColor: "white", margin: "2px"}}>
-                {event.event}<Moment format='L'>{event.range[0].toString()}</Moment> - <Moment format='L'>{event.range[1].toString()}</Moment>
-            </span>
-            <Button color='error' variant="contained" onClick={() => {
-                const newCalendarEvents = [...calendarEvents]
-                newCalendarEvents.splice((index) ,1);
-                setCalendarEvents(newCalendarEvents);
-                localStorage.setItem('calendarEvents', JSON.stringify(newCalendarEvents));
-            }}>Delete Event</Button>
-        </>
-    )}</>}
+        <p style={{fontSize: "10px", color: "white", marginTop: "15px"}}>Choose a date range from the calendar</p>
+        <div style={{display: "flex"}}>
+            <input type='text' onChange={e => setText(e.target.value)} placeholder='Event name'
+                style={{
+                    fontSize: "15px",
+                    width: "90%",
+                    backgroundColor: "rgba(0,0,0,0)",
+                    color: "white",
+                    outline: "none",
+                    border: "none",
+                    borderBottom: "2px solid rgba(255, 255, 255, 1)",
+                    }}
+            />
+        <Button
+            color='success'
+            onClick={() => {
+                if (value[1] && text !== "") {
+                    const newCalendarEvents = [...calendarEvents, {event: text, range: [value[0], value[1]], color: colors[colorPicker % 4]}]
+                    setCalendarEvents(newCalendarEvents);
+                    localStorage.setItem('calendarEvents', JSON.stringify(newCalendarEvents));
+                    setSelectRangeState(false);
+                    setColorPicker(colorPicker + 1);
+                    setText("")
+                }
+                else if (text !== "") {
+                    const newCalendarEvents = [...calendarEvents, {event: text, range: [value, value], color: colors[colorPicker % 4]}]
+                    setCalendarEvents(newCalendarEvents);
+                    localStorage.setItem('calendarEvents', JSON.stringify(newCalendarEvents));
+                    setSelectRangeState(false);
+                    setColorPicker(colorPicker + 1);
+                    setText("")
+                } else {
+                    return;
+                }
+            }}
+            disabled={text === ""}
+            sx={{ color: text === "" ? grey[50] : lightGreen[400] }}
+        >
+            <EditCalendarIcon />
+        </Button>
+        </div>
+    </>}</>}
     </>
   );
   

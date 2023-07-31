@@ -108,9 +108,9 @@ export const Navigation = () => {
         {menuState === 3 && loadVideo === false ? <>{setLoadVideo(true)}</> : <></>}
         {loadVideo && <YoutubePlayerComponent/>}
         {menuState === 4 && <Translate/> }
-        {menuState === 5 && <Notes/> }
-        {menuState === 6 && <Settings/>}
-        {menuState === 7 && <CalendarComponent displayCalendarOnly={false}/>}
+        {menuState === 5 && <CalendarComponent displayCalendarOnly={false}/>}
+        {menuState === 6 && <Notes/> }
+        {menuState === 7 && <Settings/>}
       </motion.div>
     </>
   )
