@@ -20,7 +20,7 @@ function CurrencyConverter() {
     const fetchData = async () => {
       try {
         const response = await Axios.get(
-          `https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/${from}.json`
+          `https://raw.githubusercontent.com/fawazahmed0/currency-api/1/latest/currencies/${from}.json`
         );
 
         if (isMounted) {
@@ -63,7 +63,7 @@ function CurrencyConverter() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          'https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies.json'
+          'https://raw.githubusercontent.com/fawazahmed0/currency-api/1/latest/currencies.json'
         );
 
         if (!response.ok) {
