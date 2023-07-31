@@ -1,15 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function Notes() {
-  const [pages, setPages] = useState([[]]); 
-  const [currentPageIndex, setCurrentPageIndex] = useState(0);
+  const [pages, setPages] = useState([{title: "", notes: ""}]); 
+  const [currentPageIndex, setCurrentPageIndex] = useState(-1);
 
   const addPage = () => {
-    setPages([...pages, []]);
+    setPages([...pages, {title: "", notes: ""}]);
+  };
+  const deletePage = (index) => {
+    const newPages = [...pages];
+    newPages.splice(index, 1);
+    setPages(newPages);
+    if (currentPageIndex >= index && currentPageIndex > 0) {
+      setCurrentPageIndex(currentPageIndex-1);
+    }
+    if (newPages.length === 0) {
+      setCurrentPageIndex(-1);
+    } 
+    setPages(newPages);
+    localStorage.setItem('notePages', JSON.stringify(newPages));
   };
 
   const handleChangePage = (pageIndex) => {
-    setCurrentPageIndex(pageIndex);
+    if (pageIndex !== currentPageIndex) {
+      setCurrentPageIndex(pageIndex);
+    } else {
+      setCurrentPageIndex(-1);
+    }
   };
 
   const handlePrevPage = () => {
@@ -23,33 +40,66 @@ function Notes() {
       setCurrentPageIndex(currentPageIndex + 1);
     }
   };
+  useEffect(() => {
+    const savedPages = localStorage.getItem('notePages');
+    if (savedPages) {
+      setPages(JSON.parse(savedPages))
+    }
+  }, []);
 
-  const inputStyles = {
-    fontSize: "15px",
-    width: "90%",
-    backgroundColor: "rgba(0,0,0,0)",
-    color: "white",
-    outline: "none",
-    border: "none",
-    borderBottom: "1px solid rgba(255, 255, 255, 0.3)",
-    marginBottom: "10px",
-  };
 
   return (
     <>
       <p className="mt-2" style={{ fontSize: "18px", color: "white" }}>Notes</p>
-      {[...Array(10)].map((_, index) => (
-        <input key={index} style={inputStyles} />
-      ))}
+      {currentPageIndex >= 0 && <textarea style={{
+          fontSize: "15px",
+          width: "90%",
+          backgroundColor: "rgba(0,0,0,0)",
+          color: "white",
+          outline: "none",
+          border: "none",
+          borderBottom: "1px solid rgba(255, 255, 255, 0.3)",
+          marginBottom: "10px",
+          height: "20px",
+          resize: "none"}} value={pages[currentPageIndex].title} onChange={event => {
+          const newPages = [...pages];
+          newPages[currentPageIndex].title = event.target.value;
+          localStorage.setItem('notePages', JSON.stringify(newPages));
+          setPages(newPages);
+          }}/>}
+        {currentPageIndex >= 0 && <textarea style={{
+          fontSize: "15px",
+          width: "90%",
+          backgroundColor: "rgba(0,0,0,0)",
+          color: "white",
+          outline: "none",
+          border: "none",
+          borderBottom: "1px solid rgba(255, 255, 255, 0.3)",
+          marginBottom: "10px",
+          height: "250px",
+          resize: "none"}} value={pages[currentPageIndex].notes} onChange={event => {
+          const newPages = [...pages];
+          newPages[currentPageIndex].notes = event.target.value;
+          localStorage.setItem('notePages', JSON.stringify(newPages));
+          setPages(newPages);
+          }}/>}
       <div>
-        <button onClick={addPage}>Add Page</button>
+        <button onClick={() => {
+          addPage();
+          setCurrentPageIndex(pages.length);
+          }}>Add Page</button>
       </div>
       <div>
-        <button onClick={handlePrevPage} disabled={currentPageIndex === 0}>{"<"}</button>
-        {pages.map((_, index) => (
-          <button key={index} onClick={() => handleChangePage(index)}>{index + 1}</button>
-        ))}
-        <button onClick={handleNextPage} disabled={currentPageIndex === pages.length - 1}>{">"}</button>
+        {/*<button onClick={handlePrevPage} disabled={currentPageIndex === 0}>{"<"}</button>*/}
+        {pages.map((_, index) => {
+          return (
+          <>
+            <button key={index} onClick={() => handleChangePage(index)}>{_.title}</button>
+            <button key={index} className='btn-success' onClick={() => deletePage(index)}></button>
+          </>
+          )
+        })}
+        {/*<button onClick={handleNextPage} disabled={currentPageIndex === pages.length - 1}>{">"}</button>*/}
       </div>
       <p>Current Page: {currentPageIndex + 1}</p>
     </>
