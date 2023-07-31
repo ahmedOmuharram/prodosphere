@@ -8,6 +8,7 @@ import { calendarContext } from "./App"
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import { grey, lightGreen } from '@mui/material/colors';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
+import EventNoteIcon from '@mui/icons-material/EventNote';
 
 type ValuePiece = Date | null;
 
@@ -91,17 +92,20 @@ function colorCheck(date) {
                     </p>
               </>}
     {!displayCalendarOnly && <>
-        <p className="mt-5" style={{ fontSize: "30px", color: "white", marginBottom: "-15px" }}>Calendar Events</p>
-    {calendarEvents.map((event, index) => 
+        <p className="mt-5" style={{ fontSize: "30px", color: "white", marginBottom: "15px" }}>Calendar Events</p>
+    <div className="events" style={{maxHeight: "300px", overflowY: "scroll"}}>{calendarEvents.map((event, index) => 
         <>
-            <div style={{display: "flex", flexDirection: "column", textAlign: "left", height: "70px"}}>
-                <span style={{color: "white", marginTop: "24px" }}>
+            <div style={{display: "flex", flexDirection: "column", textAlign: "left", height: "fit-content", padding: 0}}>
+                <span style={{color: "white", marginBottom: 0, maxWidth: "250px" }}>
                     {event.event}<br/>
                 </span>
                 <span style={{color: "rgba(255, 255, 255, 0.6)"}}>
-                <Moment format='L'>{event.range[0].toString()}</Moment> - <Moment format='L'>{event.range[1].toString()}</Moment>
+                    {event.range[0].toString() === event.range[1].toString() ? 
+                        <Moment format='L'>{event.range[0].toString()}</Moment> : 
+                        <><Moment format='L'>{event.range[0].toString()}</Moment> - <Moment format='L'>{event.range[1].toString()}</Moment></>
+                    }
                 </span>
-                <Button color='error' variant="outlined" style={{border: "none", width: "fit-content", marginLeft: "auto", position: "relative", top: "-40px"}} onClick={() => {
+                <Button color='error' variant="outlined" style={{border: "none", padding: 0, width: "fit-content", marginLeft: "auto", position: "relative", top: "-40px", height: "fit-content"}} onClick={() => {
                     const newCalendarEvents = [...calendarEvents]
                     newCalendarEvents.splice((index) ,1);
                     setCalendarEvents(newCalendarEvents);
@@ -111,11 +115,11 @@ function colorCheck(date) {
                 </Button>
             </div>
         </>
-    )}
+    )} </div>
     {!selectRangeState 
     ?
     <>
-        <Button color='success' style={{ marginTop: "24px"}} variant="contained" onClick={() => setSelectRangeState(true)}>Add Event</Button>
+        <Button color='success' style={{ position: "absolute", bottom: "0px", right: "0px"}} variant="outlined" onClick={() => setSelectRangeState(true)}> <EventNoteIcon /></Button>
     </>
     :
     <>

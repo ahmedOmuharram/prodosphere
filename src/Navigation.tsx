@@ -104,9 +104,9 @@ export const Navigation = () => {
       >
         {menuState === 0 && <TimezoneConverter/>}
         {menuState === 1 && <CurrencyConverter/> }
-        {menuState === 2 && <SoundMixer/> }
         {menuState === 3 && loadVideo === false ? <>{setLoadVideo(true)}</> : <></>}
         {loadVideo && <YoutubePlayerComponent/>}
+        {menuState === 3 && <div className="mt-3 soundmixer" style={{height: "180px", overflowY: "scroll"}}><SoundMixer/></div>}
         {menuState === 4 && <Translate/> }
         {menuState === 5 && <CalendarComponent displayCalendarOnly={false}/>}
         {menuState === 6 && <Notes/> }

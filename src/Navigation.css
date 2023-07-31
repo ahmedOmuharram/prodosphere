@@ -44,3 +44,15 @@
     border-radius: 5px;
     pointer-events: none;
 }
+
+.soundmixer::-webkit-scrollbar {
+    width: 5px;
+}
+  
+.soundmixer::-webkit-scrollbar-thumb {
+background-color: #ffffff;
+}
+
+.soundmixer::-webkit-scrollbar-thumb:hover {
+background-color: #ffffff;
+}

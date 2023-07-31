@@ -26,7 +26,7 @@ function YoutubePlayerComponent() {
 
   return (
     <>
-      {menuState === 3 && <p className="mt-5" style={{ fontSize: "30px", color: "white" }}>YouTube Player</p>}
+      {menuState === 3 && <p className="mt-2" style={{ fontSize: "18px", color: "white" }}>YouTube Player</p>}
       <div style={{ display: "flex", justifyContent: "center" }}>
         <div style={{ display: (menuState !== 3 ? "none" : "block") }}>
           <div style={{ marginLeft: "5%", width: "90%", borderRadius: "20px", overflow: "hidden", padding: 0, height: "169px" }}>
