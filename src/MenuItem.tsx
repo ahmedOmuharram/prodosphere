@@ -9,6 +9,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import TuneIcon from '@mui/icons-material/Tune';
 import BookIcon from '@mui/icons-material/Book';
 import SettingsIcon from '@mui/icons-material/Settings';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 type MenuContextType = {
   menuState: number; 
@@ -41,10 +42,8 @@ const variants = {
   }
 };
 
-const colors = ["#FFF", "#FFF", "#FFF", "#FFF", "#FFF", "#FFF", "#FFF"];
-
 export const MenuItem = ({ i }) => {
-  const style = { border: `2px solid ${colors[i]}` };
+  const style = { border: `2px solid #FFF` };
   const { menuState, setMenuState } = useContext<MenuContextType>(menuContext);
   const { setClickState } = useContext<ClickStateType>(clickContext);
   return (
@@ -66,8 +65,9 @@ export const MenuItem = ({ i }) => {
         {i === 2 && <TuneIcon style={{position: "relative", height: "20px", width: "20px", top: "4px"}}/>}
         {i === 3 && <YouTubeIcon style={{position: "relative", height: "20px", width: "20px", top: "4px"}}/>}
         {i === 4 && <TranslateIcon style={{position: "relative", height: "20px", width: "20px", top: "4px"}}/>}
-        {i === 5 && <BookIcon style={{position: "relative", height: "20px", width: "20px", top: "4px"}}/>}
-        {i === 6 && <SettingsIcon style={{position: "relative", height: "20px", width: "20px", top: "4px"}}/>}
+        {i === 5 && <CalendarMonthIcon style={{position: "relative", height: "20px", width: "20px", top: "4px"}}/>}
+        {i === 6 && <BookIcon style={{position: "relative", height: "20px", width: "20px", top: "4px"}}/>}
+        {i === 7 && <SettingsIcon style={{position: "relative", height: "20px", width: "20px", top: "4px"}}/>}
       </div>
     </motion.li>
   );
