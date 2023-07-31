@@ -110,7 +110,7 @@ export const Navigation = () => {
         {menuState === 4 && <Translate/> }
         {menuState === 5 && <Notes/> }
         {menuState === 6 && <Settings/>}
-        {menuState === 7 && <CalendarComponent/>}
+        {menuState === 7 && <CalendarComponent displayCalendarOnly={false}/>}
       </motion.div>
     </>
   )

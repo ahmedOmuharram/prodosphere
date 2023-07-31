@@ -14,6 +14,7 @@ import ToDoComponent from "./ToDoComponent"
 import LinkGroupComponent from './LinkGroup';
 import Moment from 'react-moment';
 import { useTimer } from 'react-timer-hook';
+import CalendarComponent from './Calendar';
 
 const unsplash = createApi({
   accessKey: process.env.REACT_APP_UNSPLASH_ACCESS_KEY
@@ -335,7 +336,15 @@ function App() {
   const [clickState, setClickState] = useState(false);
   const clickValue = { clickState, setClickState };
 
+  const [value, onChange] = useState(new Date());
+  const [text, setText] = useState("");
+  const [selectRangeState, setSelectRangeState] = useState(false);
+  const [calendarEvents, setCalendarEvents] = useState([]);
+  const [colorPicker, setColorPicker] = useState(0);
+  const calendarContextValue = { value, onChange, text, setText , selectRangeState, setSelectRangeState, calendarEvents, setCalendarEvents, colorPicker, setColorPicker };
+
   return (
+    <calendarContext.Provider value={calendarContextValue}>
     <clickContext.Provider value={clickValue}>
     <menuContext.Provider value={menuValue}>
     <weatherContext.Provider value={weatherValue}>
@@ -355,6 +364,11 @@ function App() {
                 { user !== "" && <TimeNow setUser={setUser}/> }
               </p>
             </div>}
+
+            <div style={{position: "absolute", top: "0px", left: "0px", zIndex: "901358"}}>
+              { user !== "" && <CalendarComponent displayCalendarOnly={true}/> }
+            </div>
+            
 
             {/* Greeting */}
             <p style={{fontSize: "calc(20px + 1vmin)", textShadow: "0px 1px 5px rgba(0, 0, 0, 0.9)", marginTop: "0", paddingTop: "0"}}>
@@ -427,11 +441,13 @@ function App() {
     </weatherContext.Provider>
     </menuContext.Provider>
     </clickContext.Provider>
+    </calendarContext.Provider>
   );
 }
 
 export const weatherContext = createContext();
 export const menuContext = createContext();
 export const clickContext = createContext();
+export const calendarContext = createContext();
 
 export default App;
