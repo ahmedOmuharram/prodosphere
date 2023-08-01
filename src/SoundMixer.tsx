@@ -16,7 +16,7 @@ function SoundMixer () {
     return (
       <>
         <button onClick={toggleCollapse} style={{ background: "none", border: "none" }}>
-          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", position: isCollapsed ? "absolute" : "relative", transition: "0.3s ease", bottom: isCollapsed ? "10px" : "0", width: "100%", right: "0px"}}>
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", position: isCollapsed ? "absolute" : "relative", bottom: isCollapsed ? "10px" : "0", width: "100%", right: "0px"}}>
             <p className="mt-2" style={{ fontSize: "18px", color: "white" }}>Ambient Sounds</p>
             {isCollapsed ? <KeyboardArrowUpIcon sx={{ color: grey[50], marginBottom: "6px" }} /> : <KeyboardArrowDownIcon sx={{ color: grey[50], marginBottom: "6px" }} />}
           </div>

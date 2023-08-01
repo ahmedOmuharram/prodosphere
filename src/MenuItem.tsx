@@ -3,7 +3,7 @@ import React from "react";
 import { menuContext, clickContext } from "./App"
 import { motion } from "framer-motion";
 import TranslateIcon from '@mui/icons-material/Translate';
-import YouTubeIcon from '@mui/icons-material/YouTube';
+import MusicNoteIcon from '@mui/icons-material/MusicNote';
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import TimerIcon from '@mui/icons-material/Timer';
@@ -63,7 +63,7 @@ export const MenuItem = ({ i }) => {
         {i === 0 && <AccessTimeIcon style={{position: "relative", height: "20px", width: "20px", top: "4px"}}/>}
         {i === 1 && <CurrencyExchangeIcon style={{position: "relative", height: "20px", width: "20px", top: "4px"}}/>}
         {i === 2 && <TimerIcon style={{position: "relative", height: "20px", width: "20px", top: "4px"}}/>}
-        {i === 3 && <YouTubeIcon style={{position: "relative", height: "20px", width: "20px", top: "4px"}}/>}
+        {i === 3 && <MusicNoteIcon style={{position: "relative", height: "20px", width: "20px", top: "4px"}}/>}
         {i === 4 && <TranslateIcon style={{position: "relative", height: "20px", width: "20px", top: "4px"}}/>}
         {i === 5 && <CalendarMonthIcon style={{position: "relative", height: "20px", width: "20px", top: "4px"}}/>}
         {i === 6 && <BookIcon style={{position: "relative", height: "20px", width: "20px", top: "4px"}}/>}

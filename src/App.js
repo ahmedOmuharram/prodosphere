@@ -82,6 +82,7 @@ if (shouldFetchBackground()) {
 
 const CollapsingToDoList = () => {
   const [isCollapsed, setCollapsed] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleCollapseToggle = () => {
     setCollapsed(!isCollapsed);
@@ -105,6 +106,27 @@ const CollapsingToDoList = () => {
           fontSize: "20px",
           textShadow: "0px 1px 5px rgba(0, 0, 0, 0.8)",
         }}>
+              <div
+                style={{
+                  position: "absolute",
+                  right: 0,
+                  bottom: "50px",
+                  opacity: isHovered ? 1 : 0.3,
+                  transition: "opacity 0.3s ease",
+                }}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+              >
+                <iframe
+                  width="300px"
+                  height="180px"
+                  frameborder="0"
+                  style={{ borderRadius: "30px 60px" }}
+                  allowfullscreen="true"
+                  allow="geolocation"
+                  src="//umap.openstreetmap.fr/en/map/prodosphere_946169?scaleControl=false&miniMap=false&scrollWheelZoom=true&zoomControl=null&allowEdit=false&moreControl=true&searchControl=null&tilelayersControl=null&embedControl=false&datalayersControl=false&onLoadPanel=undefined&captionBar=false&captionMenus=true"
+                ></iframe>
+              </div>
             { isCollapsed ? "Open to-do list" : "Close to-do list" } &nbsp;
             <svg
             style={{ color: 'white' }}
@@ -384,6 +406,7 @@ function App() {
               { user !== "" && <TodayDate setUser={setUser}/> }
               { user !== "" && <GetLocation /> }
             </div>
+
             { user !== "" && <CollapsingToDoList/> }
             <br />
 
@@ -436,7 +459,6 @@ function App() {
           {user !== "" && <Navigation />}
           {user !== "" && <MenuToggle toggle={() => toggleOpen()} />}
         </motion.nav> 
-        
     </div>
     </weatherContext.Provider>
     </menuContext.Provider>
