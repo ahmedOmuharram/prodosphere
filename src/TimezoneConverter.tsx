@@ -10,6 +10,7 @@ const countryZones = [];
 countryCodes.forEach(countryCode => {
   const names = moment.tz.zonesForCountry(countryCode, true);
   names.forEach(name => {
+    if (name.offset%60 === 0) {
     let i = 0;
     for (i = 0; i < countryZones.length; i++) {
       if (name.name === countryZones[i].name) {
@@ -19,6 +20,7 @@ countryCodes.forEach(countryCode => {
     if (i === countryZones.length) {
       countryZones.push(name);
     }
+  }
   });
 });
 
@@ -90,6 +92,24 @@ function TimezoneConverter () {
     })),
   ];
 
+  function HANDLEDUMBASSPROBLEM(newTimeZone, num) {
+    if (num === 1) {
+      if (hourOptionSelector === 1) {
+        setHourOption2((hourOption1 + (getOffsetFromCountryZone(timeZoneState2) - getOffsetFromCountryZone(newTimeZone))/60) >= 0  ? (hourOption1 + (getOffsetFromCountryZone(timeZoneState2) - getOffsetFromCountryZone(newTimeZone))/60)%24 : 23-(Math.abs((hourOption1 + (getOffsetFromCountryZone(timeZoneState2) - getOffsetFromCountryZone(newTimeZone))/60 + 1))%24))
+      }
+      if (hourOptionSelector === 2) {
+        setHourOption1((hourOption2 + (getOffsetFromCountryZone(newTimeZone) - getOffsetFromCountryZone(timeZoneState2))/60) >= 0  ? (hourOption2 + (getOffsetFromCountryZone(newTimeZone) - getOffsetFromCountryZone(timeZoneState2))/60)%24 : 23-(Math.abs((hourOption2 + (getOffsetFromCountryZone(newTimeZone) - getOffsetFromCountryZone(timeZoneState2))/60 + 1))%24))
+      }
+    }
+    if (num === 2) {
+      if (hourOptionSelector === 1) {
+        setHourOption2((hourOption1 + (getOffsetFromCountryZone(newTimeZone) - getOffsetFromCountryZone(timeZoneState1))/60) >= 0  ? (hourOption1 + (getOffsetFromCountryZone(newTimeZone) - getOffsetFromCountryZone(timeZoneState1))/60)%24 : 23-(Math.abs((hourOption1 + (getOffsetFromCountryZone(newTimeZone) - getOffsetFromCountryZone(timeZoneState1))/60 + 1))%24))
+      }
+      if (hourOptionSelector === 2) {
+        setHourOption1((hourOption2 + (getOffsetFromCountryZone(timeZoneState1) - getOffsetFromCountryZone(newTimeZone))/60) >= 0  ? (hourOption2 + (getOffsetFromCountryZone(timeZoneState1) - getOffsetFromCountryZone(newTimeZone))/60)%24 : 23-(Math.abs((hourOption2 + (getOffsetFromCountryZone(timeZoneState1) - getOffsetFromCountryZone(newTimeZone))/60 + 1))%24))
+      }
+    }
+  }
     return (
         <>
         <p className="mt-5" style={{ fontSize: "30px", color: "white" }}>Timezone Converter</p>
@@ -104,7 +124,10 @@ function TimezoneConverter () {
           <Select
             options={fromTimeZoneOptions}
             value={fromTimeZoneOptions.find((option) => option.value === timeZoneState1)}
-            onChange={(selectedOption) => setTimeZoneState1(selectedOption.value)}
+            onChange={(selectedOption) => {
+              setTimeZoneState1(selectedOption.value)
+              HANDLEDUMBASSPROBLEM(selectedOption.value, 1);
+            }}
           />
         </div>
         <div style={{ marginLeft: "5%", width: "90%", marginRight: "5%" }}>
@@ -136,7 +159,10 @@ function TimezoneConverter () {
             menuPlacement="auto"
             options={toTimeZoneOptions}
             value={toTimeZoneOptions.find((option) => option.value === timeZoneState2)}
-            onChange={(selectedOption) => setTimeZoneState2(selectedOption.value)}
+            onChange={(selectedOption) => {
+              setTimeZoneState2(selectedOption.value);
+              HANDLEDUMBASSPROBLEM(selectedOption.value, 2);
+            }}
           />
         </div>
         <div style={{ marginLeft: "5%", width: "90%", marginRight: "5%" }}>
