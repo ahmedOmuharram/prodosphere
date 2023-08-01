@@ -81,7 +81,7 @@ if (shouldFetchBackground()) {
 }
 
 const CollapsingToDoList = () => {
-  const [isCollapsed, setCollapsed] = useState(false);
+  const [isCollapsed, setCollapsed] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
 
   const handleCollapseToggle = () => {
@@ -161,7 +161,7 @@ const CollapsingToDoList = () => {
         }}
       >
         <motion.div
-          initial={{ height: '480px', backgroundColor: "rgba(0, 0, 0, 0)" }}
+          initial={{ height: '45px', backgroundColor: "rgba(0, 0, 0, 0)" }}
           animate={{
             height: isCollapsed ? '45px' : '480px',
             opacity: isCollapsed ? 0 : 1,
