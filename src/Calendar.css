@@ -52,7 +52,7 @@ abbr {
 }
 
 .react-calendar__navigation {
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.199);
   display: flex;
   height: 24px;
 }
@@ -68,11 +68,11 @@ abbr {
 
 .react-calendar__navigation button:enabled:hover,
 .react-calendar__navigation button:enabled:focus {
-  background-color: #e6e6e6;
+  background-color: rgba(255, 255, 255, 0.248);
 }
 
 .react-calendar__month-view__weekdays {
-  background-color: rgba(255, 255, 255, 0.949);
+  background-color: rgba(255, 255, 255, 0.2);
   text-align: center;
   font-size: 0.75em;
   color: black;
@@ -133,12 +133,12 @@ abbr {
 }
 
 .react-calendar__tile--hasActive {
-  background: #76baff;
+  background: #76baffd8;
 }
 
 .react-calendar__tile--hasActive:enabled:hover,
 .react-calendar__tile--hasActive:enabled:focus {
-  background: #a9d4ff;
+  background: #a9d4ffd8;
 }
 
 .react-calendar__tile--active {
@@ -157,3 +157,16 @@ abbr {
   transition: 0.3 ease-in;
   background: rgba(113, 113, 113, 0.6);
 }
+
+.events::-webkit-scrollbar {
+  width: 10px;
+}
+
+.events::-webkit-scrollbar-thumb {
+  background-color: #ffffff;
+}
+
+.events::-webkit-scrollbar-thumb:hover {
+  background-color: #ffffff;
+}
+
