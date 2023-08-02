@@ -12,6 +12,7 @@ import Translate from './Translate.tsx';
 import Settings from './Settings.tsx';
 import YoutubePlayerComponent from './YoutubePlayer.tsx';
 import CalendarComponent from './Calendar.tsx';
+import TimerComponent from './TimerComponent.tsx';
 
 type MenuContextType = {
   menuState: number;
@@ -103,6 +104,7 @@ export const Navigation = () => {
         }}
       >
         {menuState === 0 && <TimezoneConverter/>}
+        {menuState === 2 && <TimerComponent/> }
         {menuState === 1 && <CurrencyConverter/> }
         {menuState === 3 && loadVideo === false ? <>{setLoadVideo(true)}</> : <></>}
         {loadVideo && <YoutubePlayerComponent/>}

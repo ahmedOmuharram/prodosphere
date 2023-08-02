@@ -23,6 +23,8 @@
     "react-bootstrap": "^2.8.0",
     "react-calendar": "^4.6.0",
     "react-confetti-explosion": "^2.1.2",
+    "react-countdown": "^2.3.5",
+    "react-countdown-circle-timer": "^3.2.1",
     "react-dom": "^18.2.0",
     "react-dropdown": "^1.11.0",
     "react-geolocation": "^1.0.4",
