@@ -104,7 +104,7 @@ export const Navigation = () => {
         }}
       >
         {menuState === 0 && <TimezoneConverter/>}
-        {menuState === 2 && <TimerComponent/> }
+        <div style={{display: (menuState === 2 ? "block" : "none")}}><TimerComponent/></div>
         {menuState === 1 && <CurrencyConverter/> }
         {menuState === 3 && loadVideo === false ? <>{setLoadVideo(true)}</> : <></>}
         {loadVideo && <YoutubePlayerComponent/>}

@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
+import { render } from 'react-dom'
+import Title from 'react-title-component'
 
 function TimerComponent() {
   const [key, setKey] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [durationIndex, setDurationIndex] = useState(0);
+  const [remainingTimeTitle, setRemainingTimeTitle] = useState(0);
   const durations = [1500, 300, 1500, 300, 1500, 300, 1500, 900];
 
   const renderTime = ({ remainingTime }) => {
@@ -16,6 +19,8 @@ function TimerComponent() {
 
     const minutes = Math.floor(remainingTime / 60);
     const seconds = remainingTime % 60;
+
+    setRemainingTimeTitle(remainingTime);
 
     return (
       <div>
@@ -33,6 +38,27 @@ function TimerComponent() {
     setDurationIndex(newDurationIndex);
     setIsPlaying(false);
   };
+
+    useEffect(() => {
+    if (isPlaying) {
+      const interval = setInterval(() => {
+        setRemainingTimeTitle((prevRemainingTime) => prevRemainingTime - 1);
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [isPlaying]);
+
+  useEffect(() => {
+    const minutes = Math.floor(remainingTimeTitle / 60);
+    const seconds = remainingTimeTitle % 60;
+
+    if (isPlaying) {
+      document.title = `${minutes}:${seconds >= 10 ? seconds : '0' + seconds} - Prodosphere`;
+    } else {
+      document.title = 'Prodosphere';
+    }
+  }, [isPlaying, remainingTimeTitle]);
 
   const handleNextDuration = () => {
     const nextIndex = (durationIndex + 1) % durations.length;
@@ -58,7 +84,7 @@ function TimerComponent() {
           duration={durations[durationIndex]}
           isGrowing={true}
           strokeWidth={2}
-          trailColor="rgba(0, 0, 0, 0)"
+          trailColor="rgba(0, 0, 0, 0.1)"
           size={250}
         >
           {renderTime}
