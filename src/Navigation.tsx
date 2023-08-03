@@ -13,7 +13,6 @@ import Settings from './Settings.tsx';
 import YoutubePlayerComponent from './YoutubePlayer.tsx';
 import CalendarComponent from './Calendar.tsx';
 import TimerComponent from './TimerComponent.tsx';
-import { duration } from 'moment';
 
 type MenuContextType = {
   menuState: number;

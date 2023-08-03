@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import Calendar from 'react-calendar';
 import './Calendar.css';
 import Moment from 'react-moment';
@@ -95,8 +95,8 @@ function colorCheck(date) {
         <p className="mt-5" style={{ fontSize: "30px", color: "white", marginBottom: "15px" }}>Calendar Events</p>
     <div className="events" style={{maxHeight: "300px", overflowY: "scroll"}}>{calendarEvents.map((event, index) => 
         <>
-            <div style={{display: "flex", flexDirection: "column", textAlign: "left", height: "fit-content", padding: 0}}>
-                <span style={{color: "white", marginBottom: 0, maxWidth: "250px" }}>
+            <div style={{display: "flex", flexDirection: "column", marginLeft: "20px", textAlign: "left", height: "fit-content", padding: 0}}>
+                <span style={{color: "white", marginBottom: 0, maxWidth: "250px", wordBreak: "break-word"}}>
                     {event.event}<br/>
                 </span>
                 <span style={{color: "rgba(255, 255, 255, 0.6)"}}>
@@ -119,7 +119,7 @@ function colorCheck(date) {
     {!selectRangeState 
     ?
     <>
-        <Button color='success' style={{ position: "absolute", bottom: "0px", right: "0px"}} variant="outlined" onClick={() => setSelectRangeState(true)}> <EventNoteIcon /></Button>
+        <Button sx={{color: lightGreen[400]}} color="success" style={{ position: "absolute", bottom: "0px", right: "0px"}} variant="outlined" onClick={() => setSelectRangeState(true)}> <EventNoteIcon /></Button>
     </>
     :
     <>
@@ -129,6 +129,7 @@ function colorCheck(date) {
                 style={{
                     fontSize: "15px",
                     width: "90%",
+                    marginLeft: "20px",
                     backgroundColor: "rgba(0,0,0,0)",
                     color: "white",
                     outline: "none",
