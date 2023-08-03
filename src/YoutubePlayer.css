@@ -1,0 +1,11 @@
+.soundmixer::-webkit-scrollbar {
+    width: 10px;
+}
+  
+.soundmixer::-webkit-scrollbar-thumb {
+background-color: #ffffff;
+}
+
+.soundmixer::-webkit-scrollbar-thumb:hover {
+background-color: #ffffff;
+}

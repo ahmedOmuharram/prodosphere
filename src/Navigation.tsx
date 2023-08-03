@@ -13,6 +13,7 @@ import Settings from './Settings.tsx';
 import YoutubePlayerComponent from './YoutubePlayer.tsx';
 import CalendarComponent from './Calendar.tsx';
 import TimerComponent from './TimerComponent.tsx';
+import { duration } from 'moment';
 
 type MenuContextType = {
   menuState: number;
@@ -71,7 +72,7 @@ const menuClickedVariants = {
   }
 };
 
-export const Navigation = () => {
+export const Navigation = ({durations, durationIndex, setDurationIndex}) => {
   const { menuState } = useContext<MenuContextType>(menuContext);
   const { clickState, setClickState } = useContext<ClickStateType>(clickContext);
   const [loadVideo, setLoadVideo] = useState(false);
@@ -104,7 +105,7 @@ export const Navigation = () => {
         }}
       >
         {menuState === 0 && <TimezoneConverter/>}
-        <div style={{display: (menuState === 2 ? "block" : "none")}}><TimerComponent/></div>
+        <div style={{display: (menuState === 2 ? "block" : "none")}}><TimerComponent durations={durations} durationIndex={durationIndex} setDurationIndex={setDurationIndex}/></div>
         {menuState === 1 && <CurrencyConverter/> }
         {menuState === 3 && loadVideo === false ? <>{setLoadVideo(true)}</> : <></>}
         {loadVideo && <YoutubePlayerComponent/>}

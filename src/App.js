@@ -1,6 +1,6 @@
 import './App.css';
 import fallbackBackground from './background.jpeg'
-import { useState, useRef, createContext, useContext } from 'react';
+import { useState, useRef, createContext, useContext, useEffect } from 'react';
 import { createApi } from 'unsplash-js';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -13,8 +13,8 @@ import WeatherComponent from "./Weather";
 import ToDoComponent from "./ToDoComponent"
 import LinkGroupComponent from './LinkGroup';
 import Moment from 'react-moment';
-import { useTimer } from 'react-timer-hook';
 import CalendarComponent from './Calendar';
+import { duration } from 'moment';
 
 const unsplash = createApi({
   accessKey: process.env.REACT_APP_UNSPLASH_ACCESS_KEY
@@ -252,79 +252,6 @@ function UserForm({ setUser }) {
   );
 }
 
-function TimerComponent({ expiryTimestamp }) {
-  const {
-    seconds,
-    minutes,
-    isRunning,
-    pause,
-    resume,
-    restart,
-  } = useTimer({ expiryTimestamp, onExpire: () => console.warn('onExpire called') });
-
-  return (
-    <>
-      <div>
-      <svg className="mb-1" fill="#ffffff" height="30px" width="30px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 455 455" xmlSpace="preserve" stroke="#ffffff">
-        <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-        <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
-        <g id="SVGRepo_iconCarrier">
-          <path d="M332.229,90.04l14.238-27.159l-26.57-13.93L305.67,76.087c-19.618-8.465-40.875-13.849-63.17-15.523V30h48.269V0H164.231v30 H212.5v30.563c-22.295,1.674-43.553,7.059-63.171,15.523L135.103,48.95l-26.57,13.93l14.239,27.16 C67.055,124.958,30,186.897,30,257.5C30,366.576,118.424,455,227.5,455S425,366.576,425,257.5 C425,186.896,387.944,124.958,332.229,90.04z M355,272.5H212.5V130h30v112.5H355V272.5z"></path>
-        </g>
-      </svg>&nbsp;&nbsp;
-        <Moment format='mm:ss'>{new Date().setMinutes(minutes, seconds)}</Moment>
-        <button style={{
-          background: "none",
-          color: "green",
-          border: "none",
-          position: "relative",
-          top: "-15px",
-          left: "-5px"
-        }} 
-        onClick={() => {
-          const time = new Date();
-          time.setMinutes(time.getMinutes() + minutes + 1, time.getSeconds() + seconds);
-          restart(time);
-          if (!isRunning) {
-            pause();
-          }
-        }}>+</button>
-                <button style={{
-          background: "none",
-          color: "red",
-          border: "none",
-          position: "relative",
-          bottom: "15px",
-          height: "fit-content",
-          left: "-28px",
-          padding: 0
-        }} 
-        onClick={() => {
-          const time = new Date();
-          time.setMinutes(time.getMinutes() + minutes - 1, time.getSeconds() + seconds);
-          restart(time);
-          if (!isRunning) {
-            pause();
-          }
-        }}>-</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        {isRunning ? <button style={{
-          background: "none",
-          color: "white",
-          border: "none",
-        }}  
-        onClick={pause}>Pause</button> 
-        : <button style={{
-          background: "none",
-          color: "white",
-          border: "none"
-        }}  
-        onClick={resume}>Resume</button>}
-      </div>
-    </>
-  );
-}
-
-
 function TodayDate() {
   return (
     <>
@@ -357,13 +284,28 @@ function App() {
 
   const [clickState, setClickState] = useState(false);
   const clickValue = { clickState, setClickState };
-
   const [value, onChange] = useState(new Date());
   const [text, setText] = useState("");
   const [selectRangeState, setSelectRangeState] = useState(false);
   const [calendarEvents, setCalendarEvents] = useState([]);
   const [colorPicker, setColorPicker] = useState(0);
   const calendarContextValue = { value, onChange, text, setText , selectRangeState, setSelectRangeState, calendarEvents, setCalendarEvents, colorPicker, setColorPicker };
+
+  const [documentTitle, setDocumentTitle] = useState(document.title);
+  const durations = [1500, 300, 1500, 300, 1500, 300, 1500, 900];
+  const [durationIndex, setDurationIndex] = useState(0);
+
+  useEffect(() => {
+    const titleUpdateHandler = () => {
+      setDocumentTitle(document.title);
+    };
+
+    document.addEventListener("DOMSubtreeModified", titleUpdateHandler);
+
+    return () => {
+      document.removeEventListener("DOMSubtreeModified", titleUpdateHandler);
+    };
+  }, []);
 
   return (
     <calendarContext.Provider value={calendarContextValue}>
@@ -392,13 +334,25 @@ function App() {
             </div>
             
 
-            {/* Greeting */}
-            <p style={{fontSize: "calc(20px + 1vmin)", textShadow: "0px 1px 5px rgba(0, 0, 0, 0.9)", marginTop: "0", paddingTop: "0"}}>
+            <p style={{fontSize: "calc(20px + 1vmin)", textShadow: "0px 1px 5px rgba(0, 0, 0, 0.9)", marginTop: "0", marginBottom: 0, paddingTop: "0"}}>
               {user === "" ? "Please enter your name" : 
                 (weatherState !== null && weatherState.weather && weatherState.weather.length > 0 ? 
                 (new Date().getHours() >= 12 && `${weatherState.weather[0].icon.charAt(2)}` !== "n" ? `Good afternoon, ${user}!` :
                 (`${weatherState.weather[0].icon.charAt(2)}` === "n" ? `Good evening, ${user}!` : 
                 (`${weatherState.weather[0].icon.charAt(2)}` === "d" ? `Good morning, ${user}!` : `Hello, ${user}!`))) : `Hello, ${user}!`)}
+            </p>
+
+            {/* Greeting */}
+            <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "calc(12px + 1vmin)", textShadow: "0px 1px 5px rgba(0, 0, 0, 0.9)", marginTop: "0", marginBottom: 0, paddingTop: "0"}}>
+              {user !== "" && document.title.length > 12 ? 
+                (durations[durationIndex] === 1500 ? 
+                  "(Pomodoro) " : 
+                  (durations[durationIndex] === 300 ? 
+                    "(Short Break) " : 
+                    "(Long Break) "
+                  )
+                ) : ""}
+              {user !== "" && document.title.length > 12 ? `${documentTitle.split('|')[0]}` : ""}
             </p>
 
             {/* Top right date and weather info */}
@@ -437,16 +391,6 @@ function App() {
             {/* First time form */}
             { user === "" && <UserForm setUser={setUser}/> } 
           </motion.div>
-          <div style={{
-              position: "absolute",
-              bottom: "0px",
-              padding: "5px 20px 0 10px",
-              backgroundColor: "rgba(0, 0, 0, 0.4)",
-              borderTopLeftRadius: "20px",
-              borderTopRightRadius: "20px"
-            }}>
-                { user !== "" && <TimerComponent expiryTimestamp={new Date()} /> }
-          </div>
         </header>
       
          <motion.nav
@@ -456,7 +400,7 @@ function App() {
           ref={containerRef}
         >
           {user !== "" && <motion.div className="background" variants={sidebar} />}
-          {user !== "" && <Navigation />}
+          {user !== "" && <Navigation durations={durations} durationIndex={durationIndex} setDurationIndex={setDurationIndex}/>}
           {user !== "" && <MenuToggle toggle={() => toggleOpen()} />}
         </motion.nav> 
     </div>
