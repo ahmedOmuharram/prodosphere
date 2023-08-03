@@ -119,7 +119,7 @@ function colorCheck(date) {
     {!selectRangeState 
     ?
     <>
-        <Button color='success' style={{ position: "absolute", bottom: "0px", right: "0px"}} variant="outlined" onClick={() => setSelectRangeState(true)}> <EventNoteIcon /></Button>
+        <Button sx={{color: lightGreen[400]}} color="success" style={{ position: "absolute", bottom: "0px", right: "0px"}} variant="outlined" onClick={() => setSelectRangeState(true)}> <EventNoteIcon /></Button>
     </>
     :
     <>
