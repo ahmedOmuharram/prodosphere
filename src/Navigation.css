@@ -2,49 +2,14 @@
     color: white;
 }
 
-.event-color-2f96d0 {
-    background-color: #2f95d067 !important;
-    border-radius: 0 !important;
-}
-
-.event-color-B92FD0 {
-    background-color: #B92FD067 !important;
-    border-radius: 0 !important;
-}
-
-.event-color-D0692F {
-    background-color: #D0692F67 !important;
-    border-radius: 0 !important;
-}
-
-.event-color-46D02F {
-    background-color: #46D02F67 !important;
-    border-radius: 0 !important;
-}
-
-.container-hover-check {
+.event-color {
     position: absolute;
-    display: block ruby;
-    opacity: 0;
-    transform: translate(-7px,-30px);
-    height: 43px;
-    width: 44px;
-    overflow: visible;
+    display: block;
+    opacity: 0.2;
+    transform: translate(-4px,-23px);
+    height: 29px;
+    width: 42.5px;
 }
-.container-hover-check:hover {
-    opacity: 1;
-    transition: opacity 0.5s;
-}
-.event-name {
-    position: relative;
-    top: -25px;
-    width: fit-content;
-    background-color: green;
-    border: 1px solid black;
-    border-radius: 5px;
-    pointer-events: none;
-}
-
 .soundmixer::-webkit-scrollbar {
     width: 5px;
 }

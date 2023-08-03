@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import Calendar from 'react-calendar';
 import './Calendar.css';
 import Moment from 'react-moment';
@@ -27,6 +27,8 @@ type CalendarStateType = {
     setColorPicker: (newState: number) => void;
 };
 
+
+
 const colors = ["2f96d0", "B92FD0", "D0692F", "46D02F"]
 
 function CalendarComponent({displayCalendarOnly}) {
@@ -36,6 +38,7 @@ function CalendarComponent({displayCalendarOnly}) {
           selectRangeState, setSelectRangeState,
           calendarEvents, setCalendarEvents,
           colorPicker, setColorPicker } = useContext<CalendarStateType>(calendarContext);
+    const [currentDay, setCurrentDay] = useState<Value>(new Date());
 
 useEffect(() => {
     const newCalendarEvents = JSON.parse(localStorage.getItem("calendarEvents"));
@@ -55,20 +58,11 @@ function rangeCheck(date) {
     }
     return false;
 }
-function nameCheck(date) {
-    const events = [];
-    for (let i = 0; i < calendarEvents.length; i++) {
-        if (date >= calendarEvents[i].range[0] && date <= calendarEvents[i].range[1]) {
-            events.push(calendarEvents[i].event);
-        }
-    }
-    return events;
-}
 function colorCheck(date) {
     const eventColors = [];
     for (let i = 0; i < calendarEvents.length; i++) {
         if (date >= calendarEvents[i].range[0] && date <= calendarEvents[i].range[1]) {
-            eventColors.push("event-color-" + calendarEvents[i].color);
+            eventColors.push("#" + calendarEvents[i].color);
         }
     }
     return eventColors;
@@ -79,17 +73,23 @@ function colorCheck(date) {
     {displayCalendarOnly &&
               <>
                     <div><Calendar allowPartialRange={true} selectRange={selectRangeState} onChange={onChange} value={value}
-                        tileClassName={({ activeStartDate, date, view }) => {
-                            if (view === 'month' && rangeCheck(date)) {
-                                return colorCheck(date);
-                            }
-                            return null;
-                        }}
                         tileContent={({ activeStartDate, date, view }) =>
-                            view === 'month' && rangeCheck(date) ? <><div className='container-hover-check'><div className='event-name'>{nameCheck(date)}</div></div></> : null} /></div>
+                            view === 'month' && rangeCheck(date) ? <>{colorCheck(date).map((color) => {
+                                return(<div className='event-color' style={{backgroundColor: color}}></div>)
+                            })}</> : null}
+                            onClickDay={(value) => {
+                                setCurrentDay(value);
+                            }} /></div>
                     <p style={{ color: "white", fontSize: "14px" }}>
                         {value.constructor === Array && value[0] && value[1] ? <>Selected from <Moment format='L'>{value[0].toString()}</Moment> to <Moment format='L'>{value[1].toString()}</Moment></> : <>Selected <Moment format='L'>{value.toString()}</Moment></>}
                     </p>
+                    {calendarEvents.map(({ event, range }) => {
+                        if (currentDay >= range[0] && currentDay <= range[1]) {
+                            return (
+                                <div>{event}</div>
+                            )
+                        }
+                    })}
               </>}
     {!displayCalendarOnly && <>
         <p className="mt-5" style={{ fontSize: "30px", color: "white", marginBottom: "15px" }}>Calendar Events</p>
