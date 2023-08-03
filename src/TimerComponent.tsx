@@ -5,14 +5,26 @@ import Button from '@mui/material/Button';
 import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { grey } from "@mui/material/colors";
+import { useTimer } from 'react-timer-hook';
+import Moment from 'react-moment';
 
-function TimerComponent({ durations, durationIndex, setDurationIndex }) {
+function TimerComponent({ durations, durationIndex, setDurationIndex, expiryTimestamp }) {
+  const {
+    seconds,
+    minutes,
+    isRunning,
+    pause,
+    resume,
+    restart,
+  } = useTimer({ expiryTimestamp, onExpire: () => console.warn('onExpire called') });
+
+
   const [key, setKey] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [remainingTimeTitle, setRemainingTimeTitle] = useState(0);
 
-  const minutes = Math.floor(remainingTimeTitle / 60);
-  const seconds = remainingTimeTitle % 60;
+  const remainingMinutes = Math.floor(remainingTimeTitle / 60);
+  const remainingSeconds = remainingTimeTitle % 60;
 
   const renderTime = ({ remainingTime }) => {
     if (remainingTime === 0) {
@@ -23,13 +35,19 @@ function TimerComponent({ durations, durationIndex, setDurationIndex }) {
 
     setRemainingTimeTitle(remainingTime);
 
+    if (minutes * 60 + seconds > remainingTime) {
+      const time = new Date();
+      time.setMinutes(new Date().getMinutes() + Math.floor(remainingTime/60), new Date().getSeconds() + remainingTime % 60);
+      restart(time, isRunning);
+    }
+
     return (
       <div>
         <div> 
         {!isPlaying ? 
         (durations[durationIndex] === 1500 ? "Pomodoro" : (durations[durationIndex] === 300 ? "Short break" : "Long break")) : 
         durations[durationIndex] === 1500 ? "Focus time!" : (durations[durationIndex] === 300 ? "Time for a short break!" : "Time for a long break!")}</div>
-        <div>{`${minutes}:${seconds < 10 ? "0" : ""}${seconds}`}</div>
+        <div>{`${remainingMinutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`}</div>
       </div>
     );
   };
@@ -37,6 +55,10 @@ function TimerComponent({ durations, durationIndex, setDurationIndex }) {
   const handleDurationChange = (newDurationIndex) => {
     setKey((prevKey) => prevKey + 1);
     setDurationIndex(newDurationIndex);
+    const time = new Date();
+    time.setMinutes(new Date().getMinutes() + Math.floor(durations[newDurationIndex]/60), new Date().getSeconds() + durations[newDurationIndex]%60);
+    restart(time);
+    pause();
     setIsPlaying(false);
   };
 
@@ -50,6 +72,12 @@ function TimerComponent({ durations, durationIndex, setDurationIndex }) {
     if (!isPlaying) (
         new Audio(require("./ping.mp3")).play()
     )
+    if (!isRunning) {
+      resume();
+    }
+    else {
+      pause();
+    }
     setIsPlaying((prevIsPlaying) => !prevIsPlaying);
 };
 
@@ -60,8 +88,8 @@ function TimerComponent({ durations, durationIndex, setDurationIndex }) {
 
   return (
     <>
-      <Helmet defer={false}>
-        {isPlaying ? (
+        <Helmet defer={false}>
+        {isRunning ? (
           <title>
             {`${minutes}:${seconds < 10 ? "0" : ""}${seconds} | Prodosphere`}
           </title>
@@ -97,7 +125,7 @@ function TimerComponent({ durations, durationIndex, setDurationIndex }) {
             <stop offset="95%" stopColor={durations[durationIndex] === 1500 ? "#D72859" : (durations[durationIndex] === 300 ? "#4E24DB" : "#40D510")} />
             </linearGradient>
         </defs>
-    </svg>
+      </svg>
     </>
   );
 }

@@ -105,7 +105,7 @@ export const Navigation = ({durations, durationIndex, setDurationIndex}) => {
         }}
       >
         {menuState === 0 && <TimezoneConverter/>}
-        <div style={{display: (menuState === 2 ? "block" : "none")}}><TimerComponent durations={durations} durationIndex={durationIndex} setDurationIndex={setDurationIndex}/></div>
+        <div style={{display: (menuState === 2 ? "block" : "none")}}><TimerComponent durations={durations} durationIndex={durationIndex} setDurationIndex={setDurationIndex} expiryTimestamp={new Date()}/></div>
         {menuState === 1 && <CurrencyConverter/> }
         {menuState === 3 && loadVideo === false ? <>{setLoadVideo(true)}</> : <></>}
         {loadVideo && <YoutubePlayerComponent/>}
