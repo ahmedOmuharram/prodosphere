@@ -79,7 +79,7 @@ function LinkGroupComponent() {
           <ButtonGroup className="me-2">
             {toolbar.map((buttonNumber) => (
               <div>
-              <a href={(links[buttonNumber].substring(0, 4) === "http" ? "" : "//") + links[buttonNumber]}>
+              <a href={links[buttonNumber].substring(0, 4) === "" ? "javascript:void(0)" : ((links[buttonNumber].substring(0, 4) === "http" ? "" : "//") + links[buttonNumber])}>
               <Button
                 className="btn btn-light"
                 style={{
@@ -156,6 +156,8 @@ function LinkGroupComponent() {
                 style={{
                   fontSize: "15px",
                   width: "90%",
+                  position: "relative",
+                  top: "-10px",
                   backgroundColor: "rgba(0,0,0,0)",
                   color: "white",
                   outline: "none",
