@@ -15,7 +15,6 @@ import { useTimer } from 'react-timer-hook';
 import LinkGroupComponent from './LinkGroup';
 import Moment from 'react-moment';
 import CalendarComponent from './Calendar';
-import { duration } from 'moment';
 
 const unsplash = createApi({
   accessKey: process.env.REACT_APP_UNSPLASH_ACCESS_KEY
@@ -119,6 +118,7 @@ const CollapsingToDoList = () => {
                 onMouseLeave={() => setIsHovered(false)}
               >
                 <iframe
+                  title="World Map"
                   width="300px"
                   height="180px"
                   frameborder="0"

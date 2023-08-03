@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import Calendar from 'react-calendar';
 import './Calendar.css';
 import Moment from 'react-moment';
