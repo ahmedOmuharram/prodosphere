@@ -93,88 +93,10 @@ function LinkGroupComponent() {
                 }}
                 key={buttonNumber}
               >
-                <img height="32" width="32" alt="website favicon" src={links[buttonNumber] !== "" ? "https://www.google.com/s2/favicons?sz=64&domain_url=" + links[buttonNumber].substring(links[buttonNumber].indexOf(":") + 1) : "https://upload.wikimedia.org/wikipedia/commons/5/56/Chain_link_icon_slanted.png"} />
+                <img height="32" width="32" alt="favicon" src={links[buttonNumber] !== "" ? "https://www.google.com/s2/favicons?sz=64&domain_url=" + (links[buttonNumber].substring(0, 4) === "http" ? links[buttonNumber].split("://")[1] : links[buttonNumber].substring(links[buttonNumber].indexOf(":") + 1))  : "https://upload.wikimedia.org/wikipedia/commons/5/56/Chain_link_icon_slanted.png"} />
               </Button>
               </a>
-              {editorIndex !== buttonNumber ? 
               <Button
-              onClick={() => {
-                setEditorIndex(buttonNumber);
-              }}
-              className="btn btn-light"
-              style={{
-                fontSize: "10px",
-                paddingBottom: "5px",
-                backgroundColor: "#c6c4ff",
-                borderRadius: "50%",
-                width: "20px",
-                padding: "0px",
-                textAlign: "center",
-                height: "20px",
-                top: "20px",
-                position: "relative",
-                left: "-9px",
-              }}
-              key={buttonNumber}
-              
-            >
-              <svg
-                style={{ color: 'white' }}
-                width="15"
-                height="15"
-                strokeWidth="1.5"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M13.0207 5.82839L15.8491 2.99996L20.7988 7.94971L17.9704 10.7781M13.0207 5.82839L3.41405 15.435C3.22652 15.6225 3.12116 15.8769 3.12116 16.1421V20.6776H7.65669C7.92191 20.6776 8.17626 20.5723 8.3638 20.3847L17.9704 10.7781M13.0207 5.82839L17.9704 10.7781"
-                  stroke="lightblue"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  fill="blue"
-                ></path>
-              </svg> 
-            </Button>:
-              <input
-                value={links[buttonNumber]}
-                onChange={(event) => {
-                  const newLinks = [...links];
-                  newLinks[buttonNumber] = event.currentTarget.value;
-                  setLinks(newLinks);
-                  localStorage.setItem('linkItems', JSON.stringify(newLinks));
-                }}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter") {
-                  const newLinks = [...links];
-                  newLinks[buttonNumber] = event.currentTarget.value;
-                  setEditorIndex(0);
-                  setLinks(newLinks);
-                  localStorage.setItem('linkItems', JSON.stringify(newLinks));
-                  }
-                }}
-                style={{
-                  fontSize: "15px",
-                  width: "90%",
-                  position: "relative",
-                  top: "-10px",
-                  backgroundColor: "rgba(0,0,0,0)",
-                  color: "white",
-                  outline: "none",
-                  border: "none",
-                  borderBottom: "2px solid rgba(255, 255, 255, 1)",
-                }}
-                onBlur={(event) => {
-                  const newLinks = [...links];
-                  newLinks[buttonNumber] = event.currentTarget.value;
-                  setEditorIndex(0);
-                  setLinks(newLinks);
-                  localStorage.setItem('linkItems', JSON.stringify(newLinks));
-                }}
-                autoFocus
-              />
-            }
-            <Button
               onClick={() => {
                 const newLinks = [...links];
                 const newToolbars = [...toolbars];
@@ -218,7 +140,7 @@ function LinkGroupComponent() {
                 height: "20px",
                 top: "-20px",
                 position: "relative",
-                left: "-70px",
+                left: "-50px",
               }}
             > 
               <svg width="16" height="16" viewBox="1 1 20 24" style={{paddingBottom: "5px"}}>
@@ -226,6 +148,85 @@ function LinkGroupComponent() {
                 <DeletePath d="M 3 2.5 L 17 16.346" />
               </svg>
              </Button>
+              {editorIndex !== buttonNumber ? 
+              <Button
+              onClick={() => {
+                setEditorIndex(buttonNumber);
+              }}
+              className="btn btn-light"
+              style={{
+                fontSize: "10px",
+                paddingBottom: "5px",
+                backgroundColor: "#c6c4ff",
+                borderRadius: "50%",
+                width: "20px",
+                padding: "0px",
+                textAlign: "center",
+                height: "20px",
+                top: "20px",
+                position: "relative",
+                left: "-29px",
+              }}
+              key={buttonNumber}
+              
+            >
+              <svg
+                style={{ color: 'white' }}
+                width="15"
+                height="15"
+                strokeWidth="1.5"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M13.0207 5.82839L15.8491 2.99996L20.7988 7.94971L17.9704 10.7781M13.0207 5.82839L3.41405 15.435C3.22652 15.6225 3.12116 15.8769 3.12116 16.1421V20.6776H7.65669C7.92191 20.6776 8.17626 20.5723 8.3638 20.3847L17.9704 10.7781M13.0207 5.82839L17.9704 10.7781"
+                  stroke="lightblue"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  fill="blue"
+                ></path>
+              </svg> 
+            </Button>:
+              <input
+                value={links[buttonNumber]}
+                onChange={(event) => {
+                  const newLinks = [...links];
+                  newLinks[buttonNumber] = event.currentTarget.value;
+                  setLinks(newLinks);
+                  localStorage.setItem('linkItems', JSON.stringify(newLinks));
+                }}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                  const newLinks = [...links];
+                  newLinks[buttonNumber] = event.currentTarget.value;
+                  setEditorIndex(0);
+                  setLinks(newLinks);
+                  localStorage.setItem('linkItems', JSON.stringify(newLinks));
+                  }
+                }}
+                style={{
+                  fontSize: "15px",
+                  width: "90%",
+                  position: "relative",
+                  top: "10px",
+                  left: "10px",
+                  backgroundColor: "rgba(0,0,0,0)",
+                  color: "white",
+                  outline: "none",
+                  border: "none",
+                  borderBottom: "2px solid rgba(255, 255, 255, 1)",
+                }}
+                onBlur={(event) => {
+                  const newLinks = [...links];
+                  newLinks[buttonNumber] = event.currentTarget.value;
+                  setEditorIndex(0);
+                  setLinks(newLinks);
+                  localStorage.setItem('linkItems', JSON.stringify(newLinks));
+                }}
+                autoFocus
+              />
+            }
             </div>
             ))}
           </ButtonGroup>
