@@ -96,7 +96,7 @@ function colorCheck(date) {
               </>}
     {!displayCalendarOnly && <>
         <p className="mt-5" style={{ fontSize: "30px", color: "white", marginBottom: "15px" }}>Calendar Events</p>
-    <div className="events" style={{maxHeight: "300px", overflowY: "scroll"}}>{calendarEvents.map((event, index) =>
+    <div className="events" style={{maxHeight: "300px", overflowY: "auto"}}>{calendarEvents.map((event, index) =>
         <>
             <div style={{display: "flex", flexDirection: "column", marginLeft: "20px", textAlign: "left", height: "fit-content", padding: 0}}>
                 <span style={{color: "white", marginBottom: 0, maxWidth: "250px", wordBreak: "break-word"}}>
