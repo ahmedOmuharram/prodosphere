@@ -88,7 +88,7 @@ function colorCheck(date) {
                         {calendarEvents.map(({ event, range }) => {
                             if (currentDay >= range[0] && currentDay <= range[1]) {
                                 return (               
-                                    <div style={{color: "rgba(255, 255, 255, 0.7)", marginBottom: "0", fontSize: "16px", width: "fit-content", textAlign: "left"}}>{event}</div>
+                                    <div style={{color: "rgba(255, 255, 255, 0.7)", marginBottom: "0", fontSize: "16px", width: "fit-content", textAlign: "left", maxWidth: "400px", overflowX: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis"}}>{event}</div>
                                 )
                             }
                         })}
