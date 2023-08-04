@@ -11,7 +11,6 @@ import { Navigation } from "./Navigation.tsx";
 import Geolocation from "react-geolocation";
 import WeatherComponent from "./Weather";
 import ToDoComponent from "./ToDoComponent"
-import { useTimer } from 'react-timer-hook';
 import LinkGroupComponent from './LinkGroup';
 import Moment from 'react-moment';
 import CalendarComponent from './Calendar';
