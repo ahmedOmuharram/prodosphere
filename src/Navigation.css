@@ -10,14 +10,24 @@
     height: 29px;
     width: 42.5px;
 }
-.soundmixer::-webkit-scrollbar {
+
+.soundmixer::-webkit-scrollbar, .calendar-events-app::-webkit-scrollbar {
     width: 5px;
 }
   
-.soundmixer::-webkit-scrollbar-thumb {
+.soundmixer::-webkit-scrollbar-thumb, .calendar-events-app::-webkit-scrollbar-thumb {
 background-color: #ffffff;
 }
 
-.soundmixer::-webkit-scrollbar-thumb:hover {
+.soundmixer::-webkit-scrollbar-thumb:hover, .calendar-events-app::-webkit-scrollbar-thumb:hover {
 background-color: #ffffff;
+}
+
+.calendar-events-app {
+    opacity: 0.7;
+    transition: 0.3s ease-out;
+}
+
+.calendar-events-app:hover {
+    opacity: 1;
 }

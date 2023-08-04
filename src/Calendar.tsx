@@ -83,13 +83,16 @@ function colorCheck(date) {
                     <p style={{ color: "white", fontSize: "14px" }}>
                         {value.constructor === Array && value[0] && value[1] ? <>Selected from <Moment format='L'>{value[0].toString()}</Moment> to <Moment format='L'>{value[1].toString()}</Moment></> : <>Selected <Moment format='L'>{value.toString()}</Moment></>}
                     </p>
-                    {calendarEvents.map(({ event, range }) => {
-                        if (currentDay >= range[0] && currentDay <= range[1]) {
-                            return (
-                                <div>{event}</div>
-                            )
-                        }
-                    })}
+                    <div className="calendar-events-app" style={{position: 'absolute', top: 0, left: "300px", height: "188px", padding: "10px", paddingRight: "50px", backgroundColor: "rgba(0, 0, 0, 0.4)", overflowY: "scroll"}}>
+                        <div style={{fontSize: "20px", width: "fit-content", textAlign: "left"}}>{<Moment format='L'>{currentDay.toString()}</Moment>}</div>
+                        {calendarEvents.map(({ event, range }) => {
+                            if (currentDay >= range[0] && currentDay <= range[1]) {
+                                return (               
+                                    <div style={{color: "rgba(255, 255, 255, 0.7)", marginBottom: "0", fontSize: "16px", width: "fit-content", textAlign: "left"}}>{event}</div>
+                                )
+                            }
+                        })}
+                    </div>
               </>}
     {!displayCalendarOnly && <>
         <p className="mt-5" style={{ fontSize: "30px", color: "white", marginBottom: "15px" }}>Calendar Events</p>
