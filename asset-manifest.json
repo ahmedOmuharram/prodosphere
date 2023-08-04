@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/prodosphere/static/css/main.cf9fcfc0.css",
-    "main.js": "/prodosphere/static/js/main.cfcbbaf9.js",
+    "main.css": "/prodosphere/static/css/main.d4c5e3a0.css",
+    "main.js": "/prodosphere/static/js/main.c1b6a7ff.js",
     "static/js/787.244012d8.chunk.js": "/prodosphere/static/js/787.244012d8.chunk.js",
     "static/media/background.jpeg": "/prodosphere/static/media/background.e18dbb66d28a85a68e54.jpeg",
     "static/media/ping.mp3": "/prodosphere/static/media/ping.778c3b691aa2aabd399d.mp3",
     "index.html": "/prodosphere/index.html",
-    "main.cf9fcfc0.css.map": "/prodosphere/static/css/main.cf9fcfc0.css.map",
-    "main.cfcbbaf9.js.map": "/prodosphere/static/js/main.cfcbbaf9.js.map",
+    "main.d4c5e3a0.css.map": "/prodosphere/static/css/main.d4c5e3a0.css.map",
+    "main.c1b6a7ff.js.map": "/prodosphere/static/js/main.c1b6a7ff.js.map",
     "787.244012d8.chunk.js.map": "/prodosphere/static/js/787.244012d8.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.cf9fcfc0.css",
-    "static/js/main.cfcbbaf9.js"
+    "static/css/main.d4c5e3a0.css",
+    "static/js/main.c1b6a7ff.js"
   ]
 }
