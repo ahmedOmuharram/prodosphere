@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { grey, lightGreen, red } from '@mui/material/colors';
+import { ArrowBackIos, Delete, NoteAdd } from '@mui/icons-material';
+import { Button, IconButton } from '@mui/material';
+import './Notes.css';
 
 function Notes() {
   const [pages, setPages] = useState([{title: "", notes: ""}]); 
@@ -29,7 +33,7 @@ function Notes() {
     }
   };
 
-  const handlePrevPage = () => {
+  /*const handlePrevPage = () => {
     if (currentPageIndex > 0) {
       setCurrentPageIndex(currentPageIndex - 1);
     }
@@ -39,7 +43,8 @@ function Notes() {
     if (currentPageIndex < pages.length - 1) {
       setCurrentPageIndex(currentPageIndex + 1);
     }
-  };
+  };*/
+
   useEffect(() => {
     const savedPages = localStorage.getItem('notePages');
     if (savedPages) {
@@ -50,11 +55,23 @@ function Notes() {
 
   return (
     <>
-      <p className="mt-2" style={{ fontSize: "18px", color: "white" }}>Notes</p>
+      <p style={{ marginTop: "12px", fontSize: "30px", color: "white" }}>Notes</p>
       {currentPageIndex >= 0 &&<> 
-        <button className='btn btn-danger' onClick={() => setCurrentPageIndex(-1)}></button><br></br>
-      <textarea style={{
-          fontSize: "15px",
+        <button style={{
+          position: "absolute",
+          top: "20px",
+          left: "20px",
+          border: "none",
+          padding: 0,
+          marginBottom: 0,
+          background: "none"
+        }} onClick={() => setCurrentPageIndex(-1)}><ArrowBackIos style={{ padding: 0, marginBottom: 0 }}sx={{color: grey[50]}} /></button>
+        <textarea className="note-area" placeholder="Title..." style={{
+          fontSize: "20px",
+          fontWeight: "bold",
+          marginTop: 0,
+          paddingTop: 0,
+          overflowY: "auto",
           width: "90%",
           backgroundColor: "rgba(0,0,0,0)",
           color: "white",
@@ -62,23 +79,23 @@ function Notes() {
           border: "none",
           borderBottom: "1px solid rgba(255, 255, 255, 0.3)",
           marginBottom: "10px",
-          height: "30px",
+          height: "35px",
           resize: "none"}} value={pages[currentPageIndex].title} onChange={event => {
           const newPages = [...pages];
           newPages[currentPageIndex].title = event.target.value;
           localStorage.setItem('notePages', JSON.stringify(newPages));
           setPages(newPages);
           }}/>
-<textarea style={{
+<textarea className="note-area" placeholder="Write your thoughts here..." style={{
           fontSize: "15px",
           width: "90%",
           backgroundColor: "rgba(0,0,0,0)",
           color: "white",
           outline: "none",
           border: "none",
-          borderBottom: "1px solid rgba(255, 255, 255, 0.3)",
+          overflowY: "auto",
           marginBottom: "10px",
-          height: "250px",
+          height: "370px",
           resize: "none"}} value={pages[currentPageIndex].notes} onChange={event => {
           const newPages = [...pages];
           newPages[currentPageIndex].notes = event.target.value;
@@ -88,20 +105,33 @@ function Notes() {
           {currentPageIndex < 0 &&
             <>
       <div>
-        <button onClick={() => {
+        <Button variant="outlined" color="success" onClick={() => {
           addPage();
           setCurrentPageIndex(0);
-          }}>Add Page</button>
+          }}
+          style={{
+            position: "absolute",
+            top: "0px",
+            right: "0px",
+            background: "none",
+            borderTopRightRadius: "20px",
+            borderBottomLeftRadius: "20px"
+          }}><NoteAdd sx={{ color: lightGreen[400] }} style={{
+            width: "28px",
+            height: "28px"
+          }}/></Button>
       </div>
-      <div>
+      <div className="note-area" style={{height: "82%", marginLeft: "18px", marginRight: "18px", overflowX: "hidden"}}>
         {/*<button onClick={handlePrevPage} disabled={currentPageIndex === 0}>{"<"}</button>*/}
-        <ul style={{width: "100%"}}>
+        <ul style={{position: "relative", bottom: 0, left: 0, padding: 0, margin: 0, overflowX: "hidden", overflowY: "auto"}}>
         {pages.map((_, index) => {
           return (
-            <li style={{width: "100%"}}>
-              <button key={index} onClick={() => handleChangePage(index)}>{_.title !== "" ? _.title : "Untitled"}</button>
-              <p>{_.notes.split('\n')[0]}</p>
-              <button key={index} style={{marginLeft: "auto"}}  className='btn btn-danger' onClick={() => deletePage(index)}></button>
+            <li style={{width: "100%", margin: 0, marginBottom: "10px", padding: "5px", borderRadius: "10px", overflowX: "hidden", backgroundColor: "rgba(0, 0, 0, 0.3)"}}>
+              <button style={{background: "none", width: "80%", maxWidth: "80%", backgroundColor: "none", border: "none"}} key={index} onClick={() => handleChangePage(index)}>
+                <p style={{textAlign: "left", color: "white", margin: 0, fontSize: "16px", maxWidth: "90%", overflowX: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", fontWeight: "bold"}}>{_.title !== "" ? _.title : "Untitled"}</p>
+                <p style={{textAlign: "left", color: "grey", margin: 0, overflowX: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis", maxWidth: "90%", fontSize: "12px"}}>{_.notes.split('\n')[0]}</p>
+              </button>
+              <IconButton key={index} style={{marginLeft: "auto"}} color="error" onClick={() => deletePage(index)}><Delete sx={{color: red[800]}}/></IconButton>
             </li>
           )
         })}
