@@ -66,6 +66,9 @@ function TimerComponent({ durations, durationIndex, setDurationIndex, expiryTime
     const nextIndex = (durationIndex + 1) % durations.length;
     handleDurationChange(nextIndex);
     setIsPlaying(true);
+    if (durationIndex % 2 === 0) {
+        new Audio(require("./time.mp3")).play()
+    }
   };
 
   const handlePlayPause = () => {
