@@ -38,7 +38,7 @@ function CalendarComponent({displayCalendarOnly}) {
           selectRangeState, setSelectRangeState,
           calendarEvents, setCalendarEvents,
           colorPicker, setColorPicker } = useContext<CalendarStateType>(calendarContext);
-    const [currentDay, setCurrentDay] = useState<Value>(new Date());
+    const [currentDay, setCurrentDay] = useState<Value>(() => {const date = new Date();date.setHours(0, 0, 0, 0);return(date)});
 
 useEffect(() => {
     const newCalendarEvents = JSON.parse(localStorage.getItem("calendarEvents"));
@@ -103,7 +103,7 @@ function colorCheck(date) {
                     {event.event}<br/>
                 </span>
                 <span style={{color: "rgba(255, 255, 255, 0.6)"}}>
-                    {new Date(event.range[0].toString()).getDay() === new Date(event.range[1].toString()).getDay() ? 
+                    {event.range[0].toString() === event.range[1].toString() ? 
                         <Moment format='L'>{event.range[0].toString()}</Moment> : 
                         <><Moment format='L'>{event.range[0].toString()}</Moment> - <Moment format='L'>{event.range[1].toString()}</Moment></>
                     }
@@ -144,7 +144,11 @@ function colorCheck(date) {
             color='success'
             onClick={() => {
                 if (value[1] && text !== "") {
-                    const newCalendarEvents = [...calendarEvents, {event: text, range: [value[0], value[1]], color: colors[colorPicker % 4]}];
+                    const time1 = new Date(value[0].toString());
+                    const time2 = new Date(value[1].toString());
+                    time1.setHours(0, 0, 0, 0);
+                    time2.setHours(0, 0, 0, 0);
+                    const newCalendarEvents = [...calendarEvents, {event: text, range: [time1, time2], color: colors[colorPicker % 4]}];
                     setCalendarEvents(newCalendarEvents);
                     localStorage.setItem('calendarEvents', JSON.stringify(newCalendarEvents));
                     setSelectRangeState(false);
@@ -152,7 +156,9 @@ function colorCheck(date) {
                     setText("")
                 }
                 else if (text !== "") {
-                    const newCalendarEvents = [...calendarEvents, {event: text, range: (value.constructor === Array ? [value[0], value[0]] : [value, value]), color: colors[colorPicker % 4]}]
+                    const time = new Date((value.constructor === Array ? value[0] : value).toString());
+                    time.setHours(0, 0, 0, 0);
+                    const newCalendarEvents = [...calendarEvents, {event: text, range: [time, time], color: colors[colorPicker % 4]}]
                     setCalendarEvents(newCalendarEvents);
                     localStorage.setItem('calendarEvents', JSON.stringify(newCalendarEvents));
                     setSelectRangeState(false);
