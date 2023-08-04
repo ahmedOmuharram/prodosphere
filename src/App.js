@@ -59,10 +59,10 @@ if (shouldFetchBackground()) {
         document.body.style.backgroundSize = `cover`;
       } else {
         const photo = result.response;
-        document.body.style.backgroundImage = `url('${photo.urls.raw}')`;
+        document.body.style.backgroundImage = `url('${photo.urls.full}')`;
         document.body.style.backgroundRepeat = `no-repeat`;
         document.body.style.backgroundSize = `cover`;
-        setLastBackgroundURL(photo.urls.raw);
+        setLastBackgroundURL(photo.urls.full);
         setLastBackgroundTimestamp();
       }
     })
