@@ -81,9 +81,9 @@ function colorCheck(date) {
                                 setCurrentDay(value);
                             }} /></div>
                     <p style={{ color: "white", fontSize: "14px" }}>
-                        {value.constructor === Array && value[0] && value[1] ? <>Selected from <Moment format='L'>{value[0].toString()}</Moment> to <Moment format='L'>{value[1].toString()}</Moment></> : <>Selected <Moment format='L'>{value.toString()}</Moment></>}
+                        {value.constructor === Array && value[0] && value[1] ? <>Selected from <Moment format='L'>{value[0].toString()}</Moment> to <Moment format='L'>{value[1].toString()}</Moment></> : <></>}
                     </p>
-                    <div className="calendar-events-app" style={{position: 'absolute', top: 0, left: "300px", height: "188px", padding: "10px", paddingRight: "50px", backgroundColor: "rgba(0, 0, 0, 0.4)", overflowY: "scroll"}}>
+                    <div className="calendar-events-app" style={{position: 'absolute', top: 0, left: "300px", height: "188px", padding: "10px", paddingRight: "50px", backgroundColor: "rgba(113, 113, 113, 0.4)", overflowY: "scroll", borderTopRightRadius: "20px", borderBottomRightRadius: "20px"}}>
                         <div style={{fontSize: "20px", width: "fit-content", textAlign: "left"}}>{<Moment format='L'>{currentDay.toString()}</Moment>}</div>
                         {calendarEvents.map(({ event, range }) => {
                             if (currentDay >= range[0] && currentDay <= range[1]) {
