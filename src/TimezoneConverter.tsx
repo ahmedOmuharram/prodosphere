@@ -58,7 +58,7 @@ function TimezoneConverter () {
   ];
 
   const toTimeZoneOptions = [
-    { value: "", label: "Timezone 2" },
+    { value: "", label: "Current timezone" },
     ...countryZones.map((timezone) => ({
       value: timezone.name,
       label: getTimezoneLabel(timezone.name),
