@@ -5,7 +5,7 @@ function Notes() {
   const [currentPageIndex, setCurrentPageIndex] = useState(-1);
 
   const addPage = () => {
-    setPages([...pages, {title: "", notes: ""}]);
+    setPages([{title: "", notes: ""} ,...pages]);
   };
   const deletePage = (index) => {
     const newPages = [...pages];
@@ -51,7 +51,9 @@ function Notes() {
   return (
     <>
       <p className="mt-2" style={{ fontSize: "18px", color: "white" }}>Notes</p>
-      {currentPageIndex >= 0 && <textarea style={{
+      {currentPageIndex >= 0 &&<> 
+        <button className='btn btn-danger' onClick={() => setCurrentPageIndex(-1)}></button><br></br>
+      <textarea style={{
           fontSize: "15px",
           width: "90%",
           backgroundColor: "rgba(0,0,0,0)",
@@ -60,14 +62,14 @@ function Notes() {
           border: "none",
           borderBottom: "1px solid rgba(255, 255, 255, 0.3)",
           marginBottom: "10px",
-          height: "20px",
+          height: "30px",
           resize: "none"}} value={pages[currentPageIndex].title} onChange={event => {
           const newPages = [...pages];
           newPages[currentPageIndex].title = event.target.value;
           localStorage.setItem('notePages', JSON.stringify(newPages));
           setPages(newPages);
-          }}/>}
-        {currentPageIndex >= 0 && <textarea style={{
+          }}/>
+<textarea style={{
           fontSize: "15px",
           width: "90%",
           backgroundColor: "rgba(0,0,0,0)",
@@ -82,26 +84,32 @@ function Notes() {
           newPages[currentPageIndex].notes = event.target.value;
           localStorage.setItem('notePages', JSON.stringify(newPages));
           setPages(newPages);
-          }}/>}
+          }} autoFocus/></>}
+          {currentPageIndex < 0 &&
+            <>
       <div>
         <button onClick={() => {
           addPage();
-          setCurrentPageIndex(pages.length);
+          setCurrentPageIndex(0);
           }}>Add Page</button>
       </div>
       <div>
         {/*<button onClick={handlePrevPage} disabled={currentPageIndex === 0}>{"<"}</button>*/}
+        <ul style={{width: "100%"}}>
         {pages.map((_, index) => {
           return (
-          <>
-            <button key={index} onClick={() => handleChangePage(index)}>{_.title}</button>
-            <button key={index} className='btn-success' onClick={() => deletePage(index)}></button>
-          </>
+            <li style={{width: "100%"}}>
+              <button key={index} onClick={() => handleChangePage(index)}>{_.title !== "" ? _.title : "Untitled"}</button>
+              <p>{_.notes.split('\n')[0]}</p>
+              <button key={index} style={{marginLeft: "auto"}}  className='btn btn-danger' onClick={() => deletePage(index)}></button>
+            </li>
           )
         })}
+        </ul>
         {/*<button onClick={handleNextPage} disabled={currentPageIndex === pages.length - 1}>{">"}</button>*/}
       </div>
-      <p>Current Page: {currentPageIndex + 1}</p>
+      </>
+      }
     </>
   );
 }
