@@ -16,6 +16,7 @@ function TimerComponent({ durations, durationIndex, setDurationIndex, expiryTime
     pause,
     resume,
     restart,
+    start
   } = useTimer({ expiryTimestamp, onExpire: () => console.warn('onExpire called') });
 
 
@@ -35,7 +36,7 @@ function TimerComponent({ durations, durationIndex, setDurationIndex, expiryTime
 
     setRemainingTimeTitle(remainingTime);
 
-    if (minutes * 60 + seconds > remainingTime) {
+    if (minutes * 60 + seconds > remainingTime || minutes * 60 + seconds < remainingTime - 1) {
       const time = new Date();
       time.setMinutes(new Date().getMinutes() + Math.floor(remainingTime/60), new Date().getSeconds() + remainingTime % 60);
       restart(time, isRunning);
@@ -66,6 +67,7 @@ function TimerComponent({ durations, durationIndex, setDurationIndex, expiryTime
     const nextIndex = (durationIndex + 1) % durations.length;
     handleDurationChange(nextIndex);
     setIsPlaying(true);
+    start();
     if (durationIndex % 2 === 0) {
         new Audio(require("./time.mp3")).play()
     }
