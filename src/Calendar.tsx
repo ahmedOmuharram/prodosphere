@@ -93,14 +93,14 @@ function colorCheck(date) {
               </>}
     {!displayCalendarOnly && <>
         <p className="mt-5" style={{ fontSize: "30px", color: "white", marginBottom: "15px" }}>Calendar Events</p>
-    <div className="events" style={{maxHeight: "300px", overflowY: "scroll"}}>{calendarEvents.map((event, index) => 
+    <div className="events" style={{maxHeight: "300px", overflowY: "scroll"}}>{calendarEvents.map((event, index) =>
         <>
             <div style={{display: "flex", flexDirection: "column", marginLeft: "20px", textAlign: "left", height: "fit-content", padding: 0}}>
                 <span style={{color: "white", marginBottom: 0, maxWidth: "250px", wordBreak: "break-word"}}>
                     {event.event}<br/>
                 </span>
                 <span style={{color: "rgba(255, 255, 255, 0.6)"}}>
-                    {event.range[0].toString() === event.range[1].toString() ? 
+                    {new Date(event.range[0].toString()).getDay() === new Date(event.range[1].toString()).getDay() ? 
                         <Moment format='L'>{event.range[0].toString()}</Moment> : 
                         <><Moment format='L'>{event.range[0].toString()}</Moment> - <Moment format='L'>{event.range[1].toString()}</Moment></>
                     }
@@ -141,7 +141,7 @@ function colorCheck(date) {
             color='success'
             onClick={() => {
                 if (value[1] && text !== "") {
-                    const newCalendarEvents = [...calendarEvents, {event: text, range: [value[0], value[1]], color: colors[colorPicker % 4]}]
+                    const newCalendarEvents = [...calendarEvents, {event: text, range: [value[0], value[1]], color: colors[colorPicker % 4]}];
                     setCalendarEvents(newCalendarEvents);
                     localStorage.setItem('calendarEvents', JSON.stringify(newCalendarEvents));
                     setSelectRangeState(false);
@@ -149,7 +149,7 @@ function colorCheck(date) {
                     setText("")
                 }
                 else if (text !== "") {
-                    const newCalendarEvents = [...calendarEvents, {event: text, range: [value, value], color: colors[colorPicker % 4]}]
+                    const newCalendarEvents = [...calendarEvents, {event: text, range: (value.constructor === Array ? [value[0], value[0]] : [value, value]), color: colors[colorPicker % 4]}]
                     setCalendarEvents(newCalendarEvents);
                     localStorage.setItem('calendarEvents', JSON.stringify(newCalendarEvents));
                     setSelectRangeState(false);
