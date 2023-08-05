@@ -58,12 +58,16 @@ function SoundMixer ({ text, file }) {
         </div>
       </div>
       {value !== 0 && 
-      <audio ref={audioRef} autoPlay loop>
-        <source src={file} type="audio/mp4" />
-        <source src={file.replace('.mp4', '.ogg')} type="audio/ogg" />
-        <source src={file.replace('main', 'glue')} type="audio/mp4" />
-        <source src={file.replace('main', 'glue').replace('.mp4', '.ogg')} type="audio/ogg" />
-      </audio>}
+      <>
+        <audio ref={audioRef} autoPlay loop preload="none">
+          <source src={file} type="audio/mp4" />
+          <source src={file.replace('.mp4', '.ogg')} type="audio/ogg" />
+        </audio>
+        <audio ref={audioRef} autoPlay loop preload="auto">
+          <source src={file.replace('main', 'glue')} type="audio/mp4" />
+          <source src={file.replace('main', 'glue').replace('.mp4', '.ogg')} type="audio/ogg" />
+        </audio>
+      </>}
     </>
   )
 }
