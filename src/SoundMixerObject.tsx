@@ -58,6 +58,8 @@ function SoundMixer ({ text, file }) {
         <ReactAudioPlayer autoPlay loop volume={value / 100}>
           <source src={file} type="audio/mp4" />
           <source src={file.replace('.mp4', '.ogg')} type="audio/ogg" />
+          <source src={file.replace('main', 'glue')} type="audio/mp4" />
+          <source src={file.replace('main', 'glue').replace('.mp4', '.ogg')} type="audio/ogg" />
         </ReactAudioPlayer>
       </>
     )

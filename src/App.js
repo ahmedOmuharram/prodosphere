@@ -382,7 +382,6 @@ function App() {
                 (`${weatherState.weather[0].icon.charAt(2)}` === "n" ? `Good evening, ${user}!` : 
                 (`${weatherState.weather[0].icon.charAt(2)}` === "d" ? `Good morning, ${user}!` : `Hello, ${user}!`))) : `Hello, ${user}!`)}
             </p>
-            {!loadVideo && videoVisibility && <YoutubePlayerComponent/>}
 
             {/* Greeting */}
             <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "calc(12px + 1vmin)", textShadow: "0px 1px 5px rgba(0, 0, 0, 0.9)", marginTop: "0", marginBottom: 0, paddingTop: "0"}}>
