@@ -71,10 +71,9 @@ const menuClickedVariants = {
   }
 };
 
-export const Navigation = ({durations, durationIndex, setDurationIndex}) => {
+export const Navigation = ({durations, durationIndex, setDurationIndex, setUser, mapVisibility, setMapVisibility, weatherVisibility, setWeatherVisibility, videoVisibility, setVideoVisibility, loadVideo, setLoadVideo}) => {
   const { menuState } = useContext<MenuContextType>(menuContext);
   const { clickState, setClickState } = useContext<ClickStateType>(clickContext);
-  const [loadVideo, setLoadVideo] = useState(false);
 
   return (
     <>
@@ -107,12 +106,12 @@ export const Navigation = ({durations, durationIndex, setDurationIndex}) => {
         <div style={{display: (menuState === 2 ? "block" : "none")}}><TimerComponent durations={durations} durationIndex={durationIndex} setDurationIndex={setDurationIndex} expiryTimestamp={new Date()}/></div>
         {menuState === 1 && <CurrencyConverter/> }
         {menuState === 3 && loadVideo === false ? <>{setLoadVideo(true)}</> : <></>}
-        {loadVideo && <YoutubePlayerComponent/>}
+        {(loadVideo || videoVisibility || videoVisibility === "true") && <YoutubePlayerComponent/>}
         {menuState === 3 && <div className="mt-3 soundmixer" style={{height: "180px", overflowY: "scroll"}}><SoundMixer/></div>}
         {menuState === 4 && <Translate/> }
         {menuState === 5 && <CalendarComponent displayCalendarOnly={false}/>}
         {menuState === 6 && <Notes/> }
-        {menuState === 7 && <Settings/>}
+        {menuState === 7 && <Settings setUser={setUser} mapVisibility={mapVisibility} setMapVisibility={setMapVisibility} weatherVisibility={weatherVisibility} setWeatherVisibility={setWeatherVisibility} videoVisibility={videoVisibility} setVideoVisibility={setVideoVisibility}/>}
       </motion.div>
     </>
   )

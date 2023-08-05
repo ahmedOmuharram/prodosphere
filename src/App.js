@@ -14,6 +14,8 @@ import ToDoComponent from "./ToDoComponent"
 import LinkGroupComponent from './LinkGroup';
 import Moment from 'react-moment';
 import CalendarComponent from './Calendar';
+import { YouTube } from '@mui/icons-material';
+import YoutubePlayerComponent from './YoutubePlayer';
 
 const unsplash = createApi({
   accessKey: process.env.REACT_APP_UNSPLASH_ACCESS_KEY
@@ -79,7 +81,7 @@ if (shouldFetchBackground()) {
   document.body.style.backgroundSize = `cover`;
 }
 
-const CollapsingToDoList = () => {
+const CollapsingToDoList = ({mapVisibility}) => {
   const [isCollapsed, setCollapsed] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -121,7 +123,7 @@ const CollapsingToDoList = () => {
                   width="300px"
                   height="180px"
                   frameborder="0"
-                  style={{ borderRadius: "30px 60px" }}
+                  style={{ borderRadius: "30px 60px", display: `${mapVisibility || mapVisibility === "true" ? "block" : "none"}`}}
                   allowfullscreen="true"
                   allow="geolocation"
                   src="//umap.openstreetmap.fr/en/map/prodosphere_946169?scaleControl=false&miniMap=false&scrollWheelZoom=true&zoomControl=null&allowEdit=false&moreControl=true&searchControl=null&tilelayersControl=null&embedControl=false&datalayersControl=false&onLoadPanel=undefined&captionBar=false&captionMenus=true"
@@ -213,18 +215,21 @@ function WeatherStatus() {
   )
 }
 
-function GetLocation() {
+function GetLocation({ weatherVisibility }) {
   return (
-    <Geolocation
-      once={true} 
-      render={({ position: { coords: { latitude, longitude } = {} } = {} }) => (
-        latitude !== undefined && longitude !== undefined ? (
-          <WeatherComponent lat={latitude} lon={parseFloat(longitude)} />
-        ) : (
-          <div style={{ fontSize: "18px", opacity: 0.3}}>Allow location access to display weather information</div>
-        )
-      )}
-    />
+    <>
+      { weatherVisibility || weatherVisibility === "true" ? 
+      <Geolocation
+        once={true} 
+        render={({ position: { coords: { latitude, longitude } = {} } = {} }) => (
+          latitude !== undefined && longitude !== undefined ? (
+            <WeatherComponent lat={latitude} lon={parseFloat(longitude)} />
+          ) : (
+            <div style={{ fontSize: "18px", opacity: 0.3}}>Allow location access to display weather information</div>
+          )
+        )}
+      /> : <></>}
+    </>
   );
 }
 
@@ -294,6 +299,23 @@ function App() {
   const durations = [1500, 300, 1500, 300, 1500, 300, 1500, 900];
   const [durationIndex, setDurationIndex] = useState(0);
 
+  const storedMapVisibility = localStorage.getItem('mapVisibility');
+  const [mapVisibility, setMapVisibility] = useState(
+    storedMapVisibility === null ? true : storedMapVisibility === "true"
+  );
+
+  const storedWeatherVisibility = localStorage.getItem('weatherVisibility');
+  const [weatherVisibility, setWeatherVisibility] = useState(
+    storedWeatherVisibility === null ? true : storedWeatherVisibility === "true"
+  );
+
+  const storedVideoVisibility = localStorage.getItem('videoVisibility');
+  const [videoVisibility, setVideoVisibility] = useState(
+    storedVideoVisibility === null ? false : storedVideoVisibility === "true"
+  );
+
+  const [loadVideo, setLoadVideo] = useState(false);
+
   useEffect(() => {
     const titleUpdateHandler = () => {
       setDocumentTitle(document.title);
@@ -323,7 +345,7 @@ function App() {
             {user !== "" && 
             <div style={{ display: "flex", justifyContent: "center" }}>
               <p style={{ textShadow: "0px 1px 5px rgba(0, 0, 0, 0.5)", fontSize: "calc(40px + 3vmin)", marginBottom: "0", marginTop: "0", padding: "0 40px 0 40px", borderBottom: "1px solid white", boxShadow: "0 4px 2px -2px grey", width: "500px"}}>
-                { weatherState !== null && <WeatherStatus/> }
+                { weatherState !== null && (weatherVisibility || weatherVisibility === true) && <WeatherStatus/> }
                 { user !== "" && <TimeNow setUser={setUser}/> }
               </p>
             </div>}
@@ -335,11 +357,12 @@ function App() {
 
             <p style={{fontSize: "calc(20px + 1vmin)", textShadow: "0px 1px 5px rgba(0, 0, 0, 0.9)", marginTop: "0", marginBottom: 0, paddingTop: "0"}}>
               {user === "" ? "Please enter your name" : 
-                (weatherState !== null && weatherState.weather && weatherState.weather.length > 0 ? 
+                (weatherState !== null && (weatherVisibility || weatherVisibility === true) && weatherState.weather && weatherState.weather.length > 0 ? 
                 (new Date().getHours() >= 12 && `${weatherState.weather[0].icon.charAt(2)}` !== "n" ? `Good afternoon, ${user}!` :
                 (`${weatherState.weather[0].icon.charAt(2)}` === "n" ? `Good evening, ${user}!` : 
                 (`${weatherState.weather[0].icon.charAt(2)}` === "d" ? `Good morning, ${user}!` : `Hello, ${user}!`))) : `Hello, ${user}!`)}
             </p>
+            {!loadVideo && videoVisibility && <YoutubePlayerComponent/>}
 
             {/* Greeting */}
             <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "calc(12px + 1vmin)", textShadow: "0px 1px 5px rgba(0, 0, 0, 0.9)", marginTop: "0", marginBottom: 0, paddingTop: "0"}}>
@@ -357,10 +380,10 @@ function App() {
             {/* Top right date and weather info */}
             <div style={{position: "absolute", textShadow: "0px 1px 5px rgba(0, 0, 0, 0.5)", top: "0px", right: "10px", textAlign: "right", fontSize: "30px", marginBottom: "-30px"}}>
               { user !== "" && <TodayDate setUser={setUser}/> }
-              { user !== "" && <GetLocation /> }
+              { user !== "" && <GetLocation weatherVisibility={weatherVisibility}/> }
             </div>
 
-            { user !== "" && <CollapsingToDoList/> }
+            { user !== "" && <CollapsingToDoList mapVisibility={mapVisibility}/> }
             <br />
 
             {user !== "" && <form action="https://www.google.com/search" method="get" name="searchform" target="_blank">
@@ -399,7 +422,7 @@ function App() {
           ref={containerRef}
         >
           {user !== "" && <motion.div className="background" variants={sidebar} />}
-          {user !== "" && <Navigation durations={durations} durationIndex={durationIndex} setDurationIndex={setDurationIndex}/>}
+          {user !== "" && <Navigation durations={durations} durationIndex={durationIndex} setDurationIndex={setDurationIndex} setUser={setUser} mapVisibility={mapVisibility} setMapVisibility={setMapVisibility} weatherVisibility={weatherVisibility} setWeatherVisibility={setWeatherVisibility} videoVisibility={videoVisibility} setVideoVisibility={setVideoVisibility} loadVideo={loadVideo} setLoadVideo={setLoadVideo}/>}
           {user !== "" && <MenuToggle toggle={() => toggleOpen()} />}
         </motion.nav> 
     </div>
