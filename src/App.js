@@ -295,7 +295,7 @@ function App() {
   const [colorPicker, setColorPicker] = useState(0);
   const calendarContextValue = { value, onChange, text, setText , selectRangeState, setSelectRangeState, calendarEvents, setCalendarEvents, colorPicker, setColorPicker };
 
-  const [documentTitle, setDocumentTitle] = useState(document.title);
+  const [documentTitle, setDocumentTitle] = useState("");
   const durations = [1500, 300, 1500, 300, 1500, 300, 1500, 900];
   const [durationIndex, setDurationIndex] = useState(0);
 
