@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Slider from '@mui/material/Slider';
 import VolumeUp from '@mui/icons-material/VolumeUp';
 import { styled } from '@mui/material/styles';
@@ -31,11 +31,42 @@ function SoundMixer ({ text, file }) {
   const audioRef = useRef(null);
 
   const handleSliderChange = (event, newValue) => {
+    if (value === 0) {
+      audioRef.current.currentTime = 0;
+    }
     setValue(newValue);
     if (audioRef.current) {
       audioRef.current.volume = newValue / 100;
     }
   };
+  
+  useEffect(() => {
+    audioRef.current.volume = 0;
+  }, [audioRef]);
+
+  useEffect(() => {
+    let intervalId;
+  
+    const checkDurationAndSetInterval = () => {
+      console.log(audioRef)
+      if (audioRef && audioRef.current) {
+        intervalId = setInterval(() => {
+          console.log(audioRef.current.duration - audioRef.current.currentTime);
+          if (audioRef.current.duration - audioRef.current.currentTime <= 5) {
+            console.log("working");
+            audioRef.current.currentTime = 5;
+          }
+        }, 1000);
+      }
+    };
+  
+    checkDurationAndSetInterval();
+  
+    // Cleanup function to clear the interval when the component unmounts or when the audioRef changes.
+    return () => clearInterval(intervalId);
+  
+  }, [audioRef]);
+  
   
   return (
     <>
@@ -57,17 +88,12 @@ function SoundMixer ({ text, file }) {
           </Box>
         </div>
       </div>
-      {value !== 0 && 
       <>
-        <audio ref={audioRef} autoPlay loop preload="none">
+        <audio ref={audioRef} autoPlay loop>
           <source src={file} type="audio/mp4" />
           <source src={file.replace('.mp4', '.ogg')} type="audio/ogg" />
         </audio>
-        <audio ref={audioRef} autoPlay loop preload="auto">
-          <source src={file.replace('main', 'glue')} type="audio/mp4" />
-          <source src={file.replace('main', 'glue').replace('.mp4', '.ogg')} type="audio/ogg" />
-        </audio>
-      </>}
+      </>
     </>
   )
 }
