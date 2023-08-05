@@ -9,6 +9,8 @@ import { useTimer } from 'react-timer-hook';
 import Moment from 'react-moment';
 
 function TimerComponent({ durations, durationIndex, setDurationIndex, expiryTimestamp }) {
+  const [visibilityOnTimeEnd, setVisibilityOnTimeEnd] = useState(false);
+
   const {
     seconds,
     minutes,
@@ -16,8 +18,20 @@ function TimerComponent({ durations, durationIndex, setDurationIndex, expiryTime
     pause,
     resume,
     restart,
-    start
-  } = useTimer({ expiryTimestamp, onExpire: () => console.warn('onExpire called') });
+  } = useTimer({ expiryTimestamp, onExpire: () => {
+    setIsPlaying(false);
+    handleNextDuration();
+    if (document.visibilityState === "hidden") {
+      setVisibilityOnTimeEnd(true);
+    }
+  }});
+
+  
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+      setVisibilityOnTimeEnd(false);
+    }
+  });
 
 
   const [key, setKey] = useState(0);
@@ -30,16 +44,19 @@ function TimerComponent({ durations, durationIndex, setDurationIndex, expiryTime
   const renderTime = ({ remainingTime }) => {
     if (remainingTime === 0) {
       setIsPlaying(false);
-      handleNextDuration(); 
-      return null; 
+      handleNextDuration();
+      if (document.visibilityState === "hidden") {
+        setVisibilityOnTimeEnd(true);
+      }
+      return null;
     }
 
     setRemainingTimeTitle(remainingTime);
 
-    if (minutes * 60 + seconds > remainingTime || minutes * 60 + seconds < remainingTime - 1) {
+    if (minutes * 60 + seconds > remainingTime) {
       const time = new Date();
       time.setMinutes(new Date().getMinutes() + Math.floor(remainingTime/60), new Date().getSeconds() + remainingTime % 60);
-      restart(time, isRunning);
+      restart(time);
     }
 
     return (
@@ -58,16 +75,13 @@ function TimerComponent({ durations, durationIndex, setDurationIndex, expiryTime
     setDurationIndex(newDurationIndex);
     const time = new Date();
     time.setMinutes(new Date().getMinutes() + Math.floor(durations[newDurationIndex]/60), new Date().getSeconds() + durations[newDurationIndex]%60);
-    restart(time);
-    pause();
+    restart(time, false);
     setIsPlaying(false);
   };
 
   const handleNextDuration = () => {
     const nextIndex = (durationIndex + 1) % durations.length;
     handleDurationChange(nextIndex);
-    setIsPlaying(true);
-    start();
     if (durationIndex % 2 === 0) {
         new Audio(require("./time.mp3")).play()
     }
@@ -99,7 +113,7 @@ function TimerComponent({ durations, durationIndex, setDurationIndex, expiryTime
             {`${minutes}:${seconds < 10 ? "0" : ""}${seconds} | Prodosphere`}
           </title>
         ) : (
-          <title>Prodosphere</title>
+          (!visibilityOnTimeEnd ? <title>Prodosphere</title> : <title>TIME'S UP!</title>)
         )}
       </Helmet>
       <p className="mt-2" style={{ fontSize: "18px", color: "white" }}>Pomodoro Timer</p>
