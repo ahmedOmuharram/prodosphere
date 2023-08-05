@@ -2,3 +2,25 @@
 ::placeholder {
     color: #fff;
  }
+
+a:link, a:visited, a:active {
+    color: #c8c8c8;
+    text-decoration: "none";
+}
+
+a:hover {
+    color: #fff;
+}
+
+
+.main::-webkit-scrollbar {
+  width: 10px;
+}
+
+.main::-webkit-scrollbar-thumb {
+  background-color: #ffffff;
+}
+
+.main::-webkit-scrollbar-thumb:hover {
+  background-color: #ffffff;
+}

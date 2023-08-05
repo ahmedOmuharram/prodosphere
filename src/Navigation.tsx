@@ -71,7 +71,7 @@ const menuClickedVariants = {
   }
 };
 
-export const Navigation = ({durations, durationIndex, setDurationIndex, setUser, mapVisibility, setMapVisibility, weatherVisibility, setWeatherVisibility, videoVisibility, setVideoVisibility, loadVideo, setLoadVideo}) => {
+export const Navigation = ({durations, durationIndex, setDurationIndex, setUser, mapVisibility, setMapVisibility, weatherVisibility, setWeatherVisibility, videoVisibility, setVideoVisibility, loadVideo, setLoadVideo, defaultBackground, setDefaultBackground }) => {
   const { menuState } = useContext<MenuContextType>(menuContext);
   const { clickState, setClickState } = useContext<ClickStateType>(clickContext);
 
@@ -111,7 +111,7 @@ export const Navigation = ({durations, durationIndex, setDurationIndex, setUser,
         {menuState === 4 && <Translate/> }
         {menuState === 5 && <CalendarComponent displayCalendarOnly={false}/>}
         {menuState === 6 && <Notes/> }
-        {menuState === 7 && <Settings setUser={setUser} mapVisibility={mapVisibility} setMapVisibility={setMapVisibility} weatherVisibility={weatherVisibility} setWeatherVisibility={setWeatherVisibility} videoVisibility={videoVisibility} setVideoVisibility={setVideoVisibility}/>}
+        {menuState === 7 && <Settings setUser={setUser} mapVisibility={mapVisibility} setMapVisibility={setMapVisibility} weatherVisibility={weatherVisibility} setWeatherVisibility={setWeatherVisibility} videoVisibility={videoVisibility} setVideoVisibility={setVideoVisibility} defaultBackground={defaultBackground} setDefaultBackground={setDefaultBackground}/>}
       </motion.div>
     </>
   )

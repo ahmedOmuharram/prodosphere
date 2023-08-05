@@ -316,6 +316,12 @@ function App() {
 
   const [loadVideo, setLoadVideo] = useState(false);
 
+  const [defaultBackground, setDefaultBackground] = useState(() => {
+    const storedBackground = localStorage.getItem('defaultBackground');
+    return storedBackground !== null ? storedBackground : null;
+  });
+
+  
   useEffect(() => {
     const titleUpdateHandler = () => {
       setDocumentTitle(document.title);
@@ -327,6 +333,22 @@ function App() {
       document.removeEventListener("DOMSubtreeModified", titleUpdateHandler);
     };
   }, []);
+
+
+  useEffect(() => {
+    if (defaultBackground !== null && localStorage.getItem('defaultBackground') !== "null") {
+      document.body.style.backgroundImage = `url(${defaultBackground})`;
+      console.log(defaultBackground)
+      document.body.style.backgroundRepeat = 'no-repeat';
+      document.body.style.backgroundSize = 'cover';
+    } else {
+      const background = getLastBackgroundURL();
+      document.body.style.backgroundImage = `url(${background})`;
+      document.body.style.backgroundRepeat = `no-repeat`;
+      document.body.style.backgroundSize = `cover`;
+    }
+  }, [defaultBackground]); 
+
 
   return (
     <calendarContext.Provider value={calendarContextValue}>
@@ -349,11 +371,9 @@ function App() {
                 { user !== "" && <TimeNow setUser={setUser}/> }
               </p>
             </div>}
-
             <div style={{position: "absolute", top: "5px", left: "5px", zIndex: "901358"}}>
               { user !== "" && <CalendarComponent displayCalendarOnly={true}/> }
             </div>
-            
 
             <p style={{fontSize: "calc(20px + 1vmin)", textShadow: "0px 1px 5px rgba(0, 0, 0, 0.9)", marginTop: "0", marginBottom: 0, paddingTop: "0"}}>
               {user === "" ? "Please enter your name" : 
@@ -422,7 +442,7 @@ function App() {
           ref={containerRef}
         >
           {user !== "" && <motion.div className="background" variants={sidebar} />}
-          {user !== "" && <Navigation durations={durations} durationIndex={durationIndex} setDurationIndex={setDurationIndex} setUser={setUser} mapVisibility={mapVisibility} setMapVisibility={setMapVisibility} weatherVisibility={weatherVisibility} setWeatherVisibility={setWeatherVisibility} videoVisibility={videoVisibility} setVideoVisibility={setVideoVisibility} loadVideo={loadVideo} setLoadVideo={setLoadVideo}/>}
+          {user !== "" && <Navigation durations={durations} durationIndex={durationIndex} setDurationIndex={setDurationIndex} setUser={setUser} mapVisibility={mapVisibility} setMapVisibility={setMapVisibility} weatherVisibility={weatherVisibility} setWeatherVisibility={setWeatherVisibility} videoVisibility={videoVisibility} setVideoVisibility={setVideoVisibility} loadVideo={loadVideo} setLoadVideo={setLoadVideo} defaultBackground={defaultBackground} setDefaultBackground={setDefaultBackground}/>}
           {user !== "" && <MenuToggle toggle={() => toggleOpen()} />}
         </motion.nav> 
     </div>

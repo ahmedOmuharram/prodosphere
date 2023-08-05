@@ -1,9 +1,9 @@
-import { Button, Checkbox, IconButton } from '@mui/material';
+import { Checkbox, IconButton } from '@mui/material';
 import { grey, lightGreen } from '@mui/material/colors';
 import React, { useEffect, useState } from 'react';
 import "./Settings.css";
 import CheckIcon from '@mui/icons-material/Check';
-import { light } from '@mui/material/styles/createPalette';
+import Form from 'react-bootstrap/Form';
 
 function UsernameInput({ username, handleInputChange, handleSubmit }) {
   return (
@@ -32,9 +32,10 @@ function UsernameInput({ username, handleInputChange, handleSubmit }) {
   );
 }
 
-function Settings({ setUser, mapVisibility, setMapVisibility, weatherVisibility, setWeatherVisibility, videoVisibility, setVideoVisibility }) {
+function Settings({ setUser, mapVisibility, setMapVisibility, weatherVisibility, setWeatherVisibility, videoVisibility, setVideoVisibility, defaultBackground, setDefaultBackground }) {
   const [showInput, setShowInput] = useState(false);
   const [username, setUsername] = useState('');
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const handleButtonClick = () => {
     setShowInput(true);
@@ -75,11 +76,40 @@ function Settings({ setUser, mapVisibility, setMapVisibility, weatherVisibility,
     localStorage.setItem('videoVisibility', videoVisibility);
   }, [videoVisibility]);
 
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file !== null) {
+      setSelectedFile(file);
+      document.body.style.backgroundImage = `url(${URL.createObjectURL(file)})`;
+      document.body.style.backgroundRepeat = `no-repeat`;
+      document.body.style.backgroundSize = `cover`;
+    }
+  };
+
+  const handleDefaultBackground = () => {
+    if (selectedFile !== null) {
+      const fileURL = URL.createObjectURL(selectedFile);
+      setDefaultBackground(fileURL);
+      localStorage.setItem('defaultBackground', fileURL);
+    }
+  };
+
+  const handleResetBackground = () => {
+    setDefaultBackground(null);
+    localStorage.setItem('defaultBackground', null);
+  };
+  
+
+  useEffect(() => {
+    localStorage.setItem('defaultBackground', defaultBackground);
+  }, [defaultBackground]);
+
   return (
     <>
       <p className="mt-2" style={{ fontSize: "18px", color: "white" }}>
         Settings
       </p> 
+      <div className="main" style={{height: "430px", overflowY: "scroll"}}>
       {showInput ? (
         <UsernameInput
           username={username}
@@ -115,6 +145,27 @@ function Settings({ setUser, mapVisibility, setMapVisibility, weatherVisibility,
           onClick={handleVideoVisibility}
         />
       </div>
+      <Form.Group style={{width: "90%", marginLeft: "5%"}} controlId="formFile" className="mb-3" data-bs-theme="dark">
+        <Form.Label style={{color: "white"}}>Upload a custom background</Form.Label>
+        <Form.Control type="file" accept="image/*" onChange={handleFileChange}/>
+      </Form.Group>
+      {selectedFile !== null && 
+            <div style={{display: "flex", alignItems: "center"}}>
+            <p style={{color: "white", textAlign: "left", marginLeft: "10px"}}>Set as default background?</p> 
+            <Checkbox 
+              style={{color: lightGreen[300], marginLeft: "auto", marginBottom: "16px"}}
+              onClick={handleDefaultBackground}
+            />
+          </div>
+      }
+        <button style={{color: grey[50], background: "rgba(0, 0, 0, 0.3)", border: "none", borderRadius: "20px", padding: "10px", width: "90%"}} onClick={handleResetBackground}>
+          Reset background
+        </button>
+        <p className="mt-2" style={{textAlign: "left",  marginLeft:"5%", color: "#c8c8c8", background: "rgba(0, 0, 0, 0.3)", border: "none", borderRadius: "20px", padding: "10px", width: "90%", fontSize: "12px"}} onClick={handleResetBackground}>
+          <p style={{fontSize: "12px", textAlign: "center", color: "white"}}>Developed by Ahmed Muharram & Youssef Saleh</p>
+          <p>Ahmed Muharram: <a href="https://muharram.dev" target="_blank">Portfolio</a> | <a href="https://www.linkedin.com/in/ahmed-muharram/" target="_blank">LinkedIn</a> | <a href="https://github.com/ahmedOmuharram" target="_blank">GitHub</a> | <a href="mailto:ahmed.o.muharram@gmail.com" target="_blank">ahmed.o.muharram@gmail.com</a></p>
+          <p>Youssef Saleh: <a href="https://github.com/youssefsaleh61" target="_blank">GitHub</a> | <a href="mailto:youssefsaleh690@gmail.com" target="_blank">youssefsaleh690@gmail.com</a></p>        </p>
+     </div>
     </>
   );
 }
