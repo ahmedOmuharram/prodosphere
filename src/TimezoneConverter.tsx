@@ -35,8 +35,8 @@ const getOffsetFromCountryZone = (countryZoneName) => {
 countryZones.sort(function (a, b) { return b.offset - a.offset });
 
 function TimezoneConverter () {
-    const [timeZoneState1, setTimeZoneState1] = useState("");
-    const [timeZoneState2, setTimeZoneState2] = useState("");
+    const [timeZoneState1, setTimeZoneState1] = useState(moment.tz.guess(true));
+    const [timeZoneState2, setTimeZoneState2] = useState(moment.tz.guess(true));
   
     const [hourOption1, setHourOption1] = useState(-1);
     const [hourOption2, setHourOption2] = useState(-1);
@@ -50,7 +50,7 @@ function TimezoneConverter () {
   };
 
   const fromTimeZoneOptions = [
-    { value: "", label: "Current timezone" },
+    { value: moment.tz.guess(true), label: "Current timezone" },
     ...countryZones.map((timezone) => ({
       value: timezone.name,
       label: getTimezoneLabel(timezone.name),
@@ -58,7 +58,7 @@ function TimezoneConverter () {
   ];
 
   const toTimeZoneOptions = [
-    { value: "", label: "Current timezone" },
+    { value: moment.tz.guess(true), label: "Current timezone" },
     ...countryZones.map((timezone) => ({
       value: timezone.name,
       label: getTimezoneLabel(timezone.name),
@@ -92,7 +92,7 @@ function TimezoneConverter () {
     })),
   ];
 
-  function HANDLEDUMBASSPROBLEM(newTimeZone, num) {
+  function changeSelection(newTimeZone, num) {
     if (num === 1) {
       if (hourOptionSelector === 1) {
         setHourOption2((hourOption1 + (getOffsetFromCountryZone(timeZoneState2) - getOffsetFromCountryZone(newTimeZone))/60) >= 0  ? (hourOption1 + (getOffsetFromCountryZone(timeZoneState2) - getOffsetFromCountryZone(newTimeZone))/60)%24 : 23-(Math.abs((hourOption1 + (getOffsetFromCountryZone(timeZoneState2) - getOffsetFromCountryZone(newTimeZone))/60 + 1))%24))
@@ -123,10 +123,10 @@ function TimezoneConverter () {
         <div style={{ marginLeft: "5%", width: "90%", marginRight: "5%" }}>
           <Select
             options={fromTimeZoneOptions}
-            value={fromTimeZoneOptions.find((option) => option.value === timeZoneState1)}
+            value={fromTimeZoneOptions.slice().reverse().find((option) => option.value === timeZoneState1)}
             onChange={(selectedOption) => {
               setTimeZoneState1(selectedOption.value)
-              HANDLEDUMBASSPROBLEM(selectedOption.value, 1);
+              changeSelection(selectedOption.value, 1);
             }}
           />
         </div>
@@ -158,10 +158,10 @@ function TimezoneConverter () {
           <Select
             menuPlacement="auto"
             options={toTimeZoneOptions}
-            value={toTimeZoneOptions.find((option) => option.value === timeZoneState2)}
+            value={toTimeZoneOptions.slice().reverse().find((option) => option.value === timeZoneState2)}
             onChange={(selectedOption) => {
               setTimeZoneState2(selectedOption.value);
-              HANDLEDUMBASSPROBLEM(selectedOption.value, 2);
+              changeSelection(selectedOption.value, 2);
             }}
           />
         </div>
