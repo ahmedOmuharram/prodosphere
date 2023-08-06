@@ -2,9 +2,9 @@ import React, { useEffect, useState, useContext } from "react";
 import { motion } from "framer-motion";
 import { weatherContext } from "./App"
 
-function WeatherComponent ( lat ) {
-  const latitude = lat.lat;
-  const longitude = lat.lon;
+function WeatherComponent ({ lat, lon }) {
+  const latitude = lat;
+  const longitude = lon;
   const [weatherData, setWeatherData] = useState(null);
   const { weatherState, setWeatherState } = useContext(weatherContext);
 
