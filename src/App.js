@@ -14,8 +14,7 @@ import ToDoComponent from "./ToDoComponent"
 import LinkGroupComponent from './LinkGroup';
 import Moment from 'react-moment';
 import CalendarComponent from './Calendar';
-import { YouTube } from '@mui/icons-material';
-import YoutubePlayerComponent from './YoutubePlayer';
+import Helmet from "react-helmet";
 
 const unsplash = createApi({
   accessKey: process.env.REACT_APP_UNSPLASH_ACCESS_KEY
