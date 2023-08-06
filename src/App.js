@@ -369,16 +369,32 @@ function App() {
           >
 
             {/* Time */}
-            {user !== "" && 
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <p style={{ textShadow: "0px 1px 5px rgba(0, 0, 0, 0.5)", fontSize: "calc(40px + 3vmin)", marginBottom: "0", marginTop: "0", padding: "0 40px 0 40px", borderBottom: "1px solid white", boxShadow: "0 4px 2px -2px grey", width: "500px"}}>
-                { weatherState !== null && (weatherVisibility || weatherVisibility === true) && <WeatherStatus/> }
-                { user !== "" && <TimeNow setUser={setUser}/> }
-                |
-                { user !== "" && <Moment tz={secondaryTimezone} interval={1000} format='h:mm A'/> }
-              </p>
-              
-            </div>}
+            {user !== "" && (
+  <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+    <p
+      style={{
+        textShadow: "0px 1px 5px rgba(0, 0, 0, 0.5)",
+        fontSize: "calc(40px + 3vmin)",
+        marginBottom: "0",
+        marginTop: "0",
+        padding: "0 40px 0 40px",
+        borderBottom: "1px solid white",
+        boxShadow: "0 4px 2px -2px grey",
+        width: "700px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      {weatherState !== null && (weatherVisibility || weatherVisibility === true) && <WeatherStatus />}
+      {user !== "" && <TimeNow setUser={setUser} />}
+      <p style={{ display: "inline", fontSize: "calc(20px + 1vmin)", marginTop: "calc(10px + 0.75vmin)", color: "#c8c8c8" }}>
+        &nbsp;| {user !== "" && <Moment tz={secondaryTimezone} interval={1000} format='h:mm A' />}
+      </p>
+    </p>
+  </div>
+)}
+
             <div style={{position: "absolute", top: "5px", left: "5px", zIndex: "901358"}}>
               { user !== "" && <CalendarComponent displayCalendarOnly={true}/> }
             </div>
