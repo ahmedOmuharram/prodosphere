@@ -128,7 +128,6 @@ function ToDoComponent() {
                   updatedArray[index] = event.target.value;
                   setSarray(updatedArray);
                   localStorage.setItem('todoItems', JSON.stringify(updatedArray));
-                  console.log(localStorage.getItem('todoItems'))
                 }}
                 onKeyDown={(event) => {
                   if (event.key === "Enter") {
