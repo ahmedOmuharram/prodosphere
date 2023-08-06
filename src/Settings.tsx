@@ -58,7 +58,7 @@ countryCodes.forEach(countryCode => {
   });
 });
 const secondaryTimezoneOptions = [
-  { value: moment.tz.guess(true), label: "Secondary Timezone" },
+  { value: "", label: "Secondary Timezone" },
   ...countryZones.map((timezone) => ({
     value: timezone.name,
     label: getTimezoneLabel(timezone.name),
@@ -202,7 +202,7 @@ function Settings({ setUser, mapVisibility, setMapVisibility, weatherVisibility,
         <Select
             menuPlacement="auto"
             options={secondaryTimezoneOptions}
-            value={secondaryTimezoneOptions.find((option) => option.value === secondaryTimezoneOptions)}
+            value={secondaryTimezoneOptions.find((option) => option.value === secondaryTimezone)}
             onChange={(selectedOption) => {
               setSecondaryTimezone(selectedOption.value)
             }}
