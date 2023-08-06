@@ -4,6 +4,10 @@ import React, { useEffect, useState } from 'react';
 import "./Settings.css";
 import CheckIcon from '@mui/icons-material/Check';
 import Form from 'react-bootstrap/Form';
+import Select from 'react-select';
+import moment from 'moment';
+import 'moment-timezone';
+
 
 function UsernameInput({ username, handleInputChange, handleSubmit }) {
   return (
@@ -31,8 +35,38 @@ function UsernameInput({ username, handleInputChange, handleSubmit }) {
     </>
   );
 }
+const getTimezoneLabel = (timezone) => {
+  const abbr = moment.tz(timezone).zoneAbbr().charAt(0) === "+" || moment.tz(timezone).zoneAbbr().charAt(0) === "-"
+    ? "GMT"
+    : moment.tz(timezone).zoneAbbr();
+  return `${timezone.replace(/\//g, ', ').replace(/_/g, ' ')}`;
+};
+const countryCodes = moment.tz.countries();
+const countryZones = [];
+countryCodes.forEach(countryCode => {
+  const names = moment.tz.zonesForCountry(countryCode, true);
+  names.forEach(name => {
+    let i = 0;
+    for (i = 0; i < countryZones.length; i++) {
+      if (name.name === countryZones[i].name) {
+        break;
+      }
+    }
+    if (i === countryZones.length) {
+      countryZones.push(name);
+    }
+  });
+});
+const secondaryTimezoneOptions = [
+  { value: moment.tz.guess(true), label: "Secondary Timezone" },
+  ...countryZones.map((timezone) => ({
+    value: timezone.name,
+    label: getTimezoneLabel(timezone.name),
+  })),
+];
 
-function Settings({ setUser, mapVisibility, setMapVisibility, weatherVisibility, setWeatherVisibility, videoVisibility, setVideoVisibility, defaultBackground, setDefaultBackground }) {
+
+function Settings({ setUser, mapVisibility, setMapVisibility, weatherVisibility, setWeatherVisibility, videoVisibility, setVideoVisibility, defaultBackground, setDefaultBackground, secondaryTimezone, setSecondaryTimezone }) {
   const [showInput, setShowInput] = useState(false);
   const [username, setUsername] = useState('');
   const [selectedFile, setSelectedFile] = useState(null);
@@ -75,6 +109,7 @@ function Settings({ setUser, mapVisibility, setMapVisibility, weatherVisibility,
   useEffect(() => {
     localStorage.setItem('videoVisibility', videoVisibility);
   }, [videoVisibility]);
+  
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -104,6 +139,9 @@ function Settings({ setUser, mapVisibility, setMapVisibility, weatherVisibility,
     localStorage.setItem('defaultBackground', defaultBackground);
   }, [defaultBackground]);
 
+  useEffect(() => {
+    localStorage.setItem('secondaryTimezone', secondaryTimezone);
+  }, [secondaryTimezone]);
   return (
     <>
       <p className="mt-2" style={{ fontSize: "18px", color: "white" }}>
@@ -161,6 +199,14 @@ function Settings({ setUser, mapVisibility, setMapVisibility, weatherVisibility,
         <button style={{color: grey[50], background: "rgba(0, 0, 0, 0.3)", border: "none", borderRadius: "20px", padding: "10px", width: "90%"}} onClick={handleResetBackground}>
           Reset background
         </button>
+        <Select
+            menuPlacement="auto"
+            options={secondaryTimezoneOptions}
+            value={secondaryTimezoneOptions.find((option) => option.value === secondaryTimezoneOptions)}
+            onChange={(selectedOption) => {
+              setSecondaryTimezone(selectedOption.value)
+            }}
+          />
         <p className="mt-2" style={{textAlign: "left",  marginLeft:"5%", color: "#c8c8c8", background: "rgba(0, 0, 0, 0.3)", border: "none", borderRadius: "20px", padding: "10px", width: "90%", fontSize: "12px"}} onClick={handleResetBackground}>
           <p style={{fontSize: "12px", textAlign: "center", color: "white"}}>Developed by Ahmed Muharram & Youssef Saleh</p>
           <p>Ahmed Muharram: <a href="https://muharram.dev" target="_blank">Portfolio</a> | <a href="https://www.linkedin.com/in/ahmed-muharram/" target="_blank">LinkedIn</a> | <a href="https://github.com/ahmedOmuharram" target="_blank">GitHub</a> | <a href="mailto:ahmed.o.muharram@gmail.com" target="_blank">ahmed.o.muharram@gmail.com</a></p>
