@@ -321,6 +321,11 @@ function App() {
     return storedBackground !== null ? storedBackground : null;
   });
 
+  const [secondaryTimezone, setSecondaryTimezone] = useState(() => {
+    const storedSecondaryTimezone = localStorage.getItem('secondaryTimezone');
+    return storedSecondaryTimezone !== null ? storedSecondaryTimezone : null;
+  });
+
   
   useEffect(() => {
     const titleUpdateHandler = () => {
@@ -369,7 +374,10 @@ function App() {
               <p style={{ textShadow: "0px 1px 5px rgba(0, 0, 0, 0.5)", fontSize: "calc(40px + 3vmin)", marginBottom: "0", marginTop: "0", padding: "0 40px 0 40px", borderBottom: "1px solid white", boxShadow: "0 4px 2px -2px grey", width: "500px"}}>
                 { weatherState !== null && (weatherVisibility || weatherVisibility === true) && <WeatherStatus/> }
                 { user !== "" && <TimeNow setUser={setUser}/> }
+                |
+                { user !== "" && <Moment tz={secondaryTimezone} interval={1000} format='h:mm A'/> }
               </p>
+              
             </div>}
             <div style={{position: "absolute", top: "5px", left: "5px", zIndex: "901358"}}>
               { user !== "" && <CalendarComponent displayCalendarOnly={true}/> }
@@ -441,7 +449,7 @@ function App() {
           ref={containerRef}
         >
           {user !== "" && <motion.div className="background" variants={sidebar} />}
-          {user !== "" && <Navigation durations={durations} durationIndex={durationIndex} setDurationIndex={setDurationIndex} setUser={setUser} mapVisibility={mapVisibility} setMapVisibility={setMapVisibility} weatherVisibility={weatherVisibility} setWeatherVisibility={setWeatherVisibility} videoVisibility={videoVisibility} setVideoVisibility={setVideoVisibility} loadVideo={loadVideo} setLoadVideo={setLoadVideo} defaultBackground={defaultBackground} setDefaultBackground={setDefaultBackground}/>}
+          {user !== "" && <Navigation durations={durations} durationIndex={durationIndex} setDurationIndex={setDurationIndex} setUser={setUser} mapVisibility={mapVisibility} setMapVisibility={setMapVisibility} weatherVisibility={weatherVisibility} setWeatherVisibility={setWeatherVisibility} videoVisibility={videoVisibility} setVideoVisibility={setVideoVisibility} loadVideo={loadVideo} setLoadVideo={setLoadVideo} defaultBackground={defaultBackground} setDefaultBackground={setDefaultBackground} secondaryTimezone={secondaryTimezone} setSecondaryTimezone={setSecondaryTimezone}/>}
           {user !== "" && <MenuToggle toggle={() => toggleOpen()} />}
         </motion.nav> 
     </div>
