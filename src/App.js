@@ -322,7 +322,7 @@ function App() {
 
   const [secondaryTimezone, setSecondaryTimezone] = useState(() => {
     const storedSecondaryTimezone = localStorage.getItem('secondaryTimezone');
-    return storedSecondaryTimezone !== null ? storedSecondaryTimezone : null;
+    return storedSecondaryTimezone !== null ? storedSecondaryTimezone : "";
   });
 
   
@@ -342,7 +342,6 @@ function App() {
   useEffect(() => {
     if (defaultBackground !== null && localStorage.getItem('defaultBackground') !== "null") {
       document.body.style.backgroundImage = `url(${defaultBackground})`;
-      console.log(defaultBackground)
       document.body.style.backgroundRepeat = 'no-repeat';
       document.body.style.backgroundSize = 'cover';
     } else {
@@ -388,7 +387,7 @@ function App() {
       {weatherState !== null && (weatherVisibility || weatherVisibility === true) && <WeatherStatus />}
       {user !== "" && <TimeNow setUser={setUser} />}
       <p style={{ display: "inline", fontSize: "calc(20px + 1vmin)", marginTop: "calc(10px + 0.75vmin)", color: "#c8c8c8" }}>
-        &nbsp;| {user !== "" && <Moment tz={secondaryTimezone} interval={1000} format='h:mm A' />}
+        &nbsp;{user !== "" && secondaryTimezone !== "" && <>| <Moment tz={secondaryTimezone} interval={1000} format='h:mm A' /></>}
       </p>
     </p>
   </div>

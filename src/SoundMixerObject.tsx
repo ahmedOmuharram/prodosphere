@@ -48,12 +48,9 @@ function SoundMixer ({ text, file }) {
     let intervalId;
   
     const checkDurationAndSetInterval = () => {
-      console.log(audioRef)
       if (audioRef && audioRef.current) {
         intervalId = setInterval(() => {
-          console.log(audioRef.current.duration - audioRef.current.currentTime);
           if (audioRef.current.duration - audioRef.current.currentTime <= 5) {
-            console.log("working");
             audioRef.current.currentTime = 5;
           }
         }, 1000);
