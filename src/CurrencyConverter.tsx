@@ -14,6 +14,8 @@ function CurrencyConverter() {
   const [to, setTo] = useState("egp");
   const [options, setOptions] = useState([]);
 
+  // Get currencies on selection change
+
   useEffect(() => {
     let isMounted = true;
 
@@ -47,6 +49,8 @@ function CurrencyConverter() {
     };
   }, [from]);
 
+  // Set selection options to new info
+
   useEffect(() => {
     if (info !== null) {
       const currencyOptions = Object.keys(info).map((currency) => ({
@@ -56,6 +60,8 @@ function CurrencyConverter() {
       setOptions(currencyOptions);
     }
   }, [info]);
+
+  // Get currency data
 
   useEffect(() => {
     let isMounted = true;
@@ -84,6 +90,8 @@ function CurrencyConverter() {
 
     fetchData();
   }, []);
+
+  // Set selection options to new display info
 
   useEffect(() => {
     if (displayInfo !== null) {

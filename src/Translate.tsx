@@ -35,6 +35,7 @@ function Translate() {
   }
 
   const translateText = () => {
+    // q: Text to be translated
     let data = {
       q: translateState,
       source: selectedLanguageFromKey,

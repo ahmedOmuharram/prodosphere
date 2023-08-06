@@ -14,8 +14,8 @@ import ToDoComponent from "./ToDoComponent"
 import LinkGroupComponent from './LinkGroup';
 import Moment from 'react-moment';
 import CalendarComponent from './Calendar';
-import { YouTube } from '@mui/icons-material';
-import YoutubePlayerComponent from './YoutubePlayer';
+
+// Unsplash API used to fetch backgrounds
 
 const unsplash = createApi({
   accessKey: process.env.REACT_APP_UNSPLASH_ACCESS_KEY
@@ -38,6 +38,8 @@ const getLastBackgroundURL = () => {
 const setLastBackgroundURL = (url) => {
   localStorage.setItem("lastBackgroundURL", url);
 };
+
+// Check if one hour has passed before fetching another background
 
 const oneHourInMilliseconds = 60 * 60 * 1000;
 
@@ -80,6 +82,8 @@ if (shouldFetchBackground()) {
   document.body.style.backgroundRepeat = `no-repeat`;
   document.body.style.backgroundSize = `cover`;
 }
+
+// ToDoList Component
 
 const CollapsingToDoList = ({mapVisibility}) => {
   const [isCollapsed, setCollapsed] = useState(true);
@@ -179,6 +183,8 @@ const CollapsingToDoList = ({mapVisibility}) => {
   );
 };
 
+// Menu animations
+
 const sidebar = {
   open: (height = 135) => ({
     clipPath: `circle(${height * 2 + 250}px at 40px calc(100% - 40px))`,
@@ -199,6 +205,8 @@ const sidebar = {
   }
 };
 
+// Use weather data to get weather status outside of weather component
+
 function WeatherStatus() {
   const { weatherState } = useContext(weatherContext);
 
@@ -214,6 +222,8 @@ function WeatherStatus() {
     </>
   )
 }
+
+// Use Geolocation API to get latitude and longitude to pass to the weather component
 
 function GetLocation({ weatherVisibility }) {
   return (
@@ -232,6 +242,8 @@ function GetLocation({ weatherVisibility }) {
     </>
   );
 }
+
+// Input name form when site is opened for the first time
 
 function UserForm({ setUser }) {
   const handleSubmit = (e) => {
@@ -272,7 +284,12 @@ function TimeNow() {
   )
 }
 
+// Main Component
+
 function App() {
+
+  // Initialize States
+
   const state = localStorage.getItem("name") ? localStorage.getItem("name") : "";
   const [user, setUser] = useState(state);
   localStorage.setItem("name", user);
@@ -369,34 +386,36 @@ function App() {
 
             {/* Time */}
             {user !== "" && (
-  <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-    <p
-      style={{
-        textShadow: "0px 1px 5px rgba(0, 0, 0, 0.5)",
-        fontSize: "calc(40px + 3vmin)",
-        marginBottom: "0",
-        marginTop: "0",
-        padding: "0 40px 0 40px",
-        borderBottom: "1px solid white",
-        boxShadow: "0 4px 2px -2px grey",
-        width: "700px",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      {weatherState !== null && (weatherVisibility || weatherVisibility === true) && <WeatherStatus />}
-      {user !== "" && <TimeNow setUser={setUser} />}
-      <p style={{ display: "inline", fontSize: "calc(20px + 1vmin)", marginTop: "calc(10px + 0.75vmin)", color: "#c8c8c8" }}>
-        &nbsp;{user !== "" && secondaryTimezone !== "" && <>| <Moment tz={secondaryTimezone} interval={1000} format='h:mm A' /></>}
-      </p>
-    </p>
-  </div>
-)}
-
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+              <p
+                style={{
+                  textShadow: "0px 1px 5px rgba(0, 0, 0, 0.5)",
+                  fontSize: "calc(40px + 3vmin)",
+                  marginBottom: "0",
+                  marginTop: "0",
+                  padding: "0 40px 0 40px",
+                  borderBottom: "1px solid white",
+                  boxShadow: "0 4px 2px -2px grey",
+                  width: "700px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {weatherState !== null && (weatherVisibility || weatherVisibility === true) && <WeatherStatus />}
+                {user !== "" && <TimeNow setUser={setUser} />}
+                <p style={{ display: "inline", fontSize: "calc(20px + 1vmin)", marginTop: "calc(10px + 0.75vmin)", color: "#c8c8c8" }}>
+                  &nbsp;{user !== "" && secondaryTimezone !== "" && <>| <Moment tz={secondaryTimezone} interval={1000} format='h:mm A' /></>}
+                </p>
+              </p>
+            </div>
+          )}
+          {/* Top left calendar */}
             <div style={{position: "absolute", top: "5px", left: "5px", zIndex: "901358"}}>
               { user !== "" && <CalendarComponent displayCalendarOnly={true}/> }
             </div>
+
+            {/* Greeting */}
 
             <p style={{fontSize: "calc(20px + 1vmin)", textShadow: "0px 1px 5px rgba(0, 0, 0, 0.9)", marginTop: "0", marginBottom: 0, paddingTop: "0"}}>
               {user === "" ? "Please enter your name" : 
@@ -406,7 +425,7 @@ function App() {
                 (`${weatherState.weather[0].icon.charAt(2)}` === "d" ? `Good morning, ${user}!` : `Hello, ${user}!`))) : `Hello, ${user}!`)}
             </p>
 
-            {/* Greeting */}
+            {/* State of the pomodoro timer */}
             <p style={{ color: "rgba(255,255,255,0.7)", fontSize: "calc(12px + 1vmin)", textShadow: "0px 1px 5px rgba(0, 0, 0, 0.9)", marginTop: "0", marginBottom: 0, paddingTop: "0"}}>
               {user !== "" && document.title.length > 12 ? 
                 (durations[durationIndex] === 1500 ? 
@@ -425,9 +444,12 @@ function App() {
               { user !== "" && <GetLocation weatherVisibility={weatherVisibility}/> }
             </div>
 
+            {/* Bottom right todolist component */}
+
             { user !== "" && <CollapsingToDoList mapVisibility={mapVisibility}/> }
             <br />
 
+            {/* Search bar */}
             {user !== "" && <form action="https://www.google.com/search" method="get" name="searchform" target="_blank">
             <div style={{display: "flex", justifyContent: "center"}}>
               <div className="input-group mb-3" style={{position: "relative", right: "-20px", width:"500px"}}>
@@ -449,6 +471,7 @@ function App() {
             </div>
             </form> }
 
+            {/* Links */}
 
             { user !== "" && <LinkGroupComponent /> }
 

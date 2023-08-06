@@ -12,6 +12,8 @@ function YoutubePlayerComponent() {
   const { menuState } = useContext<MenuContextType>(menuContext);
   const [videoState, setVideoState] = useState("");
 
+  // Allow full links and video ids to be used
+
   const extractVideoId = (url) => {
     const regExp = /^(?:https?:\/\/)?(?:www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_-]{11})/;
     const match = url.match(regExp);

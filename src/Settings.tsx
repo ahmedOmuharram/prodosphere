@@ -8,6 +8,7 @@ import Select from 'react-select';
 import moment from 'moment';
 import 'moment-timezone';
 
+// Change username
 
 function UsernameInput({ username, handleInputChange, handleSubmit }) {
   return (
@@ -35,6 +36,9 @@ function UsernameInput({ username, handleInputChange, handleSubmit }) {
     </>
   );
 }
+
+// Get country names for secondary timezone
+
 const getTimezoneLabel = (timezone) => {
   const abbr = moment.tz(timezone).zoneAbbr().charAt(0) === "+" || moment.tz(timezone).zoneAbbr().charAt(0) === "-"
     ? "GMT"
@@ -65,6 +69,7 @@ const secondaryTimezoneOptions = [
   })),
 ];
 
+// Settings Component
 
 function Settings({ setUser, mapVisibility, setMapVisibility, weatherVisibility, setWeatherVisibility, videoVisibility, setVideoVisibility, defaultBackground, setDefaultBackground, secondaryTimezone, setSecondaryTimezone }) {
   const [showInput, setShowInput] = useState(false);
@@ -85,6 +90,8 @@ function Settings({ setUser, mapVisibility, setMapVisibility, weatherVisibility,
       setShowInput(false);
     }
   };
+
+  // Handle settings states and storing them in storage
 
   const handleMapVisibilityChange = () => {
     setMapVisibility((prevVisibility) => !prevVisibility);
@@ -148,6 +155,9 @@ function Settings({ setUser, mapVisibility, setMapVisibility, weatherVisibility,
         Settings
       </p> 
       <div className="main" style={{height: "430px", overflowY: "scroll"}}>
+
+        {/* Change username */}
+
       {showInput ? (
         <UsernameInput
           username={username}
@@ -159,6 +169,9 @@ function Settings({ setUser, mapVisibility, setMapVisibility, weatherVisibility,
           Change username
         </button>
       )}
+
+        {/* Map On or Off */}
+
       <div className="mt-4" style={{display: "flex", alignItems: "center"}}>
         <p style={{color: "white", textAlign: "left", marginLeft: "10px"}}>World map on by default?</p> 
         <Checkbox 
@@ -167,6 +180,9 @@ function Settings({ setUser, mapVisibility, setMapVisibility, weatherVisibility,
           onClick={handleMapVisibilityChange}
           />
       </div>
+
+      {/* Weather On or Off */}
+
       <div style={{display: "flex", alignItems: "center"}}>
         <p style={{color: "white", textAlign: "left", marginLeft: "10px"}}>Weather on by default?</p> 
         <Checkbox 
@@ -175,6 +191,9 @@ function Settings({ setUser, mapVisibility, setMapVisibility, weatherVisibility,
           onClick={handleWeatherVisibilityChange}
           />     
       </div>
+
+        {/* Youtube Video on Startup On or Off */}
+
       <div style={{display: "flex", alignItems: "center"}}>
         <p style={{color: "white", textAlign: "left", marginLeft: "10px"}}>Youtube plays on start?</p> 
         <Checkbox 
@@ -183,6 +202,9 @@ function Settings({ setUser, mapVisibility, setMapVisibility, weatherVisibility,
           onClick={handleVideoVisibility}
         />
       </div>
+
+      {/* Change background */}
+
       <Form.Group style={{width: "90%", marginLeft: "5%"}} controlId="formFile" className="mb-3" data-bs-theme="dark">
         <Form.Label style={{color: "white"}}>Upload a custom background</Form.Label>
         <Form.Control type="file" accept="image/*" onChange={handleFileChange}/>
@@ -199,6 +221,9 @@ function Settings({ setUser, mapVisibility, setMapVisibility, weatherVisibility,
         <button style={{color: grey[50], background: "rgba(0, 0, 0, 0.3)", border: "none", borderRadius: "20px", padding: "10px", width: "90%"}} onClick={handleResetBackground}>
           Reset background
         </button>
+
+      {/* Select secondary timezone */}
+
         <Select
             menuPlacement="auto"
             options={secondaryTimezoneOptions}
@@ -207,6 +232,9 @@ function Settings({ setUser, mapVisibility, setMapVisibility, weatherVisibility,
               setSecondaryTimezone(selectedOption.value)
             }}
           />
+
+          {/* Info */}
+          
         <p className="mt-2" style={{textAlign: "left",  marginLeft:"5%", color: "#c8c8c8", background: "rgba(0, 0, 0, 0.3)", border: "none", borderRadius: "20px", padding: "10px", width: "90%", fontSize: "12px"}} onClick={handleResetBackground}>
           <p style={{fontSize: "12px", textAlign: "center", color: "white"}}>Developed by Ahmed Muharram & Youssef Saleh</p>
           <p>Ahmed Muharram: <a href="https://muharram.dev" target="_blank">Portfolio</a> | <a href="https://www.linkedin.com/in/ahmed-muharram/" target="_blank">LinkedIn</a> | <a href="https://github.com/ahmedOmuharram" target="_blank">GitHub</a> | <a href="mailto:ahmed.o.muharram@gmail.com" target="_blank">ahmed.o.muharram@gmail.com</a></p>

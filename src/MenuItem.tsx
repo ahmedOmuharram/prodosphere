@@ -21,6 +21,8 @@ type ClickStateType = {
   setClickState: (newState: boolean) => void; 
 };
 
+// Animation variants
+
 const variants = {
   open: {
     y: 50,

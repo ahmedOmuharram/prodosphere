@@ -10,6 +10,8 @@ import { grey, lightGreen } from '@mui/material/colors';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 
+// Initialize Types for the react-calendar component
+
 type ValuePiece = Date | null;
 
 type Value = ValuePiece | [ValuePiece, ValuePiece];
@@ -33,12 +35,16 @@ const colors = ["2f96d0", "B92FD0", "D0692F", "46D02F"]
 
 function CalendarComponent({displayCalendarOnly}) {
 
+    // Get states from calendarContext
+
   const { value, onChange,
           text, setText ,
           selectRangeState, setSelectRangeState,
           calendarEvents, setCalendarEvents,
           colorPicker, setColorPicker } = useContext<CalendarStateType>(calendarContext);
     const [currentDay, setCurrentDay] = useState<Value>(() => {const date = new Date();date.setHours(0, 0, 0, 0);return(date)});
+
+    // Retrieve stored calendar events
 
 useEffect(() => {
     const newCalendarEvents = JSON.parse(localStorage.getItem("calendarEvents"));
@@ -50,6 +56,9 @@ useEffect(() => {
         setCalendarEvents(newCalendarEvents);
     }
 }, []);
+
+// Check if a day is within range of a calendar event
+
 function rangeCheck(date) {
     for (let i = 0; i < calendarEvents.length; i++) {
         if (date >= calendarEvents[i].range[0] && date <= calendarEvents[i].range[1]) {
@@ -58,6 +67,9 @@ function rangeCheck(date) {
     }
     return false;
 }
+
+// Check if a day is within range of a calendar event and retrieve it's color property
+
 function colorCheck(date) {
     const eventColors = [];
     for (let i = 0; i < calendarEvents.length; i++) {
@@ -70,6 +82,9 @@ function colorCheck(date) {
 
   return (
     <>
+
+    {/* Calendar component */}
+
     {displayCalendarOnly &&
               <>
                     <div><Calendar allowPartialRange={true} selectRange={selectRangeState} onChange={onChange} value={value}
@@ -94,6 +109,7 @@ function colorCheck(date) {
                         })}
                     </div>
               </>}
+    {/* Calendar event adder */}
     {!displayCalendarOnly && <>
         <p className="mt-2" style={{ fontSize: "18px", color: "white" }}>Calendar Events</p>
     <div className="events" style={{maxHeight: "350px", overflowY: "auto"}}>{calendarEvents.map((event, index) =>

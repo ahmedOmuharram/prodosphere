@@ -71,6 +71,8 @@ const menuClickedVariants = {
   }
 };
 
+// Menu items
+
 export const Navigation = ({durations, durationIndex, setDurationIndex, setUser, mapVisibility, setMapVisibility, weatherVisibility, setWeatherVisibility, videoVisibility, setVideoVisibility, loadVideo, setLoadVideo, defaultBackground, setDefaultBackground, secondaryTimezone, setSecondaryTimezone }) => {
   const { menuState } = useContext<MenuContextType>(menuContext);
   const { clickState, setClickState } = useContext<ClickStateType>(clickContext);

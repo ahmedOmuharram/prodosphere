@@ -5,6 +5,9 @@ import Select from 'react-select';
 import 'moment-timezone';
 
 const hours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+
+// Get country names for timezone
+
 const countryCodes = moment.tz.countries();
 const countryZones = [];
 countryCodes.forEach(countryCode => {
@@ -91,6 +94,9 @@ function TimezoneConverter () {
       label: formatTime(hour + 12),
     })),
   ];
+
+
+  // Handle changing selection options when changing timezones
 
   function changeSelection(newTimeZone, num) {
     if (num === 1) {

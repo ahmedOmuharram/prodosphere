@@ -101,6 +101,7 @@ function LinkGroupComponent() {
                 const newLinks = [...links];
                 const newToolbars = [...toolbars];
                 
+                // Handle links changing toolbars
 
                 newToolbars[Math.floor((buttonNumber-1)/7)].splice((buttonNumber-1) - 7 * Math.floor((buttonNumber-1)/7), 1);
                 if (newToolbars[Math.floor((buttonNumber-1)/7)].length === 0) {
@@ -238,6 +239,9 @@ function LinkGroupComponent() {
   return (
     <>
       {renderButtonGroups()}
+
+      {/* Add new link button */}
+
       {lastButtonNumber < maxButtonNumber && (
         <div className="d-flex justify-content-center mt-4">
           <ButtonToolbar>

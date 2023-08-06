@@ -8,6 +8,8 @@ function WeatherComponent ({ lat, lon }) {
   const [weatherData, setWeatherData] = useState(null);
   const { weatherState, setWeatherState } = useContext(weatherContext);
 
+  // Get latitude and longitude from geolocation api and use it to fetch weather data
+
   const fetchWeatherData = async () => {
     try {
       const apiKey = process.env.REACT_APP_API_KEY;
@@ -31,6 +33,8 @@ function WeatherComponent ({ lat, lon }) {
       setWeatherState(lastWeatherData);
     }
   }, []);
+
+  // Check if one hour has passed before fetching weather data again
 
   const oneHourInMilliseconds = 60 * 60 * 1000;
 

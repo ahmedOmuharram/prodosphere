@@ -6,6 +6,8 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { grey } from '@mui/material/colors';
 import './App.css';
 
+// SoundMixer Component
+
 function SoundMixer () {
   const [isCollapsed, setIsCollapsed] = useState(false);
 

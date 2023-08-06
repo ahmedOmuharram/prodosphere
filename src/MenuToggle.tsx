@@ -23,6 +23,7 @@ export const MenuToggle = ({ toggle }) => {
 
   return (
     <button className="dropdown" onClick={() => {
+      // Switch animation variants of menu component between open and closed
         toggle();
         setMenuState(-1);
       }}>

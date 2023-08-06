@@ -6,9 +6,13 @@ import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { grey } from "@mui/material/colors";
 import { useTimer } from 'react-timer-hook';
-import Moment from 'react-moment';
+
+// This component uses two timers, react-countdown-circle-timer is the component rendered.
+// react-timer-hook is used for the title.
+// react-countdown-circle-timer stops counting when out of tab due to re-rendering slowing down.
 
 function TimerComponent({ durations, durationIndex, setDurationIndex, expiryTimestamp }) {
+  // Check tab condition on time end
   const [visibilityOnTimeEnd, setVisibilityOnTimeEnd] = useState(false);
 
   const {
@@ -107,6 +111,7 @@ function TimerComponent({ durations, durationIndex, setDurationIndex, expiryTime
 
   return (
     <>
+    {/* Add timer to the title */}
         <Helmet defer={false}>
         {isRunning ? (
           <title>
@@ -116,6 +121,7 @@ function TimerComponent({ durations, durationIndex, setDurationIndex, expiryTime
           (!visibilityOnTimeEnd ? <title>Prodosphere</title> : <title>TIME'S UP!</title>)
         )}
       </Helmet>
+      {/* Timer component */}
       <p className="mt-2" style={{ fontSize: "18px", color: "white" }}>Pomodoro Timer</p>
       <div style={{ color: "white", marginLeft: "25px" }}>
         <CountdownCircleTimer colors="url(#your-unique-id)"

@@ -48,6 +48,7 @@ function SoundMixer ({ text, file }) {
     let intervalId;
   
     const checkDurationAndSetInterval = () => {
+      // Reset sounds before the end to continue without fading
       if (audioRef && audioRef.current) {
         intervalId = setInterval(() => {
           if (audioRef.current.duration - audioRef.current.currentTime <= 5) {

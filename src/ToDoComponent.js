@@ -68,6 +68,7 @@ function ToDoComponent() {
       const updatedCheckedItems = [...prevCheckedItems];
       updatedCheckedItems[index] = !updatedCheckedItems[index];
       const updatedArray = [...sarray];
+      // Put checked items at the end of the list
       if (updatedCheckedItems[index]) {
         updatedArray.splice(index, 1);
         updatedCheckedItems.splice(index, 1);
@@ -80,6 +81,7 @@ function ToDoComponent() {
           setExplodingIndex(index);
         }
       }
+      // Put unchecked items at the beginning of checked items
       else if (!updatedCheckedItems[index]) {
         updatedArray.splice(index, 1);
         updatedCheckedItems.splice(index, 1);
@@ -222,6 +224,7 @@ function ToDoComponent() {
               onClick={() => {
                 const updatedSarray = [...sarray];
                 const updatedCheckedItems = [...checkedItems];
+                // Add new item at the beginning of checked items
                 let i = 0;
                 for (i = 0; i < updatedSarray.length; i++) {
                   if (checkedItems[i]) {

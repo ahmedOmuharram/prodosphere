@@ -15,6 +15,7 @@ function Notes() {
     const newPages = [...pages];
     newPages.splice(index, 1);
     setPages(newPages);
+    // Handle page index changing
     if (currentPageIndex >= index && currentPageIndex > 0) {
       setCurrentPageIndex(currentPageIndex-1);
     }
@@ -56,6 +57,7 @@ function Notes() {
   return (
     <>
       <p style={{ marginTop: "12px", fontSize: "30px", color: "white" }}>Notes</p>
+      {/* Note */}
       {currentPageIndex >= 0 &&<> 
         <button style={{
           position: "absolute",
@@ -66,6 +68,7 @@ function Notes() {
           marginBottom: 0,
           background: "none"
         }} onClick={() => setCurrentPageIndex(-1)}><ArrowBackIos style={{ padding: 0, marginBottom: 0 }}sx={{color: grey[50]}} /></button>
+        {/* Title Section */}
         <textarea className="note-area" placeholder="Title..." style={{
           fontSize: "20px",
           fontWeight: "bold",
@@ -86,7 +89,8 @@ function Notes() {
           localStorage.setItem('notePages', JSON.stringify(newPages));
           setPages(newPages);
           }}/>
-<textarea className="note-area" placeholder="Write your thoughts here..." style={{
+          {/* Note Content Section */}
+          <textarea className="note-area" placeholder="Write your thoughts here..." style={{
           fontSize: "15px",
           width: "90%",
           backgroundColor: "rgba(0,0,0,0)",
@@ -102,6 +106,9 @@ function Notes() {
           localStorage.setItem('notePages', JSON.stringify(newPages));
           setPages(newPages);
           }} autoFocus/></>}
+
+          {/* Notes list */}
+
           {currentPageIndex < 0 &&
             <>
       <div>
